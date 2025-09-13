@@ -1,0 +1,18 @@
+# Archivos compilados
+/target/
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+
+# Metadatos de NetBeans
+.nb-gradle/
+nb-configuration.xml
+
+# Archivos de registro
+*.log
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
