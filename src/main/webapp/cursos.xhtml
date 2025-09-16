@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Lista de Cursos</title>
+        </h:head>
+    <h:body>
+        <h1>Lenguajes de Programación y habilidades</h1>
+        
+        <p:dataGrid var="curso" value="#{cursoController.cursos}" columns="3" layout="grid">
+            
+            <p:panel header="#{curso.nombre}" style="text-align:center">
+                <h:panelGrid columns="1" style="width:100%">
+                    <h:graphicImage name="images/#{curso.imagenUrl}" width="350"/>
+                    
+                    <h:outputText value="#{curso.descripcion}" />
+                </h:panelGrid>
+            </p:panel>
+            
+        </p:dataGrid>
+    </h:body>
+</html>
