@@ -23,12 +23,12 @@
             <h2>#{leccionController.leccionActual.nombre}</h2>
 
             <iframe width="100%" 
-                    height="450" 
-                    src="#{leccionController.youTubeEmbedUrl}" 
-                    title="YouTube video player" 
+                    height="500" 
+                    src="#{leccionController.leccionActual.contenidoUrl}" 
+                    title="Contenido de la lección" 
                     frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen="true">
+                    allowfullscreen="true"
+                    style="display: block; margin: 0 auto; border: 1px solid #ccc; border-radius: 8px;">
             </iframe>        
             <hr/>
 
