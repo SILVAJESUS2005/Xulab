@@ -28,8 +28,8 @@ public class Leccion implements Serializable {
 
     private String nombre;
 
-    @Column(name = "video_url")
-    private String videoUrl;
+    @Column(name = "contenido_url")
+    private String contenidoUrl;
 
     // Relación: Muchas lecciones pertenecen a Un Módulo
     @ManyToOne
@@ -52,13 +52,14 @@ public class Leccion implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getVideoUrl() {
-        return videoUrl;
+    public String getContenidoUrl() {
+        return contenidoUrl;
     }
 
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
+    public void setContenidoUrl(String contenidoUrl) {
+        this.contenidoUrl = contenidoUrl;
     }
+
 
     public Modulo getModulo() {
         return modulo;

@@ -66,37 +66,5 @@ public class LeccionController implements Serializable {
     public List<Comentario> getComentarios() {
         return comentarios;
     }
-        /**
-     * Convierte una URL estándar de YouTube a una URL para ser incrustada en un iframe.
-     * @return La URL modificada o una cadena vacía si no hay lección.
-     */
-public String getYouTubeEmbedUrl() {
-    if (leccionActual == null || leccionActual.getVideoUrl() == null || leccionActual.getVideoUrl().isEmpty()) {
-        return ""; // No hay URL, no mostramos nada.
-    }
-
-    String videoUrl = leccionActual.getVideoUrl();
-
-    // Comprobamos si es una URL estándar de YouTube que contiene "watch?v="
-    if (videoUrl.contains("watch?v=")) {
-        String[] parts = videoUrl.split("v=");
-        if (parts.length > 1) {
-            // Extraemos la parte que sigue a "v="
-            String videoId = parts[1];
-            // A veces la URL puede tener más parámetros (ej. &t=10s), los quitamos.
-            int ampersandPosition = videoId.indexOf('&');
-            if (ampersandPosition != -1) {
-                videoId = videoId.substring(0, ampersandPosition);
-            }
-            return "https://www.youtube.com/embed/" + videoId;
-        }
-    }
-    
-    // Opcional: Podríamos añadir lógica para otros formatos como youtu.be
-
-    // Si la URL no tiene el formato esperado, devolvemos una cadena vacía para no romper la página.
-    System.err.println("URL de video no válida: " + videoUrl);
-    return "";
-}
-
+  
 }
