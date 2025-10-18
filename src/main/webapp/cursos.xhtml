@@ -24,6 +24,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
     </h:head>
 
     <h:body>
+        <div style="padding: 1rem; background-color: #f0f0f0; border-bottom: 1px solid #ddd; margin-bottom: 1rem; text-align: right;">
+
+            <h:panelGroup rendered="#{sessionManager.isLoggedIn()}">
+                <span>Bienvenido, <strong>#{sessionManager.usuarioLogueado.nombre}</strong></span>
+
+                <h:form style="display: inline; margin-left: 1rem;">
+                    <p:commandButton value="Cerrar Sesión" action="#{authController.logout()}" ajax="false" />
+                </h:form>
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{!sessionManager.isLoggedIn()}">
+                <h:link outcome="login" value="Iniciar Sesión" style="margin-right: 1rem;" />
+                <h:link outcome="registro" value="Registrarse" />
+            </h:panelGroup>
+
+        </div>
         <h1>Lenguajes de Programación y habilidades</h1>
 
         <p:dataGrid var="curso" value="#{cursoController.cursos}" columns="3" layout="grid">

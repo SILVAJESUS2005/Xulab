@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Iniciar Sesión</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #f4f4f4;
+            }
+            .card {
+                background-color: white;
+                padding: 2rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                width: 100%;
+                max-width: 400px;
+            }
+            .p-field {
+                margin-bottom: 1.5rem;
+            }
+            .p-field label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: bold;
+            }
+            .links {
+                margin-top: 1rem;
+                text-align: center;
+            }
+        </style>
+    </h:head>
+    <h:body>
+
+        <div class="card">
+            <h:form>
+                <h2>Iniciar Sesión</h2>
+
+                <p:messages id="messages" showDetail="true" closable="true">
+                    <p:autoUpdate/>
+                </p:messages>
+
+                <div class="p-field" style="margin-top: 1rem;">
+                    <label for="email">Email</label>
+                    <p:inputText id="email" value="#{authController.email}" required="true" requiredMessage="El email es obligatorio." style="width: 100%;" />
+                </div>
+
+                <div class="p-field">
+                    <label for="password">Contraseña</label>
+                    <p:password id="password" value="#{authController.password}" required="true" requiredMessage="La contraseña es obligatoria." style="width: 100%;" />
+                </div>
+
+                <p:commandButton value="Iniciar Sesión" action="#{authController.login()}" style="width: 100%;" update="messages" />
+
+                <div class="links">
+                    <p>¿No tienes una cuenta? <h:link outcome="registro">Regístrate aquí</h:link></p>
+                </div>
+            </h:form>
+        </div>
+
+    </h:body>
+</html>
