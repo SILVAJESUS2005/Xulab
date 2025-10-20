@@ -28,20 +28,21 @@ public class Comentario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     private String texto;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
-    @Column (name = "fecha_creacion")
+    @Column(name = "fecha_creacion")
     private Date fechaCreacion;
-    
+
     // Relación: Muchos comentarios pertenecen a una Lección 
     @ManyToOne
     @JoinColumn(name = "leccion_id")
     private Leccion leccion;
-    
-    // Por ahora, solo guardamos el ID del usuario, mas adelante lo relacionaremos 
-    @Column(name = "usuario_id")
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario autor;
 
     public int getId() {
         return id;
@@ -74,5 +75,13 @@ public class Comentario implements Serializable {
     public void setLeccion(Leccion leccion) {
         this.leccion = leccion;
     }
-    
+
+    public Usuario getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Usuario autor) {
+        this.autor = autor;
+    }
+
 }

@@ -33,4 +33,13 @@ public class ComentarioDAO {
         query.setParameter("leccionId", leccionId);
         return query.getResultList();
     }
+    
+    /**
+     * Guarda una nueva entidad de Comentario en la base de datos.
+     * @param comentario El objeto Comentario a persistir.
+     */
+    public void crear(Comentario comentario) {
+        em.persist(comentario);
+    }
+    
 }

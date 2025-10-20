@@ -8,13 +8,21 @@
     <h:head>
         <title>Lección: #{leccionController.leccionActual.nombre}</title>
         <style>
+            body {
+                font-family: sans-serif;
+            }
             .comment-card {
                 margin-bottom: 10px;
             }
             .video-container {
                 width: 100%;
-                max-width: 800px;
+                max-width: 900px;
                 margin: 0 auto;
+                padding: 1rem;
+            }
+            .author-name {
+                font-weight: bold;
+                color: #333;
             }
         </style>
     </h:head>
@@ -22,36 +30,40 @@
         <div class="video-container">
             <h2>#{leccionController.leccionActual.nombre}</h2>
 
-            <iframe width="100%" 
-                    height="500" 
-                    src="#{leccionController.leccionActual.contenidoUrl}" 
-                    title="Contenido de la lección" 
-                    frameborder="0" 
-                    allowfullscreen="true"
+            <iframe width="100%" height="500" src="#{leccionController.leccionActual.contenidoUrl}" 
+                    title="Contenido de la lección" frameborder="0" allowfullscreen="true"
                     style="display: block; margin: 0 auto; border: 1px solid #ccc; border-radius: 8px;">
-            </iframe>        
-            <hr/>
+            </iframe>
+
+            <hr style="margin: 2rem 0;"/>
 
             <h3>Comentarios</h3>
 
-            <p:panel header="Añadir un comentario">
-                <h:panelGrid columns="1" style="width:100%;">
-                    <p:inputTextarea rows="4" style="width:98%;" placeholder="Escribe tu comentario..."/>
-                    <p:commandButton value="Publicar" style="margin-top:10px;"/>
-                </h:panelGrid>
-            </p:panel>
+            <h:form id="commentForm" rendered="#{sessionManager.isLoggedIn()}">
+                <p:panel header="Añadir un comentario">
+                    <h:panelGrid columns="1" style="width:100%;">
+                        <p:inputTextarea value="#{leccionController.nuevoComentarioTexto}" rows="4" style="width:98%;" placeholder="Escribe tu comentario..."/>
 
-            <div style="margin-top: 20px;">
+                        <p:commandButton value="Publicar" action="#{leccionController.agregarComentario()}" 
+                                         update="commentForm commentList" style="margin-top:10px;"/>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+
+            <h:panelGroup rendered="#{!sessionManager.isLoggedIn()}">
+                <p>Debes <h:link outcome="login">iniciar sesión</h:link> para poder comentar.</p>
+            </h:panelGroup>
+
+            <h:panelGroup id="commentList" layout="block" style="margin-top: 20px;">
                 <ui:repeat value="#{leccionController.comentarios}" var="comentario">
-                    <p:panel header="Usuario Anónimo" styleClass="comment-card">
-                        <h:outputText value="#{comentario.texto}" />
-                        <br/>
+
+                    <p:panel header="Publicado por: #{comentario.autor.nombre}" styleClass="comment-card">
+                        <h:outputText value="#{comentario.texto}" style="display:block; margin-bottom: 5px;" />
                         <h:outputText value="#{comentario.fechaCreacion}" style="font-size: 0.8em; color: gray;">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-                        </h:outputText>
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="America/Mexico_City" />                        </h:outputText>
                     </p:panel>
                 </ui:repeat>
-            </div>
+            </h:panelGroup>
         </div>
     </h:body>
 </html>
