@@ -15,6 +15,8 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import com.xulab.modelo.Usuario;
+import java.util.Date;
 
 /**
  *
@@ -31,12 +33,16 @@ public class LeccionController implements Serializable {
 
     @Inject
     private ComentarioDAO comentarioDAO;
+    
+    @Inject 
+    private SessionManager sessionManager;
 
     // 2. Creamos los objetos que contendrán los datos para la vista
     private Leccion leccionActual;
     private List<Comentario> comentarios;
     private int leccionId; // Para guardar el ID de la URL
-
+    private String nuevoComentarioTexto;
+    
     @PostConstruct
     public void init() {
         // 3. Obtenemos el parámetro 'leccionId' de la URL
@@ -57,6 +63,29 @@ public class LeccionController implements Serializable {
             }
         }
     }
+    // Método para guardar los comentarios
+    public void agregarComentario() {
+        // Verifica que haya una sesión iniciada y que el texto del comentario no este vacío
+        if(sessionManager.isLoggedIn() && nuevoComentarioTexto != null && !nuevoComentarioTexto.trim().isEmpty()) {
+            // Creamos el objeto comentario
+            Comentario comentario = new Comentario();
+            
+            // Asignar propiedades
+            comentario.setTexto(nuevoComentarioTexto); // Comentario
+            comentario.setFechaCreacion(new Date()); // Fecha y hora
+            comentario.setLeccion(this.leccionActual); // La lección en la que se encuentra
+            comentario.setAutor(sessionManager.getUsuarioLogueado()); // El usuario que hace el comentario
+            
+            // Se usa el DAO para guardar en la BD
+            comentarioDAO.crear(comentario);
+            
+            // Volvemos a cargar la lista de comentarios para que el nuevo aparezca 
+            this.comentarios = comentarioDAO.buscarPorLeccionId(this.leccionId);
+            
+            // Limpias campo de texto para un nuevo comentario
+            this.nuevoComentarioTexto = "";
+        }
+    }
 
 // 5. Creamos los Getters para que la página JSF pueda acceder a los datos
     public Leccion getLeccionActual() {
@@ -65,6 +94,14 @@ public class LeccionController implements Serializable {
 
     public List<Comentario> getComentarios() {
         return comentarios;
+    }
+
+    public String getNuevoComentarioTexto() {
+        return nuevoComentarioTexto;
+    }
+
+    public void setNuevoComentarioTexto(String nuevoComentarioTexto) {
+        this.nuevoComentarioTexto = nuevoComentarioTexto;
     }
   
 }
