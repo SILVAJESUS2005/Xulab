@@ -41,6 +41,17 @@ public class CursoDAO {
         return query.getResultList();
     }
     
+    /**
+     * Busca una entidad de Curso por su ID (clave primaria).
+     * @param id El ID del curso a buscar.
+     * @return El objeto Curso si se encuentra, o null si no.
+     */
+    public Curso buscarPorId(int id) {
+        // em.find es el método más simple y directo de JPA 
+        // para buscar algo por su clave primaria.
+        return em.find(Curso.class, id);
+    }
+    
     // Aquí en el futuro podrías agregar otros métodos como:
     // public void crear(Curso curso) { ... }
     // public Curso buscarPorId(int id) { ... }

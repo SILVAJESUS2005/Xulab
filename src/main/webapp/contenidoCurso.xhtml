@@ -1,29 +1,52 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//WC3//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Contenido del Curso</title>
+        <style>
+            .course-header {
+                padding: 1.5rem;
+                background-color: #f8f9fa;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                margin-bottom: 1.5rem;
+            }
+        </style>
     </h:head>
     <h:body>
-        <h1>Curso de Java para Principiantes</h1>
+        <div class="course-header">
+            <h1>#{contenidoController.cursoActual.nombre}</h1>
 
+            <h:panelGroup id="inscripcionPanel">
+                <h:form rendered="#{sessionManager.isLoggedIn() and !contenidoController.usuarioInscrito}">
+                    <p:commandButton value="Inscribirme en este curso" 
+                                     action="#{contenidoController.inscribirUsuario()}"
+                                     update="inscripcionPanel" 
+                                     styleClass="ui-button-success" />
+                </h:form>
+
+                <h:panelGroup rendered="#{contenidoController.usuarioInscrito}">
+                    <p:button value="Ya estás inscrito" styleClass="ui-button-outlined" disabled="true" />
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{!sessionManager.isLoggedIn()}">
+                    <p><h:link outcome="login" value="Inicia sesión"/> para inscribirte en este curso.</p>
+                </h:panelGroup>
+            </h:panelGroup>
+        </div>
         <p:accordionPanel value="#{contenidoController.modulos}" var="modulo">
-
             <p:tab title="#{modulo.nombre}">
-
                 <ui:repeat value="#{modulo.lecciones}" var="leccion">
                     <h:link outcome="leccion" style="display:block; padding: 4px 0;">
                         <f:param name="leccionId" value="#{leccion.id}" />
                         <h:outputText value="#{leccion.nombre}" />
                     </h:link>
                 </ui:repeat>
-
             </p:tab>
         </p:accordionPanel>
-
     </h:body>
 </html>

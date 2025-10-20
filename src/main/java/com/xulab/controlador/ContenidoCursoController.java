@@ -4,7 +4,11 @@
  */
 package com.xulab.controlador;
 
+import com.xulab.dao.CursoDAO;
+import com.xulab.dao.InscripcionDAO;
 import com.xulab.dao.ModuloDAO;
+import com.xulab.modelo.Curso;
+import com.xulab.modelo.Inscripcion;
 import com.xulab.modelo.Leccion;
 import com.xulab.modelo.Modulo;
 import jakarta.annotation.PostConstruct;
@@ -20,36 +24,50 @@ import java.util.List;
  *
  * @author danie
  */
-
-@Named(value="contenidoController")
+@Named(value = "contenidoController")
 @ViewScoped
-public class ContenidoCursoController implements Serializable{
-    
-        // Inyecta el DAO
+public class ContenidoCursoController implements Serializable {
+
+    // Inyecta el DAO
     @Inject
     private ModuloDAO moduloDAO;
-    
+
+    @Inject
+    private InscripcionDAO inscripcionDAO;
+
+    @Inject
+    private CursoDAO cursoDAO; // Necesitamos este para obtener el objeto Curso
+
+    @Inject
+    private SessionManager sessionManager;
+
+    private Curso cursoActual;
     private List<Modulo> modulos;
+    private boolean usuarioInscrito = false; // Por defecto, asumimos que no lo está
 
     @PostConstruct
     public void init() {
-        
-        
-            // Obtenemos el mapa de parámetros de la URL
-    String idParam = FacesContext.getCurrentInstance().getExternalContext()
-                        .getRequestParameterMap().get("cursoId");
-    
-    // Verificamos que el parámetro no sea nulo
-    if (idParam != null && !idParam.isEmpty()) {
-        try {
-            int idCurso = Integer.parseInt(idParam);
-            // Usamos el ID REAL de la URL para buscar en la base de datos
-            this.modulos = moduloDAO.buscarPorCursoId(idCurso);
-        } catch (NumberFormatException e) {
-            // Manejar el caso de que el ID no sea un número válido
-            System.err.println("Error: El ID del curso no es un número válido.");
+
+        // Obtenemos el mapa de parámetros de la URL
+        String idParam = FacesContext.getCurrentInstance().getExternalContext()
+                .getRequestParameterMap().get("cursoId");
+
+        // Verificamos que el parámetro no sea nulo
+        if (idParam != null && !idParam.isEmpty()) {
+            try {
+                int idCurso = Integer.parseInt(idParam);
+                // Usamos el ID REAL de la URL para buscar en la base de datos
+                this.modulos = moduloDAO.buscarPorCursoId(idCurso);
+                this.cursoActual = cursoDAO.buscarPorId(idCurso); // Usamos el CursoDAO
+
+                // 4. Verificamos el estado de la inscripción al cargar la página
+                verificarInscripcion();
+
+            } catch (NumberFormatException e) {
+                // Manejar el caso de que el ID no sea un número válido
+                System.err.println("Error: El ID del curso no es un número válido.");
+            }
         }
-    }
     }
 //        // Aquí simulamos que queremos ver el curso con ID = 1.
 //        // Más adelante, aprenderemos a pasar este ID desde la página anterior.
@@ -58,7 +76,6 @@ public class ContenidoCursoController implements Serializable{
 //        // Llama al DAO para obtener los datos reales
 //        this.modulos = moduloDAO.buscarPorCursoId(idCursoPrueba);
 //    }
-
 
 //    private List <Modulo> modulos;
 //    @PostConstruct
@@ -91,8 +108,42 @@ public class ContenidoCursoController implements Serializable{
 //    public List<Modulo> getModulos() {
 //        return modulos;
 //    }
-        public List<Modulo> getModulos() {
+    // 5. Nuevo método para verificar si el usuario está inscrito
+    private void verificarInscripcion() {
+        if (sessionManager.isLoggedIn() && cursoActual != null) {
+            Inscripcion inscripcion = inscripcionDAO.buscarPorUsuarioYCurso(sessionManager.getUsuarioLogueado(), cursoActual);
+            this.usuarioInscrito = (inscripcion != null);
+        }
+    }
+
+    // 6. Nuevo método para realizar la inscripción
+    public void inscribirUsuario() {
+        if (sessionManager.isLoggedIn() && cursoActual != null && !usuarioInscrito) {
+            Inscripcion nuevaInscripcion = new Inscripcion();
+            nuevaInscripcion.setUsuario(sessionManager.getUsuarioLogueado());
+            nuevaInscripcion.setCurso(cursoActual);
+
+            inscripcionDAO.crear(nuevaInscripcion);
+
+            // Actualizamos el estado para reflejar el cambio inmediatamente
+            this.usuarioInscrito = true;
+        }
+    }
+
+    public Curso getCursoActual() {
+        return cursoActual;
+    }
+
+    public void setCursoActual(Curso cursoActual) {
+        this.cursoActual = cursoActual;
+    }
+  
+    
+    public boolean isUsuarioInscrito() {
+        return usuarioInscrito;
+    }
+
+    public List<Modulo> getModulos() {
         return modulos;
     }
 }
-
