@@ -23,6 +23,8 @@ import org.primefaces.PrimeFaces;
  * Controlador para manejar la lógica de registro e inicio de sesión.
  */
 // Cambio en la rama de ejemplo
+
+//Cambio de Sandra
 @Named("authController")
 @RequestScoped // La información (nombre, email, etc.) solo se necesita para una petición.
 public class AuthController {
