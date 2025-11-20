@@ -34,7 +34,18 @@
                     title="Contenido de la lección" frameborder="0" allowfullscreen="true"
                     style="display: block; margin: 0 auto; border: 1px solid #ccc; border-radius: 8px;">
             </iframe>
+            <h:form rendered="#{sessionManager.isLoggedIn()}">
+                <div style="text-align: right; margin-top: 10px;">
 
+                    <p:commandButton value="Lección Completada" icon="pi pi-check" 
+                                     rendered="#{leccionController.leccionCompletada}"
+                                     disabled="true" styleClass="ui-button-success ui-button-outlined"/>
+
+                    <p:commandButton value="Marcar como Vista" action="#{leccionController.marcarComoCompletada()}" 
+                                     rendered="#{!leccionController.leccionCompletada}"
+                                     update="@form" styleClass="ui-button-success"/>
+                </div>
+            </h:form>
             <hr style="margin: 2rem 0;"/>
 
             <h3>Comentarios</h3>
