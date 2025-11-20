@@ -17,12 +17,14 @@ import java.io.Serializable;
 import java.util.List;
 import com.xulab.modelo.Usuario;
 import java.util.Date;
+import com.xulab.dao.ProgresoDAO;
+import com.xulab.modelo.ProgresoLeccion;
+import java.util.Date;
 
 /**
  *
  * @author jesus
  */
-
 @Named("leccionController")
 @ViewScoped
 public class LeccionController implements Serializable {
@@ -33,16 +35,20 @@ public class LeccionController implements Serializable {
 
     @Inject
     private ComentarioDAO comentarioDAO;
-    
-    @Inject 
+
+    @Inject
     private SessionManager sessionManager;
+
+    @Inject
+    private ProgresoDAO progresoDAO;
 
     // 2. Creamos los objetos que contendrán los datos para la vista
     private Leccion leccionActual;
     private List<Comentario> comentarios;
     private int leccionId; // Para guardar el ID de la URL
     private String nuevoComentarioTexto;
-    
+    private boolean leccionCompletada;
+
     @PostConstruct
     public void init() {
         // 3. Obtenemos el parámetro 'leccionId' de la URL
@@ -61,30 +67,57 @@ public class LeccionController implements Serializable {
                 // Manejo de error si el ID no es un número válido
                 System.err.println("Error: El ID de la lección no es un número válido.");
             }
+
+            if (sessionManager.isLoggedIn() && leccionActual != null) {
+                this.leccionCompletada = progresoDAO.esLeccionCompletada(sessionManager.getUsuarioLogueado(), leccionActual);
+            }
         }
     }
+
     // Método para guardar los comentarios
     public void agregarComentario() {
         // Verifica que haya una sesión iniciada y que el texto del comentario no este vacío
-        if(sessionManager.isLoggedIn() && nuevoComentarioTexto != null && !nuevoComentarioTexto.trim().isEmpty()) {
+        if (sessionManager.isLoggedIn() && nuevoComentarioTexto != null && !nuevoComentarioTexto.trim().isEmpty()) {
             // Creamos el objeto comentario
             Comentario comentario = new Comentario();
-            
+
             // Asignar propiedades
             comentario.setTexto(nuevoComentarioTexto); // Comentario
             comentario.setFechaCreacion(new Date()); // Fecha y hora
             comentario.setLeccion(this.leccionActual); // La lección en la que se encuentra
             comentario.setAutor(sessionManager.getUsuarioLogueado()); // El usuario que hace el comentario
-            
+
             // Se usa el DAO para guardar en la BD
             comentarioDAO.crear(comentario);
-            
+
             // Volvemos a cargar la lista de comentarios para que el nuevo aparezca 
             this.comentarios = comentarioDAO.buscarPorLeccionId(this.leccionId);
-            
+
             // Limpias campo de texto para un nuevo comentario
             this.nuevoComentarioTexto = "";
         }
+    }
+
+    public void marcarComoCompletada() {
+        if (sessionManager.isLoggedIn() && leccionActual != null && !leccionCompletada) {
+
+            // 1. Crear el objeto de registro
+            ProgresoLeccion progreso = new ProgresoLeccion();
+            progreso.setUsuario(sessionManager.getUsuarioLogueado());
+            progreso.setLeccion(leccionActual);
+            progreso.setFechaCompletado(new Date());
+
+            // 2. Guardar en la base de datos
+            progresoDAO.guardar(progreso);
+
+            // 3. Actualizar el estado visual inmediatamente
+            this.leccionCompletada = true;
+
+            // Opcional: Mostrar un mensajito flotante de éxito
+            // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Bien hecho!", "Lección completada."));
+        }
+        
+        
     }
 
 // 5. Creamos los Getters para que la página JSF pueda acceder a los datos
@@ -103,5 +136,10 @@ public class LeccionController implements Serializable {
     public void setNuevoComentarioTexto(String nuevoComentarioTexto) {
         this.nuevoComentarioTexto = nuevoComentarioTexto;
     }
-  
+
+    public boolean isLeccionCompletada() {
+        return leccionCompletada;
+    }
+    
+    
 }

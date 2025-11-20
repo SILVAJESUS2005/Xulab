@@ -7,6 +7,7 @@ package com.xulab.controlador;
 import com.xulab.dao.CursoDAO;
 import com.xulab.dao.InscripcionDAO;
 import com.xulab.dao.ModuloDAO;
+import com.xulab.dao.ProgresoDAO;
 import com.xulab.modelo.Curso;
 import com.xulab.modelo.Inscripcion;
 import com.xulab.modelo.Leccion;
@@ -18,7 +19,9 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -41,9 +44,13 @@ public class ContenidoCursoController implements Serializable {
     @Inject
     private SessionManager sessionManager;
 
+    @Inject
+    private ProgresoDAO progresoDAO; // <--- ¡Esta línea es indispensable!
+
     private Curso cursoActual;
     private List<Modulo> modulos;
     private boolean usuarioInscrito = false; // Por defecto, asumimos que no lo está
+    private Set<Integer> leccionesCompletadasIds = new HashSet<>();
 
     @PostConstruct
     public void init() {
@@ -59,7 +66,7 @@ public class ContenidoCursoController implements Serializable {
                 // Usamos el ID REAL de la URL para buscar en la base de datos
                 this.modulos = moduloDAO.buscarPorCursoId(idCurso);
                 this.cursoActual = cursoDAO.buscarPorId(idCurso); // Usamos el CursoDAO
-
+                cargarProgreso(idCurso);
                 // 4. Verificamos el estado de la inscripción al cargar la página
                 verificarInscripcion();
 
@@ -68,6 +75,37 @@ public class ContenidoCursoController implements Serializable {
                 System.err.println("Error: El ID del curso no es un número válido.");
             }
         }
+    }
+
+    private void cargarProgreso(int cursoId) {
+        if (sessionManager.isLoggedIn()) {
+            // Obtenemos la lista de IDs y la convertimos en un Set para búsqueda rápida
+            List<Integer> ids = progresoDAO.obtenerIdsLeccionesCompletadas(sessionManager.getUsuarioLogueado(), cursoId);
+            this.leccionesCompletadasIds = new HashSet<>(ids);
+        }
+    }
+
+    // 1. Verifica si una lección individual está completa (Para el ✅)
+    public boolean isLeccionCompletada(int leccionId) {
+        return leccionesCompletadasIds.contains(leccionId);
+    }
+
+    // 2. Calcula el texto "X/Y Finalizado" para el encabezado del módulo
+    public String obtenerProgresoModulo(Modulo modulo) {
+        long total = modulo.getLecciones().size();
+        long completadas = modulo.getLecciones().stream()
+                .filter(l -> leccionesCompletadasIds.contains(l.getId()))
+                .count();
+        return completadas + "/" + total + " Lecciones Finalizado";
+    }
+
+    // 3. Determina si el círculo del módulo debe estar verde (completo) o vacío
+    public boolean isModuloCompleto(Modulo modulo) {
+        if (modulo.getLecciones().isEmpty()) {
+            return false;
+        }
+        return modulo.getLecciones().stream()
+                .allMatch(l -> leccionesCompletadasIds.contains(l.getId()));
     }
 //        // Aquí simulamos que queremos ver el curso con ID = 1.
 //        // Más adelante, aprenderemos a pasar este ID desde la página anterior.
@@ -130,6 +168,38 @@ public class ContenidoCursoController implements Serializable {
         }
     }
 
+    /**
+     * Calcula el porcentaje total de avance en el curso (0 a 100).
+     */
+    public int obtenerPorcentajeGeneral() {
+        if (modulos == null || modulos.isEmpty()) {
+            return 0;
+        }
+
+        long totalLecciones = 0;
+        long leccionesCompletadas = 0;
+
+        // Recorremos todos los módulos y sus lecciones
+        for (Modulo m : modulos) {
+            if (m.getLecciones() != null) {
+                totalLecciones += m.getLecciones().size();
+
+                for (com.xulab.modelo.Leccion l : m.getLecciones()) {
+                    if (leccionesCompletadasIds.contains(l.getId())) {
+                        leccionesCompletadas++;
+                    }
+                }
+            }
+        }
+
+        if (totalLecciones == 0) {
+            return 0;
+        }
+
+        // Regla de tres simple para obtener el porcentaje entero
+        return (int) ((leccionesCompletadas * 100) / totalLecciones);
+    }
+
     public Curso getCursoActual() {
         return cursoActual;
     }
@@ -137,8 +207,7 @@ public class ContenidoCursoController implements Serializable {
     public void setCursoActual(Curso cursoActual) {
         this.cursoActual = cursoActual;
     }
-  
-    
+
     public boolean isUsuarioInscrito() {
         return usuarioInscrito;
     }
