@@ -24,19 +24,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
     </h:head>
 
     <h:body>
-        <div style="padding: 1rem; background-color: #f0f0f0; border-bottom: 1px solid #ddd; margin-bottom: 1rem; text-align: right;">
-
-            <h:panelGroup rendered="#{sessionManager.isLoggedIn()}">
-                <span>Bienvenido, <strong>#{sessionManager.usuarioLogueado.nombre}</strong></span>
-
-                <h:form style="display: inline; margin-left: 1rem;">
-                    <p:commandButton value="Cerrar Sesión" action="#{authController.logout()}" ajax="false" />
+       <div style="display: flex; justify-content: flex-end; align-items: center; padding: 1rem; background-color: #f0f0f0; border-bottom: 1px solid #ddd; margin-bottom: 1rem;">
+            
+            <h:panelGroup rendered="#{sessionManager.isLoggedIn()}" style="display: flex; align-items: center; gap: 15px;">
+                
+                <span style="font-size: 1.1em; color: #333;">
+                    Bienvenido, <strong>#{sessionManager.usuarioLogueado.nombre}</strong>
+                </span>
+                
+                <p:button outcome="perfil" value="Mi Perfil" icon="pi pi-user" styleClass="ui-button-outlined" />
+                
+                <h:form style="margin: 0;">
+                    <p:commandButton value="Cerrar Sesión" action="#{authController.logout()}" icon="pi pi-power-off" ajax="false" styleClass="ui-button-danger"/>
                 </h:form>
+
             </h:panelGroup>
 
             <h:panelGroup rendered="#{!sessionManager.isLoggedIn()}">
-                <h:link outcome="login" value="Iniciar Sesión" style="margin-right: 1rem;" />
-                <h:link outcome="registro" value="Registrarse" />
+                <h:link outcome="login" value="Iniciar Sesión" style="margin-right: 1rem; text-decoration: none; font-weight: bold;" />
+                <p:button outcome="registro" value="Registrarse" icon="pi pi-user-plus" />
             </h:panelGroup>
 
         </div>
