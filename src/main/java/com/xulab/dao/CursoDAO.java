@@ -16,23 +16,21 @@ import java.util.List;
  * @author jesus
  */
 // DAO significa Data Access Object. La única responsabilidad de esta clase es manejar las operaciones de la base de datos para la entidad Curso
-
 // Stateless indica que esta clase es un Enterprise de JavaBean (EJB).
 // Glassfish gestionara su ciclo de vida y nos permitira inyectarla en otras clases.
-
 @Stateless
 public class CursoDAO {
-    
+
     // @PersistenceContext inyecta el EntityManager, que es el objeto principal
     // de JPA para interactuar con la base de datos.
     @PersistenceContext(unitName = "my_persistence_unit") // Asegurate que el unitName coincida con el de tu persistence.xml
     private EntityManager em;
-    
-        /**
+
+    /**
      * Devuelve una lista de todos los cursos de la base de datos.
+     *
      * @return Lista de entidades Curso.
      */
-    
     public List<Curso> listarTodos() {
         // Se crea una consulta usando JPQL (Java Persistence Query Lenguage).
         // Es similar a SQL pero se consulta sobre las Entidades Java, no sobre las tablas.
@@ -40,9 +38,10 @@ public class CursoDAO {
         Query query = em.createQuery("SELECT c FROM Curso c");
         return query.getResultList();
     }
-    
+
     /**
      * Busca una entidad de Curso por su ID (clave primaria).
+     *
      * @param id El ID del curso a buscar.
      * @return El objeto Curso si se encuentra, o null si no.
      */
@@ -51,7 +50,12 @@ public class CursoDAO {
         // para buscar algo por su clave primaria.
         return em.find(Curso.class, id);
     }
-    
+
+    public long contarCursos() {
+        Query query = em.createQuery("SELECT COUNT(c) FROM Curso c");
+        return (long) query.getSingleResult();
+    }
+
     // Aquí en el futuro podrías agregar otros métodos como:
     // public void crear(Curso curso) { ... }
     // public Curso buscarPorId(int id) { ... }

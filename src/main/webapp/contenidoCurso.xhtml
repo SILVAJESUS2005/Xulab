@@ -1,103 +1,146 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//WC3//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <h:head>
-        <title>Contenido del Curso</title>
-        <style>
-            .course-header {
-                padding: 1.5rem;
-                background-color: #f8f9fa;
-                border: 1px solid #dee2e6;
-                border-radius: 8px;
-                margin-bottom: 1.5rem;
-            }
-        </style>
-    </h:head>
-    <h:body>
-        <div class="course-header">
 
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+    <ui:composition template="/templates/template.xhtml">
 
-                <div style="flex: 1;">
-                    <h1>#{contenidoController.cursoActual.nombre}</h1>
-                </div>
+        <ui:define name="title">#{contenidoController.cursoActual.nombre} - Xulab</ui:define>
 
-                <h:panelGroup rendered="#{contenidoController.usuarioInscrito}" style="flex: 1; min-width: 250px;">
+        <ui:define name="content">
 
-                    <div style="margin-bottom: 5px; display: flex; justify-content: space-between;">
-                        <span style="font-weight: bold; color: #555;">Tu Progreso:</span>
-                        <span style="font-weight: bold; color: #1e88e5;">#{contenidoController.obtenerPorcentajeGeneral()}%</span>
+            <h:panelGroup rendered="#{not (sessionManager.isLoggedIn() and contenidoController.usuarioInscrito)}">
+
+                <div style="display: flex; justify-content: center; padding: 20px;">
+                    <div class="card" style="background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; max-width: 900px; width: 100%;">
+
+                        <div style="position: relative; background: #000; width: 100%; height: 0; padding-bottom: 56.25%;">
+                            <h:panelGroup rendered="#{not empty contenidoController.cursoActual.videoIntroUrl}">
+                                <iframe src="#{contenidoController.cursoActual.videoIntroUrl}" 
+                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen="true">
+                                </iframe>
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{empty contenidoController.cursoActual.videoIntroUrl}">
+                                <h:graphicImage name="images/#{contenidoController.cursoActual.imagenUrl}" />
+                                <iframe src="#{contenidoController.cursoActual.videoIntroUrl}" 
+                                        title="YouTube video player"
+                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 12px;"
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                        referrerpolicy="strict-origin-when-cross-origin"
+                                        allowfullscreen="true">
+                                </iframe>
+                            </h:panelGroup>
+                        </div>
+
+                        <div style="padding: 3rem; text-align: center;">
+                            <h6 style="color: var(--color-secondary); text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">Curso Profesional</h6>
+                            <h1 style="font-size: 2.5rem; margin: 10px 0; color: var(--color-primary);">#{contenidoController.cursoActual.nombre}</h1>
+                            <p style="font-size: 1.1rem; color: #666; max-width: 700px; margin: 0 auto 2rem auto; line-height: 1.6;">
+                                #{contenidoController.cursoActual.descripcion}
+                            </p>
+
+                            <h:panelGroup rendered="#{!sessionManager.isLoggedIn()}">
+                                <p:button outcome="/registro" value="Tomar este curso" icon="pi pi-rocket" 
+                                          styleClass="btn-brand" 
+                                          style="font-size: 1.2rem; padding: 0.8rem 2rem; width: 100%; max-width: 300px; border-radius: 50px; background-color: #00d1b2 !important; border: none;" />
+                                <div style="margin-top: 15px;">
+                                    <h:outputText value="¿Ya tienes cuenta? " />
+                                    <h:link outcome="/login" value="Inicia sesión aquí" style="color: var(--color-primary); font-weight: bold;" />
+                                </div>
+                            </h:panelGroup>
+
+                            <h:form rendered="#{sessionManager.isLoggedIn()}">
+                                <p:commandButton value="Inscribirme ahora" action="#{contenidoController.inscribirUsuario()}" 
+                                                 icon="pi pi-check-circle"
+                                                 styleClass="btn-brand"
+                                                 style="font-size: 1.2rem; padding: 0.8rem 2rem; width: 100%; max-width: 300px; border-radius: 50px;"
+                                                 update="@all" /> </h:form>
+
+                        </div>
                     </div>
-
-                    <p:progressBar value="#{contenidoController.obtenerPorcentajeGeneral()}" 
-                                   labelTemplate="{value}%" displayOnly="true" 
-                                   style="height: 20px;" />
-                </h:panelGroup>
-
-            </div>
-
-            <h:panelGroup id="inscripcionPanel" style="display: block; margin-top: 15px;">
-                <h:form rendered="#{sessionManager.isLoggedIn() and !contenidoController.usuarioInscrito}">
-                    <p:commandButton value="Inscribirme en este curso" 
-                                     action="#{contenidoController.inscribirUsuario()}"
-                                     update="inscripcionPanel" 
-                                     styleClass="ui-button-success" />
-                </h:form>
+                </div>
             </h:panelGroup>
 
-        </div>
-        <p:accordionPanel value="#{contenidoController.modulos}" var="modulo" multiple="true">
 
-            <p:tab>
-                <f:facet name="title">
-                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <h:panelGroup rendered="#{sessionManager.isLoggedIn() and contenidoController.usuarioInscrito}">
 
-                        <span style="font-weight: bold; font-size: 1.1em;">#{modulo.nombre}</span>
-
-                        <div style="display: flex; align-items: center; gap: 10px;">
-
-                            <span style="font-size: 0.85em; color: #666;">
-                                #{contenidoController.obtenerProgresoModulo(modulo)}
-                            </span>
-
-                            <h:panelGroup rendered="#{contenidoController.isModuloCompleto(modulo)}">
-                                <i class="pi pi-circle-fill" style="color: #2ecc71; font-size: 1.2em;"></i>
-                            </h:panelGroup>
-
-                            <h:panelGroup rendered="#{!contenidoController.isModuloCompleto(modulo)}">
-                                <i class="pi pi-circle" style="color: #ccc; font-size: 1.2em;"></i>
-                            </h:panelGroup>
+                <div style="background-color: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-left: 5px solid var(--color-brand);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                        <div style="flex: 1;">
+                            <h6 style="color: #666; margin: 0;">Estás cursando:</h6>
+                            <h1 style="margin: 5px 0 0 0; color: var(--color-primary);">#{contenidoController.cursoActual.nombre}</h1>
+                        </div>
+                        <div style="flex: 1; min-width: 250px; max-width: 400px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span style="font-weight: bold; color: #555;">Tu Progreso</span>
+                                <span style="font-weight: bold; color: var(--color-brand);">#{contenidoController.obtenerPorcentajeGeneral()}%</span>
+                            </div>
+                            <p:progressBar value="#{contenidoController.obtenerPorcentajeGeneral()}" 
+                                           displayOnly="true" style="height: 15px; border-radius: 10px;" />
                         </div>
                     </div>
-                </f:facet>
+                </div>
 
-                <ui:repeat value="#{modulo.lecciones}" var="leccion">
+                <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
 
-                    <h:link outcome="leccion" style="text-decoration: none; color: inherit;">
-                        <f:param name="leccionId" value="#{leccion.id}" />
+                    <p:accordionPanel value="#{contenidoController.modulos}" var="modulo" multiple="true">
 
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; transition: background 0.2s;">
+                        <p:tab>
+                            <f:facet name="title">
+                                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                    <span style="font-weight: bold; font-size: 1.1em; color: #333;">#{modulo.nombre}</span>
+                                    <div style="display: flex; align-items: center; gap: 15px;">
+                                        <span style="font-size: 0.85em; color: #888; background: #f4f4f4; padding: 2px 8px; border-radius: 4px;">
+                                            #{contenidoController.obtenerProgresoModulo(modulo)}
+                                        </span>
+                                        <h:panelGroup rendered="#{contenidoController.isModuloCompleto(modulo)}">
+                                            <i class="pi pi-check-circle" style="color: #10B981; font-size: 1.3em;"></i>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{!contenidoController.isModuloCompleto(modulo)}">
+                                            <i class="pi pi-circle" style="color: #ddd; font-size: 1.3em;"></i>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                            </f:facet>
 
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <h:outputText value="L#{contenidoController.obtenerNumeroVisual(leccion.id)} - #{leccion.nombre}" />
-                            </div>
+                            <ui:repeat value="#{modulo.lecciones}" var="leccion">
+                                <h:link outcome="leccion" style="text-decoration: none; color: inherit; display: block;">
+                                    <f:param name="leccionId" value="#{leccion.id}" />
 
-                            <h:panelGroup rendered="#{contenidoController.isLeccionCompletada(leccion.id)}">
-                                <i class="pi pi-check" style="color: #2ecc71; font-weight: bold;"></i>
-                            </h:panelGroup>
-                            <h:panelGroup rendered="#{!contenidoController.isLeccionCompletada(leccion.id)}">
-                                <i class="pi pi-chevron-right" style="color: #ccc; font-size: 0.8em;"></i>
-                            </h:panelGroup>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #f0f0f0; transition: all 0.2s;"
+                                         onmouseover="this.style.backgroundColor = '#f9fafb'; this.style.paddingLeft = '20px';"
+                                         onmouseout="this.style.backgroundColor = 'transparent'; this.style.paddingLeft = '15px';">
 
-                        </div>
-                    </h:link>
-                </ui:repeat>
+                                        <div style="display: flex; align-items: center; gap: 15px;">
+                                            <span style="background: var(--color-primary); color: white; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.8rem; font-weight: bold;">
+                                                #{contenidoController.obtenerNumeroVisual(leccion.id)}
+                                            </span>
+                                            <span style="font-weight: 500; color: #444;">#{leccion.nombre}</span>
+                                        </div>
 
-            </p:tab>
-        </p:accordionPanel>
-    </h:body>
+                                        <h:panelGroup rendered="#{contenidoController.isLeccionCompletada(leccion.id)}">
+                                            <i class="pi pi-check" style="color: #10B981; font-weight: bold;"></i>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{!contenidoController.isLeccionCompletada(leccion.id)}">
+                                            <i class="pi pi-play" style="color: #ccc; font-size: 0.9em;"></i>
+                                        </h:panelGroup>
+
+                                    </div>
+                                </h:link>
+                            </ui:repeat>
+                        </p:tab>
+                    </p:accordionPanel>
+                </div>
+
+            </h:panelGroup>
+
+        </ui:define>
+    </ui:composition>
 </html>
