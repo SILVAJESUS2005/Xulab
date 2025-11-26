@@ -11,6 +11,7 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 
@@ -72,5 +73,11 @@ public class InscripcionDAO {
                 Inscripcion.class);
         query.setParameter("usuario", usuario);
         return query.getResultList();
+    }
+
+    // En InscripcionDAO.java
+    public long contarInscripciones() {
+        Query query = em.createQuery("SELECT COUNT(i) FROM Inscripcion i");
+        return (long) query.getSingleResult();
     }
 }

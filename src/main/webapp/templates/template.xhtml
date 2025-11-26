@@ -22,10 +22,10 @@
             </h:link>
 
             <div class="navbar-menu">
-                <h:link outcome="cursos" value="Inicio" styleClass="nav-link" />
-                <h:link outcome="nosotros" value="Quiénes Somos" styleClass="nav-link" /> 
-                <h:link outcome="cursos" value="Cursos" styleClass="nav-link" />
-                <h:link outcome="perfil" value="Mi Perfil" styleClass="nav-link" rendered="#{sessionManager.isLoggedIn()}" />
+                <h:link outcome="/nosotros" value="Inicio" styleClass="nav-link" />
+                <h:link outcome="/cursos" value="Cursos" styleClass="nav-link" />
+                <h:link outcome="/perfil" value="Mi Perfil" styleClass="nav-link" 
+                        rendered="#{sessionManager.isLoggedIn()}" />
             </div>
 
             <div class="navbar-user">

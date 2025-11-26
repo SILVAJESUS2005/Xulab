@@ -3,55 +3,57 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Mi Perfil - Xulab</title>
-        <style>
-            body { font-family: sans-serif; padding: 20px; }
-        </style>
-    </h:head>
-    <h:body>
-        
-        <p:card style="margin-bottom: 2em">
-            <f:facet name="title">
-                Mi Perfil
-            </f:facet>
-            
-            <h:panelGrid columns="2" cellpadding="5">
-                <h:outputText value="Nombre:" style="font-weight: bold"/>
-                <h:outputText value="#{perfilController.usuario.nombre}" />
-                
-                <h:outputText value="Email:" style="font-weight: bold"/>
-                <h:outputText value="#{perfilController.usuario.email}" />
-            </h:panelGrid>
-        </p:card>
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-        <h2>Mis Cursos</h2>
-        
-        <h:panelGroup rendered="#{empty perfilController.inscripciones}">
-            <p>Aún no te has inscrito en ningún curso. 
-               <h:link outcome="cursos" value="¡Explora nuestro catálogo!" />
-            </p>
-        </h:panelGroup>
+    <ui:composition template="/templates/template.xhtml">
 
-        <p:dataGrid var="inscripcion" value="#{perfilController.inscripciones}" 
-                    columns="3" layout="grid"
-                    rendered="#{not empty perfilController.inscripciones}">
+        <ui:define name="title">Mi Perfil - Xulab</ui:define>
 
-            <h:link outcome="contenidoCurso">
-                <f:param name="cursoId" value="#{inscripcion.curso.id}" />
+        <ui:define name="content">
 
-                <p:panel header="#{inscripcion.curso.nombre}" style="text-align:center">
-                    <h:panelGrid columns="1" style="width:100%">
-                        <h:graphicImage name="images/#{inscripcion.curso.imagenUrl}" width="200"/>
-                        
-                        <h:outputText value="Ver temario" styleClass="ui-button-text" 
-                                      style="color: #1e88e5; font-weight: bold; margin-top: 10px; display: block;"/>
-                    </h:panelGrid>
-                </p:panel>
-            </h:link>
+            <p:card style="margin-bottom: 2em; border-top: 4px solid var(--color-primary);">
+                <f:facet name="title">
+                    Mi Perfil
+                </f:facet>
 
-        </p:dataGrid>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText value="Nombre:" style="font-weight: bold; color: var(--color-text);"/>
+                    <h:outputText value="#{perfilController.usuario.nombre}" />
 
-    </h:body>
+                    <h:outputText value="Email:" style="font-weight: bold; color: var(--color-text);"/>
+                    <h:outputText value="#{perfilController.usuario.email}" />
+                </h:panelGrid>
+            </p:card>
+
+            <h2 style="color: var(--color-primary);">Mis Cursos</h2>
+
+            <h:panelGroup rendered="#{empty perfilController.inscripciones}">
+                <p>Aún no te has inscrito en ningún curso. 
+                    <h:link outcome="cursos" value="¡Explora nuestro catálogo!" style="color: var(--color-accent); font-weight: bold;" />
+                </p>
+            </h:panelGroup>
+
+            <p:dataGrid var="inscripcion" value="#{perfilController.inscripciones}" 
+                        columns="3" layout="grid"
+                        rendered="#{not empty perfilController.inscripciones}">
+
+                <h:link outcome="contenidoCurso" style="text-decoration: none;">
+                    <f:param name="cursoId" value="#{inscripcion.curso.id}" />
+
+                    <p:panel header="#{inscripcion.curso.nombre}" style="text-align:center">
+                        <h:panelGrid columns="1" style="width:100%">
+                            <h:graphicImage name="images/#{inscripcion.curso.imagenUrl}" width="200"/>
+
+                            <h:outputText value="Ver temario" styleClass="ui-button-text" 
+                                          style="color: var(--color-primary); font-weight: bold; margin-top: 10px; display: block;"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:link>
+
+            </p:dataGrid>
+
+        </ui:define>
+
+    </ui:composition>
 </html>

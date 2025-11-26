@@ -28,17 +28,19 @@ public class Curso implements Serializable {
     // @GeneratedValue le dice a JPA como se genera esa clave(en este caso, auto-incremental por la BD).
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
-   // @Column se usa para mapear el atributo a una columna específica. Si se llaman igual es opcional.
+
+    // @Column se usa para mapear el atributo a una columna específica. Si se llaman igual es opcional.
     @Column(name = "nombre")
     private String nombre;
-    
+
     @Column(name = "descripcion")
     private String descripcion;
-    
+
     @Column(name = "imagen_url")
     private String imagenUrl;
-    
+
+    @Column(name = "video_intro_url")
+    private String videoIntroUrl;
     // --- Getters y Setters ---
     // Son necesarios para que JSF Y JPA puedan acceder a los atributos
 
@@ -73,5 +75,13 @@ public class Curso implements Serializable {
     public void setImagenUrl(String imagenUrl) {
         this.imagenUrl = imagenUrl;
     }
-    
+
+    public String getVideoIntroUrl() {
+        return videoIntroUrl;
+    }
+
+    public void setVideoIntroUrl(String videoIntroUrl) {
+        this.videoIntroUrl = videoIntroUrl;
+    }
+
 }
