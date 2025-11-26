@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition template="/templates/template.xhtml">
+
+        <ui:define name="title">Quiénes Somos - Xulab</ui:define>
+
+            <ui:define name="content">
+                <div style="text-align: center; max-width: 1000px; margin: 0 auto;">
+
+                    <h1 style="color: #1F2937;">Sobre Nosotros</h1>
+                    <p style="font-size: 1.2rem; color: #666;">
+                        Somos Xulab, una plataforma comprometida con la democratización de la educación tecnológica.
+                    </p>
+
+                    <p:divider />
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; margin-top: 30px;">
+                        <p:card>
+                            <h3 style="color: var(--color-brand);">Nuestra Misión</h3>
+                            <p>Ayudar a estudiantes y profesionales a adquirir habilidades técnicas de alta demanda a través de contenido interactivo y práctico.</p>
+                        </p:card>
+
+                        <p:card>
+                            <h3 style="color: var(--color-brand);">Nuestra Visión</h3>
+                            <p>Convertirnos en el referente de educación en línea en Latinoamérica, eliminando barreras y fomentando el crecimiento profesional.</p>
+                        </p:card>
+                    </div>
+
+                    <div class="team-section">
+                        <h2>Nuestro Equipo</h2>
+                        <p style="color: #666;">Las mentes detrás de Xulab</p>
+
+                        <div class="team-grid">
+
+                            <div class="team-card">
+                                <h:graphicImage library="images" name="jesus.png" styleClass="team-photo" alt="Foto Miembro" />
+                                <div class="team-name">Jesús López Silva</div>
+                                <div class="team-role">Líder de Proyecto / Backend</div>
+                            </div>
+
+                            <div class="team-card">
+                                <h:graphicImage library="images" name="dani.png" styleClass="team-photo" alt="Foto Miembro" />
+                                <div class="team-name">Daniel Salas Flores</div>
+                                <div class="team-role">Fronted Developer / Diseño Instruccional y Contenido</div>
+                            </div>
+
+                            <div class="team-card">
+                                <h:graphicImage library="images" name="vane.jpg" styleClass="team-photo" alt="Foto Miembro" />
+                                <div class="team-name">Vanesa Gonzalez Honorato</div>
+                                <div class="team-role">Director Académico / Diseño Instruccional y Contenido</div>
+                            </div>
+
+                            <div class="team-card">
+                                <h:graphicImage library="images" name="san.jpg" styleClass="team-photo" alt="Foto Miembro" />
+                                <div class="team-name">Sandra Araceli Hernandez Muñoz</div>
+                                <div class="team-role">Base de Datos / Diseño Instruccional y Contenido</div>
+                            </div>
+
+                            <div class="team-card">
+                                <h:graphicImage library="images" name="bruno.png" styleClass="team-photo" alt="Foto Miembro" />
+                                <div class="team-name">Nam_Chul Bruno Vazquez Coronado</div>
+                                <div class="team-role">Fronted Developer/ UI y UX Designer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define> 
+    </ui:composition>
+</html>

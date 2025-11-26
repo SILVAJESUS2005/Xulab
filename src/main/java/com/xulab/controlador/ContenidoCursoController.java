@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -51,6 +53,7 @@ public class ContenidoCursoController implements Serializable {
     private List<Modulo> modulos;
     private boolean usuarioInscrito = false; // Por defecto, asumimos que no lo está
     private Set<Integer> leccionesCompletadasIds = new HashSet<>();
+    private Map<Integer, Integer> mapaNumeracionVisual;
 
     @PostConstruct
     public void init() {
@@ -66,9 +69,11 @@ public class ContenidoCursoController implements Serializable {
                 // Usamos el ID REAL de la URL para buscar en la base de datos
                 this.modulos = moduloDAO.buscarPorCursoId(idCurso);
                 this.cursoActual = cursoDAO.buscarPorId(idCurso); // Usamos el CursoDAO
+                calcularNumeracionVisual();
                 cargarProgreso(idCurso);
                 // 4. Verificamos el estado de la inscripción al cargar la página
                 verificarInscripcion();
+                
 
             } catch (NumberFormatException e) {
                 // Manejar el caso de que el ID no sea un número válido
@@ -198,6 +203,32 @@ public class ContenidoCursoController implements Serializable {
 
         // Regla de tres simple para obtener el porcentaje entero
         return (int) ((leccionesCompletadas * 100) / totalLecciones);
+    }
+
+    /**
+     * Recorre los módulos y lecciones para asignarles un número consecutivo (1,
+     * 2, 3...) independiente de su ID en la base de datos.
+     */
+    private void calcularNumeracionVisual() {
+        mapaNumeracionVisual = new HashMap<>();
+        int contador = 1;
+
+        if (modulos != null) {
+            for (Modulo m : modulos) {
+                // Aseguramos que las lecciones existan y estén ordenadas
+                if (m.getLecciones() != null) {
+                    for (com.xulab.modelo.Leccion l : m.getLecciones()) {
+                        // Guardamos: ID Real -> Número Visual (1, 2, 3...)
+                        mapaNumeracionVisual.put(l.getId(), contador++);
+                    }
+                }
+            }
+        }
+    }
+
+// Método público para que la vista lo use
+    public int obtenerNumeroVisual(int leccionId) {
+        return mapaNumeracionVisual.getOrDefault(leccionId, 0);
     }
 
     public Curso getCursoActual() {

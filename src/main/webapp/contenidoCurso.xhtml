@@ -83,7 +83,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; transition: background 0.2s;">
 
                             <div style="display: flex; align-items: center; gap: 10px;">
-                                <h:outputText value="L#{leccion.id} - #{leccion.nombre}" /> 
+                                <h:outputText value="L#{contenidoController.obtenerNumeroVisual(leccion.id)} - #{leccion.nombre}" />
                             </div>
 
                             <h:panelGroup rendered="#{contenidoController.isLeccionCompletada(leccion.id)}">
