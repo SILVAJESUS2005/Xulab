@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.xulab.modelo;
 
 import jakarta.persistence.Column;
@@ -18,6 +14,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * Representa un comentario, pregunta o aporte realizado por un usuario
+ * dentro de una lección específica.
+ * Mapea la tabla 'comentarios' en la base de datos.
  *
  * @author jesus
  */
@@ -35,7 +34,7 @@ public class Comentario implements Serializable {
     @Column(name = "fecha_creacion")
     private Date fechaCreacion;
 
-    // Relación: Muchos comentarios pertenecen a una Lección 
+    // Relación: Muchos comentarios pertenecen a una lección 
     @ManyToOne
     @JoinColumn(name = "leccion_id")
     private Leccion leccion;

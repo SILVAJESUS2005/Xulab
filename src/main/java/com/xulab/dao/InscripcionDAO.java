@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.xulab.dao;
 
 import com.xulab.modelo.Curso;
@@ -16,12 +12,12 @@ import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 /**
+ * Objeto de acceso a datos (DAO) para la entidad Inscripcion. Gestiona la
+ * persistencia de las relaciones entre Usuarios y Cursos. Sus funciones
+ * principales son registrar nuevas inscripciones y consultar el estado de
+ * matrícula de los estudiantes.
  *
- * @author jesus
- */
-/**
- * DAO para las operaciones de la base de datos relacionadas con las
- * inscripciones.
+ * * @author jesus
  */
 @Stateless
 public class InscripcionDAO {
@@ -75,7 +71,12 @@ public class InscripcionDAO {
         return query.getResultList();
     }
 
-    // En InscripcionDAO.java
+    /**
+     * Cuenta el número total de inscripciones activas en la plataforma.
+     * Utilizado para mostrar estadísticas en la página de inicio (Landing
+     * Page).
+     * @return El número total de registros en la tabla de inscripciones.
+     */
     public long contarInscripciones() {
         Query query = em.createQuery("SELECT COUNT(i) FROM Inscripcion i");
         return (long) query.getSingleResult();

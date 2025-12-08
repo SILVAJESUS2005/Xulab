@@ -12,14 +12,28 @@ import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 /**
+ * Objeto de acceso a datos (DAO) para la entidad modulo. Se encarga de las
+ * operaciones de base de datos relacionadas con los módulos de los cursos. Su
+ * función principal es recuperar la estructura jerárquica de los cursos
+ * (Módulos -> Lecciones). Es un EJB de tipo.
  *
- * @author jesus
+ * * @author jesus
  */
 @Stateless
 public class ModuloDAO {
-     @PersistenceContext(unitName = "my_persistence_unit") // Nombre la unit name de la persistencia que configuraste en tu archivo persistence 
+
+    @PersistenceContext(unitName = "my_persistence_unit")
     private EntityManager em;
-    
+
+    /**
+     * Obtiene la lista de módulos asociados a un curso específico.
+     * Este método es fundamental para construir el temario del curso en la
+     * vista. 
+     * @param cursoId El ID del curso del cual se quieren obtener los
+     * módulos.
+     * @return Una lista de objetos modulo, que a su vez contendrán sus
+     * lecciones (FetchType.EAGER).
+     */
     public List<Modulo> buscarPorCursoId(int cursoId) {
         // Usamos una consulta JPQL para traer los módulos de un curso específico
         TypedQuery<Modulo> query = em.createQuery(

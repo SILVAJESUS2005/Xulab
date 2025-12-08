@@ -12,8 +12,9 @@ import jakarta.persistence.Query;
 import java.util.List;
 
 /**
- *
- * @author jesus
+ * Objeto de acceso a datos (DAO) para la entidad Curso. Manejar las 
+ * operaciones de la base de datos para la entidad Curso.
+ * * @author jesus
  */
 // DAO significa Data Access Object. La única responsabilidad de esta clase es manejar las operaciones de la base de datos para la entidad Curso
 // Stateless indica que esta clase es un Enterprise de JavaBean (EJB).
@@ -23,7 +24,7 @@ public class CursoDAO {
 
     // @PersistenceContext inyecta el EntityManager, que es el objeto principal
     // de JPA para interactuar con la base de datos.
-    @PersistenceContext(unitName = "my_persistence_unit") // Asegurate que el unitName coincida con el de tu persistence.xml
+    @PersistenceContext(unitName = "my_persistence_unit")
     private EntityManager em;
 
     /**
@@ -55,9 +56,5 @@ public class CursoDAO {
         Query query = em.createQuery("SELECT COUNT(c) FROM Curso c");
         return (long) query.getSingleResult();
     }
-
-    // Aquí en el futuro podrías agregar otros métodos como:
-    // public void crear(Curso curso) { ... }
-    // public Curso buscarPorId(int id) { ... }
-    // public void actualizar(Curso curso) { ... }
+    
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.xulab.modelo;
 
 import jakarta.persistence.Column;
@@ -15,8 +11,10 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 
 /**
- *
- * @author jesus
+ * Representa una lección individual dentro de un módulo.
+ * Es la unidad de contenido más pequeña y contiene el material educativo (video, presentación, etc.).
+ * Mapea la tabla 'lecciones' en la base de datos.
+ * * @author jesus
  */
 @Entity
 @Table(name = "lecciones")
@@ -31,7 +29,7 @@ public class Leccion implements Serializable {
     @Column(name = "contenido_url")
     private String contenidoUrl;
 
-    // Relación: Muchas lecciones pertenecen a Un Módulo
+    // Relación: Muchas lecciones pertenecen a un módulo
     @ManyToOne
     @JoinColumn(name = "modulo_id")
     private Modulo modulo;
@@ -60,7 +58,6 @@ public class Leccion implements Serializable {
         this.contenidoUrl = contenidoUrl;
     }
 
-
     public Modulo getModulo() {
         return modulo;
     }
@@ -68,7 +65,5 @@ public class Leccion implements Serializable {
     public void setModulo(Modulo modulo) {
         this.modulo = modulo;
     }
-    
-    
 
 }

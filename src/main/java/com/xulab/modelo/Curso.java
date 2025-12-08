@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.xulab.modelo;
 
 import jakarta.persistence.Column;
@@ -13,8 +9,10 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 
 /**
- *
- * @author jesus
+ * Representa un curso disponible en la plataforma Xulab.
+ * Contiene la información general, multimedia y descriptiva del curso.
+ * Mapea la tabla 'cursos' en la base de datos.
+ * * @author jesus
  */
 // Esta clase es un "espejo" de tu tabla cursos en Java.
 // @Entity le dice al JPA que esta clase representa una tabla en la BD.

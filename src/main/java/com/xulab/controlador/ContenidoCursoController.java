@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.xulab.controlador;
 
 import com.xulab.dao.CursoDAO;
@@ -10,20 +6,35 @@ import com.xulab.dao.ModuloDAO;
 import com.xulab.dao.ProgresoDAO;
 import com.xulab.modelo.Curso;
 import com.xulab.modelo.Inscripcion;
-import com.xulab.modelo.Leccion;
 import com.xulab.modelo.Modulo;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Map;
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.Image;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
+import jakarta.faces.context.FacesContext;
+import jakarta.servlet.http.HttpServletResponse;
+import java.awt.Color;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -41,17 +52,17 @@ public class ContenidoCursoController implements Serializable {
     private InscripcionDAO inscripcionDAO;
 
     @Inject
-    private CursoDAO cursoDAO; // Necesitamos este para obtener el objeto Curso
+    private CursoDAO cursoDAO;
 
     @Inject
     private SessionManager sessionManager;
 
     @Inject
-    private ProgresoDAO progresoDAO; // <--- ¡Esta línea es indispensable!
+    private ProgresoDAO progresoDAO;
 
     private Curso cursoActual;
     private List<Modulo> modulos;
-    private boolean usuarioInscrito = false; // Por defecto, asumimos que no lo está
+    private boolean usuarioInscrito = false;
     private Set<Integer> leccionesCompletadasIds = new HashSet<>();
     private Map<Integer, Integer> mapaNumeracionVisual;
 
@@ -71,9 +82,8 @@ public class ContenidoCursoController implements Serializable {
                 this.cursoActual = cursoDAO.buscarPorId(idCurso); // Usamos el CursoDAO
                 calcularNumeracionVisual();
                 cargarProgreso(idCurso);
-                // 4. Verificamos el estado de la inscripción al cargar la página
+                // Verificamos el estado de la inscripción al cargar la página
                 verificarInscripcion();
-                
 
             } catch (NumberFormatException e) {
                 // Manejar el caso de que el ID no sea un número válido
@@ -90,7 +100,7 @@ public class ContenidoCursoController implements Serializable {
         }
     }
 
-    // 1. Verifica si una lección individual está completa (Para el ✅)
+    // 1. Verifica si una lección individual está completa
     public boolean isLeccionCompletada(int leccionId) {
         return leccionesCompletadasIds.contains(leccionId);
     }
@@ -112,46 +122,8 @@ public class ContenidoCursoController implements Serializable {
         return modulo.getLecciones().stream()
                 .allMatch(l -> leccionesCompletadasIds.contains(l.getId()));
     }
-//        // Aquí simulamos que queremos ver el curso con ID = 1.
-//        // Más adelante, aprenderemos a pasar este ID desde la página anterior.
-//        int idCursoPrueba = 1; 
-//        
-//        // Llama al DAO para obtener los datos reales
-//        this.modulos = moduloDAO.buscarPorCursoId(idCursoPrueba);
-//    }
 
-//    private List <Modulo> modulos;
-//    @PostConstruct
-//    public void init (){
-//        modulos = new ArrayList <> ();
-//        Modulo m1 = new Modulo();
-//        m1.setNombre("Tema 1: Fundamentos de Phyton");
-//        List<Leccion> leccionesM1 = new ArrayList<>();
-//        Leccion l11 = new Leccion(); l11.setNombre("1.1 Introducción a Python");
-//        Leccion l12 = new Leccion(); l12.setNombre("1.2 Variables y Tipos de Datos");
-//        leccionesM1.add(l11);
-//        leccionesM1.add(l12);
-//        m1.setLecciones(leccionesM1);
-//
-//        // Módulo 2 con sus lecciones
-//        Modulo m2 = new Modulo();
-//        m2.setNombre("Tema 2: Control de Flujo");
-//        List<Leccion> leccionesM2 = new ArrayList<>();
-//        Leccion l21 = new Leccion(); l21.setNombre("2.1 Condicionales if/else");
-//        Leccion l22 = new Leccion(); l22.setNombre("2.2 Bucles for y while");
-//        leccionesM2.add(l21);
-//        leccionesM2.add(l22);
-//        m2.setLecciones(leccionesM2);
-//
-//        modulos.add(m1);
-//        modulos.add(m2);
-//        
-//    }
-//    
-//    public List<Modulo> getModulos() {
-//        return modulos;
-//    }
-    // 5. Nuevo método para verificar si el usuario está inscrito
+    // Método para verificar si el usuario está inscrito
     private void verificarInscripcion() {
         if (sessionManager.isLoggedIn() && cursoActual != null) {
             Inscripcion inscripcion = inscripcionDAO.buscarPorUsuarioYCurso(sessionManager.getUsuarioLogueado(), cursoActual);
@@ -159,7 +131,7 @@ public class ContenidoCursoController implements Serializable {
         }
     }
 
-    // 6. Nuevo método para realizar la inscripción
+    // Método para realizar la inscripción
     public void inscribirUsuario() {
         if (sessionManager.isLoggedIn() && cursoActual != null && !usuarioInscrito) {
             Inscripcion nuevaInscripcion = new Inscripcion();
@@ -175,6 +147,8 @@ public class ContenidoCursoController implements Serializable {
 
     /**
      * Calcula el porcentaje total de avance en el curso (0 a 100).
+     *
+     * @return numero que representa el porcentaje de avance del curso tomado.
      */
     public int obtenerPorcentajeGeneral() {
         if (modulos == null || modulos.isEmpty()) {
@@ -215,10 +189,8 @@ public class ContenidoCursoController implements Serializable {
 
         if (modulos != null) {
             for (Modulo m : modulos) {
-                // Aseguramos que las lecciones existan y estén ordenadas
                 if (m.getLecciones() != null) {
                     for (com.xulab.modelo.Leccion l : m.getLecciones()) {
-                        // Guardamos: ID Real -> Número Visual (1, 2, 3...)
                         mapaNumeracionVisual.put(l.getId(), contador++);
                     }
                 }
@@ -226,7 +198,141 @@ public class ContenidoCursoController implements Serializable {
         }
     }
 
-// Método público para que la vista lo use
+    public void descargarCertificado() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+
+        response.setContentType("application/pdf");
+        response.setHeader("Content-disposition", "attachment; filename=Constancia_Xulab.pdf");
+
+        // Configurar documento horizontal
+        Document document = new Document(PageSize.A4.rotate());
+
+        try {
+            PdfWriter.getInstance(document, response.getOutputStream());
+            document.open();
+
+            // --- COLORES ---
+            Color colorPrimario = new Color(19, 70, 134);   // #134686 (Azul)
+            Color colorAcento = new Color(0, 168, 132);     // #00A884 (Verde Teal)
+            Color colorTextoGris = new Color(80, 80, 80);
+
+            // --- FUENTES ---
+            Font fontTitulo = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 34, colorPrimario);
+            Font fontSubtitulo = FontFactory.getFont(FontFactory.HELVETICA, 14, colorTextoGris);
+            Font fontNombre = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 32, colorAcento);
+            Font fontCurso = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 24, colorPrimario);
+            Font fontFirma = FontFactory.getFont(FontFactory.HELVETICA, 12, colorTextoGris);
+
+            // --- MARCO (Borde) ---
+            PdfPTable mainTable = new PdfPTable(1);
+            mainTable.setWidthPercentage(100);
+            mainTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+            PdfPCell frameCell = new PdfPCell();
+            frameCell.setBorder(Rectangle.BOX);
+            frameCell.setBorderColor(colorAcento);
+            frameCell.setBorderWidth(5f);
+            frameCell.setPadding(20f);
+            frameCell.setPaddingBottom(40f); // Un poco más de espacio abajo
+
+            // ==========================================
+            // 1. ENCABEZADO
+            // ==========================================
+            // A) Título
+            Paragraph tituloConstancia = new Paragraph("CONSTANCIA DE FINALIZACIÓN", fontTitulo);
+            tituloConstancia.setAlignment(Element.ALIGN_CENTER);
+            tituloConstancia.setSpacingAfter(10);
+            frameCell.addElement(tituloConstancia);
+
+            // B) Logo Centrado (Debajo del título)
+            try {
+                String logoPath = facesContext.getExternalContext().getRealPath("/resources/images/Logo3.png");
+
+                Image logo = Image.getInstance(logoPath);
+                logo.scaleToFit(120, 60); // Ajusta el tamaño (ancho, alto)
+                logo.setAlignment(Element.ALIGN_CENTER);
+                logo.setSpacingAfter(20);
+                frameCell.addElement(logo);
+            } catch (Exception e) {
+                System.out.println("Error cargando logo para PDF: " + e.getMessage());
+            }
+
+            // ==========================================
+            // 2. CUERPO
+            // ==========================================
+            Paragraph textoOtorga = new Paragraph("Xulab Education Platform otorga la presente constancia a:", fontSubtitulo);
+            textoOtorga.setAlignment(Element.ALIGN_CENTER);
+            textoOtorga.setSpacingBefore(10);
+            textoOtorga.setSpacingAfter(15);
+            frameCell.addElement(textoOtorga);
+
+            // Nombre del Alumno
+            Paragraph pNombre = new Paragraph(sessionManager.getUsuarioLogueado().getNombre().toUpperCase(), fontNombre);
+            pNombre.setAlignment(Element.ALIGN_CENTER);
+            pNombre.setSpacingAfter(5);
+            frameCell.addElement(pNombre);
+
+            // Línea decorativa pequeña debajo del nombre
+            PdfPTable lineTable = new PdfPTable(1);
+            lineTable.setWidthPercentage(40);
+            PdfPCell lineCell = new PdfPCell(new Phrase(" "));
+            lineCell.setBorder(Rectangle.BOTTOM);
+            lineCell.setBorderColor(colorAcento);
+            lineCell.setBorderWidth(1.5f);
+            lineTable.addCell(lineCell);
+            frameCell.addElement(lineTable);
+
+            Paragraph textoCurso = new Paragraph("\nPor haber completado satisfactoriamente el curso en línea:", fontSubtitulo);
+            textoCurso.setAlignment(Element.ALIGN_CENTER);
+            textoCurso.setSpacingBefore(15);
+            frameCell.addElement(textoCurso);
+
+            // Nombre del Curso
+            Paragraph pCurso = new Paragraph(cursoActual.getNombre(), fontCurso);
+            pCurso.setAlignment(Element.ALIGN_CENTER);
+            pCurso.setSpacingBefore(10);
+            pCurso.setSpacingAfter(40);
+            frameCell.addElement(pCurso);
+
+            // ==========================================
+            // 3. PIE DE PÁGINA (Fecha y Firma)
+            // ==========================================
+            PdfPTable footerTable = new PdfPTable(new float[]{1, 1, 1});
+            footerTable.setWidthPercentage(100);
+            footerTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+            footerTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+            footerTable.getDefaultCell().setVerticalAlignment(Element.ALIGN_BOTTOM);
+
+            // Fecha (Izquierda)
+            SimpleDateFormat sdf = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");
+            String fechaStr = sdf.format(new Date());
+            Paragraph pFecha = new Paragraph("Fecha de emisión:\n" + fechaStr, fontFirma);
+            pFecha.setAlignment(Element.ALIGN_CENTER);
+            footerTable.addCell(pFecha);
+
+            // Centro vacío
+            footerTable.addCell("");
+
+            // Firma (Derecha) - MODIFICADO
+            Paragraph pFirma = new Paragraph("FINALIZADO\n_______________________\nXulab Education", fontFirma);
+            pFirma.setAlignment(Element.ALIGN_CENTER);
+            footerTable.addCell(pFirma);
+
+            frameCell.addElement(footerTable);
+
+            // --- FIN DEL CONTENIDO ---
+            mainTable.addCell(frameCell);
+            document.add(mainTable);
+
+            document.close();
+            facesContext.responseComplete();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public int obtenerNumeroVisual(int leccionId) {
         return mapaNumeracionVisual.getOrDefault(leccionId, 0);
     }

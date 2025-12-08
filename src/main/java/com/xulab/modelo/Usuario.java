@@ -1,6 +1,5 @@
 package com.xulab.modelo;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,30 +8,34 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
+ * Representa a un usuario registrado en la plataforma Xulab. Mapea la tabla
+ * 'usuarios' de la base de datos
  *
  * @author jesus
  */
-@Entity
-@Table(name = "usuarios")
+@Entity 
+@Table(name = "usuarios") 
 public class Usuario implements Serializable {
-    @Id 
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     @Column(name = "nombre", nullable = false)
     private String nombre;
-    
+
     @Column(name = "email", unique = true, nullable = false)
     private String email;
-    
+
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "verificado")
+    private boolean verificado;
+
+    @Column(name = "token_verificacion")
+    private String tokenVerificacion;
 
     public int getId() {
         return id;
@@ -65,7 +68,21 @@ public class Usuario implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
-    
+
+    public boolean isVerificado() {
+        return verificado;
+    }
+
+    public void setVerificado(boolean verificado) {
+        this.verificado = verificado;
+    }
+
+    public String getTokenVerificacion() {
+        return tokenVerificacion;
+    }
+
+    public void setTokenVerificacion(String tokenVerificacion) {
+        this.tokenVerificacion = tokenVerificacion;
+    }
+
 }

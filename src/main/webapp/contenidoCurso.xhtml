@@ -79,11 +79,18 @@
                         </div>
                         <div style="flex: 1; min-width: 250px; max-width: 400px;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                <span style="font-weight: bold; color: #555;">Tu Progreso</span>
+                                <span style="font-weight: bold; color: #555;">Tu progreso</span>
                                 <span style="font-weight: bold; color: var(--color-brand);">#{contenidoController.obtenerPorcentajeGeneral()}%</span>
                             </div>
                             <p:progressBar value="#{contenidoController.obtenerPorcentajeGeneral()}" 
-                                           displayOnly="true" style="height: 15px; border-radius: 10px;" />
+                                           labelTemplate="{value}%" displayOnly="true" 
+                                           style="height: 20px; margin-bottom: 10px;" /> <h:form rendered="#{contenidoController.obtenerPorcentajeGeneral() eq 100}">
+                                <p:commandButton value="Descargar constancia" icon="pi pi-verified"
+                                                 action="#{contenidoController.descargarCertificado()}"
+                                                 ajax="false" 
+                                                 styleClass="ui-button-warning" 
+                                                 style="width: 100%; font-weight: bold;"/>
+                            </h:form>
                         </div>
                     </div>
                 </div>
@@ -95,11 +102,16 @@
                         <p:tab>
                             <f:facet name="title">
                                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                                    <span style="font-weight: bold; font-size: 1.1em; color: #333;">#{modulo.nombre}</span>
+
+                                    <span style="font-weight: bold; font-size: 1.1em; color: #333; margin-left: 10px;">
+                                        #{modulo.nombre}
+                                    </span>
+
                                     <div style="display: flex; align-items: center; gap: 15px;">
                                         <span style="font-size: 0.85em; color: #888; background: #f4f4f4; padding: 2px 8px; border-radius: 4px;">
                                             #{contenidoController.obtenerProgresoModulo(modulo)}
                                         </span>
+
                                         <h:panelGroup rendered="#{contenidoController.isModuloCompleto(modulo)}">
                                             <i class="pi pi-check-circle" style="color: #10B981; font-size: 1.3em;"></i>
                                         </h:panelGroup>
@@ -109,7 +121,6 @@
                                     </div>
                                 </div>
                             </f:facet>
-
                             <ui:repeat value="#{modulo.lecciones}" var="leccion">
                                 <h:link outcome="leccion" style="text-decoration: none; color: inherit; display: block;">
                                     <f:param name="leccionId" value="#{leccion.id}" />
@@ -135,6 +146,7 @@
                                     </div>
                                 </h:link>
                             </ui:repeat>
+
                         </p:tab>
                     </p:accordionPanel>
                 </div>

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.xulab.dao;
 
 import com.xulab.modelo.Comentario;
@@ -12,7 +8,9 @@ import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 /**
- *
+ * Objeto de acceso a datos (DAO) para la entidad Comentario. Manejar las 
+ * operaciones de la base de datos para la entidad Comentario. Permite crear y
+ * cargar los cursos de cada leccion.
  * @author jesus
  */
 @Stateless

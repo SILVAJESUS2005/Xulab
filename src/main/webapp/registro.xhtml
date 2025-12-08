@@ -7,13 +7,13 @@
 
     <ui:composition template="/templates/template.xhtml">
 
-        <ui:define name="title">Crear Cuenta - Xulab</ui:define>
+        <ui:define name="title">Crear cuenta - Xulab</ui:define>
 
         <ui:define name="content">
             <div style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
                 <div class="card" style="background-color: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 400px;">
                     <h:form>
-                        <h2 style="text-align: center; color: var(--color-primary);">Crear Cuenta</h2>
+                        <h2 style="text-align: center; color: var(--color-primary);">Crear cuenta</h2>
 
                         <p:messages id="messages" showDetail="true" closable="true">
                             <p:autoUpdate />
@@ -44,7 +44,11 @@
                 //<![CDATA[
                 function handleRegistro(args) {
                     if (args && args.registroExitoso) {
-                        alert('¡Usuario agregado con éxito!');
+                        // CAMBIO: Mensaje claro con instrucciones
+                        alert('¡Cuenta creada! Hemos enviado un enlace de activación a tu correo. Por favor verifícalo antes de iniciar sesión.');
+
+                        // Opcional: Puedes redirigirlo a login para que espere ahí, 
+                        // o dejarlo en el registro. La redirección está bien si el mensaje es claro.
                         window.location.href = 'login.xhtml';
                     }
                 }

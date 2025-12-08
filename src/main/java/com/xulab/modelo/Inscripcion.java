@@ -14,12 +14,11 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 
 /**
- *
+ * Representa la inscripción de un usuario en un curso.
+ * Actúa como una entidad de unión entre la relación entre
+ * usuarios y cursos.
+ * Mapea la tabla 'inscripciones' en la base de datos.
  * @author jesus
- */
-/**
- * Representa la inscripción de un Usuario en un Curso.
- * Es una tabla intermedia para una relación Muchos a Muchos.
  */
 @Entity
 @Table(name = "inscripciones")
@@ -29,12 +28,12 @@ public class Inscripcion implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    // Relación: Muchas inscripciones pertenecen a UN Usuario.
+    // Relación: Muchas inscripciones pertenecen a un usuario.
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    // Relación: Muchas inscripciones apuntan a UN Curso.
+    // Relación: Muchas inscripciones apuntan a un curso.
     @ManyToOne
     @JoinColumn(name = "curso_id", nullable = false)
     private Curso curso;
@@ -62,6 +61,5 @@ public class Inscripcion implements Serializable {
     public void setCurso(Curso curso) {
         this.curso = curso;
     }
-    
     
 }

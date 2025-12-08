@@ -7,7 +7,7 @@
 
     <ui:composition template="/templates/template.xhtml">
 
-        <ui:define name="title">Iniciar Sesión - Xulab</ui:define>
+        <ui:define name="title">Iniciar sesión - Xulab</ui:define>
 
         <ui:define name="content">
             <div style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
@@ -18,7 +18,7 @@
                         <p:messages id="messages" showDetail="true" closable="true">
                             <p:autoUpdate/>
                         </p:messages>
-
+                        
                         <div class="p-field" style="margin-top: 1rem;">
                             <label for="email" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Email</label>
                             <p:inputText id="email" value="#{authController.email}" required="true" requiredMessage="El email es obligatorio." style="width: 100%;" />
@@ -29,8 +29,8 @@
                             <p:password id="password" value="#{authController.password}" required="true" requiredMessage="La contraseña es obligatoria." style="width: 100%;" />
                         </div>
 
-                        <p:commandButton value="Iniciar Sesión" action="#{authController.login()}" styleClass="btn-brand" style="width: 100%; margin-top: 1.5rem;" update="messages" />
-
+                        <p:commandButton value="Iniciar sesión" action="#{authController.login()}" styleClass="btn-brand" style="width: 100%; margin-top: 1.5rem;" update="messages" />
+                        
                         <div style="margin-top: 1rem; text-align: center;">
                             <p>¿No tienes una cuenta? <h:link outcome="registro" value="Regístrate aquí" style="color: var(--color-primary); font-weight: bold;"/></p>
                         </div>
