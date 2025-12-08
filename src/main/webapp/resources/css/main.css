@@ -10,7 +10,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     --color-secondary: #ED3F27; /* Rojo Intenso (Logout, Alertas) */
     --color-accent: #FEB21A;    /* Amarillo Dorado (Botones, Hover) */
     --bg-body: #FDF4E3;         /* Crema Suave (Fondo General) */
-    
+
     /* Neutros */
     --color-white: #FFFFFF;
     --color-black: #000000;
@@ -20,7 +20,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 body {
     margin: 0;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-body); /* Fondo Crema */
+    background-color: var(--bg-body); /* Fondo crema */
     color: var(--color-text);
 }
 
@@ -33,7 +33,7 @@ body {
     justify-content: space-between;
     align-items: center;
     /* Borde inferior con el color de acento (Amarillo) para resaltar */
-    border-bottom: 4px solid var(--color-accent); 
+    border-bottom: 4px solid var(--color-accent);
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
 }
 
@@ -66,14 +66,14 @@ body {
     border-bottom: 2px solid var(--color-accent);
 }
 
-/* Sección derecha (Usuario/Botones) */
+/* Sección derecha (usuario/botones) */
 .navbar-user {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-/* Botón Principal (Iniciar Sesión) - Usamos el Amarillo para que destaque sobre el Azul */
+/* Botón Principal (iniciar sesión) - Usamos el Amarillo para que destaque sobre el Azul */
 .btn-brand {
     background-color: var(--color-accent) !important;
     border: 1px solid var(--color-accent) !important;
@@ -89,7 +89,7 @@ body {
     color: var(--color-primary) !important;
 }
 
-/* Botón secundario (Cerrar Sesión) - Rojo discreto o icono */
+/* Botón secundario (cerrar sesión) - Rojo discreto o icono */
 .btn-logout {
     background-color: transparent !important;
     color: var(--color-secondary) !important; /* Icono rojo */
@@ -218,7 +218,10 @@ h1, h2, h3 {
 
 .play-overlay {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: rgba(0,0,0,0.3);
     display: flex;
     align-items: center;
@@ -269,20 +272,110 @@ h1, h2, h3 {
 }
 
 /* Estilo para las imágenes de los cursos */
-            .course-thumb-container {
-                width: 100%;          /* El contenedor ocupa todo el ancho de la tarjeta */
-                height: 200px;        /* Altura fija para todas las tarjetas */
-                overflow: hidden;     /* Si la imagen se sale, la corta */
-                display: flex;        /* Centra la imagen */
-                justify-content: center;
-                align-items: center;
-                background-color: #f0f0f0; /* Fondo gris por si la imagen tarda en cargar */
-            }
+.course-thumb-container {
+    width: 100%;          /* El contenedor ocupa todo el ancho de la tarjeta */
+    height: 200px;        /* Altura fija para todas las tarjetas */
+    overflow: hidden;     /* Si la imagen se sale, la corta */
+    display: flex;        /* Centra la imagen */
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0; /* Fondo gris por si la imagen tarda en cargar */
+}
 
-            .curso-imagen {
-                width: 100% !important;       /* Forza el ancho al 100% del contenedor */
-                height: 100% !important;      /* Forza la altura al 100% del contenedor */
-                object-fit: contain !important; /* 'contain' muestra la imagen ENTERA sin cortarla. Usa 'cover' si prefieres que llene todo aunque se recorte un poco */
-                max-width: 100%;              /* Seguridad extra */
-                display: block;
-            }
+.curso-imagen {
+    width: 100% !important;       /* Forza el ancho al 100% del contenedor */
+    height: 100% !important;      /* Forza la altura al 100% del contenedor */
+    object-fit: contain !important; /* 'contain' muestra la imagen ENTERA sin cortarla. Usa 'cover' si prefieres que llene todo aunque se recorte un poco */
+    max-width: 100%;              /* Seguridad extra */
+    display: block;
+}
+
+/* --- FOOTER (PIE DE PÁGINA) --- */
+.footer {
+    background-color: var(--color-primary); /* Azul*/
+    color: var(--color-white);
+    padding: 4rem 2rem 1rem 2rem; /* Espaciado interno */
+    margin-top: auto; /* Empuja el footer al fondo si hay poco contenido */
+    border-top: 4px solid var(--color-accent); /* Línea amarilla arriba */
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    /* Grid responsivo: crea columnas de mínimo 250px que se ajustan solas */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+}
+
+.footer-col h4 {
+    color: var(--color-accent); /* Títulos en amarillo */
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-col p {
+    color: #e0e0e0;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: color 0.3s ease, padding-left 0.3s ease;
+}
+
+/* Efecto hover: El enlace se pone amarillo y se mueve a la derecha */
+.footer-links a:hover {
+    color: var(--color-accent);
+    padding-left: 5px;
+}
+
+/* Iconos sociales */
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 1rem;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: var(--color-accent);
+    color: var(--color-primary);
+    transform: translateY(-3px);
+}
+
+/* Barra inferior de copyright */
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    margin-top: 3rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    color: #aaa;
+}

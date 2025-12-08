@@ -9,6 +9,7 @@
         <title><ui:insert name="title">Xulab</ui:insert></title>
         <h:outputStylesheet library="css" name="main.css" />
         <h:outputStylesheet library="webjars" name="primeflex/3.3.1/primeflex.min.css" />
+        <link href="https://unpkg.com/primeicons/primeicons.css" rel="stylesheet" />
     </h:head>
 
     <h:body>
@@ -24,7 +25,8 @@
             <div class="navbar-menu">
                 <h:link outcome="/nosotros" value="Inicio" styleClass="nav-link" />
                 <h:link outcome="/cursos" value="Cursos" styleClass="nav-link" />
-                <h:link outcome="/perfil" value="Mi Perfil" styleClass="nav-link" 
+                <h:link outcome="/ayuda" value="Ayuda" styleClass="nav-link" />
+                <h:link outcome="/perfil" value="Mi perfil" styleClass="nav-link" 
                         rendered="#{sessionManager.isLoggedIn()}" />
             </div>
 
@@ -46,6 +48,80 @@
         <div class="main-container">
             <ui:insert name="content">Contenido por defecto</ui:insert>
         </div>
+
+        <footer class="footer">
+            <div class="footer-container">
+
+                <div class="footer-col">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                        <h:graphicImage library="images" name="Logo2.svg" style="height: 40px;" alt="Xulab Logo"/>
+                    </div>
+                    <p>
+                        Democratizando la educación tecnológica en Latinoamérica. Aprende, practica y crece con nuestra comunidad.
+                    </p>
+
+                    <div class="social-links">
+                        <div class="social-links">
+
+                            <a href="https://youtube.com/@xulabedu?si=B8J1jNJsJGutXwQr" class="social-icon" title="YouTube" target="_blank">
+                                <i class="pi pi-youtube" style="font-size: 1.2rem;"></i>
+                            </a>
+
+                            <a href="https://www.instagram.com/xulabedu?igsh=YjFqeWpmY3VyYXc0" class="social-icon" title="Instagram" target="_blank">
+                                <i class="pi pi-instagram" style="font-size: 1.2rem;"></i>
+                            </a>
+
+                            <a href="https://discord.gg/MYfHd3g5" class="social-icon" title="Discord" target="_blank">
+                                <i class="pi pi-discord" style="font-size: 1.2rem;"></i>
+                            </a>
+
+                            <a href="https://x.com/XulabEdu" class="social-icon" title="Twitter" target="_blank">
+                                <i class="pi pi-twitter" style="font-size: 1.2rem;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Plataforma</h4>
+                    <ul class="footer-links">
+                        <li><h:link outcome="/nosotros" value="Inicio" /></li>
+                        <li><h:link outcome="/cursos" value="Catálogo de cursos" /></li>
+                        <li><h:link outcome="/registro" value="Crear cuenta" rendered="#{!sessionManager.isLoggedIn()}"/></li>
+                        <li><h:link outcome="/login" value="Iniciar sesión" rendered="#{!sessionManager.isLoggedIn()}"/></li>
+                        <li><h:link outcome="/perfil" value="Mi perfil" rendered="#{sessionManager.isLoggedIn()}"/></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Recursos</h4>
+                    <ul class="footer-links">
+                        <li><h:link outcome="/ayuda" value="Guía de carreras" fragment="carreras" /></li>
+                        <li><h:link outcome="/ayuda" value="Preguntas frecuentes" fragment="faq" /></li>
+                        <li><h:link outcome="/ayuda" value="Soporte técnico" fragment="soporte" /></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contacto</h4>
+                    <ul class="footer-links">
+                        <li style="display: flex; gap: 10px; align-items: center;">
+                            <i class="pi pi-envelope" style="color: var(--color-accent);"></i>
+                            <span>xulab.educacion@gmail.com</span>
+                        </li>
+                        <li style="display: flex; gap: 10px; align-items: center;">
+                            <i class="pi pi-map-marker" style="color: var(--color-accent);"></i>
+                            <span>Salvatierra, Gto. MX</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Xulab Education. Hecho con <i class="pi pi-heart-fill" style="color: var(--color-secondary);"></i> por el equipo Xulab.</p>
+            </div>
+        </footer>
 
     </h:body>
 </html>

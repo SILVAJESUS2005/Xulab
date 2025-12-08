@@ -1,7 +1,5 @@
 package com.xulab.modelo;
 
-
-import com.xulab.modelo.Curso;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,30 +13,29 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
+ * Representa un módulo o sección dentro de un curso. Esta entidad actúa como un
+ * contenedor intermedio que agrupa varias lecciones y pertenece a un curso
+ * específico. Mapea la tabla 'modulos' en la base de datos.
  *
  * @author jesus
  */
 @Entity
 @Table(name = "modulos")
-public class Modulo implements Serializable{
+public class Modulo implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     private String nombre;
-    
-    // Relación: Muchos módulos pertenecen a Un Curso
+
+    // Relación: Muchos módulos pertenecen a un curso
     @ManyToOne
     @JoinColumn(name = "curso_id")
     private Curso curso;
-    
-    // Relación: Un módulo tiene Muchas lecciones
+
+    // Relación: Un módulo tiene muchas lecciones
     // CascadeType.ALL: Si borras un módulo, se borran sus lecciones.
     // FetchType.EAGER: Carga las lecciones junto con el módulo.
     @OneToMany(mappedBy = "modulo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -68,6 +65,11 @@ public class Modulo implements Serializable{
         this.curso = curso;
     }
 
+    /**
+     * Obtiene la lista de lecciones asociadas a este módulo. 
+     *
+     * @return Lista de objetos leccion.
+     */
     public List<Leccion> getLecciones() {
         return lecciones;
     }
@@ -75,7 +77,5 @@ public class Modulo implements Serializable{
     public void setLecciones(List<Leccion> lecciones) {
         this.lecciones = lecciones;
     }
-    
-    
-    
+
 }

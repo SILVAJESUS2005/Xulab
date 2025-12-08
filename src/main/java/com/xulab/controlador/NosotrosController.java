@@ -1,9 +1,5 @@
 package com.xulab.controlador;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 import com.xulab.dao.CursoDAO;
 import com.xulab.dao.InscripcionDAO;
 import jakarta.annotation.PostConstruct;
@@ -13,6 +9,8 @@ import jakarta.inject.Named;
 import java.io.Serializable;
 
 /**
+ * Administra el número de cursos y personas que usan Xulab. para mostrarlos en
+ * la sección de nosotros el número e irlos contabilizando.
  *
  * @author jesus
  */
@@ -35,10 +33,20 @@ public class NosotrosController implements Serializable {
         this.totalAlumnos = inscripcionDAO.contarInscripciones();
     }
 
+    /**
+     * Actualiza el numero de cursos que ofrece la plataforma.
+     *
+     * @return numero de cursos activos en ese momento.
+     */
     public long getTotalCursos() {
         return totalCursos;
     }
 
+    /**
+     * Actualiza el numero de personas registradas en la plataforma.
+     *
+     * @return numero de personas registradas en Xulab.
+     */
     public long getTotalAlumnos() {
         return totalAlumnos;
     }

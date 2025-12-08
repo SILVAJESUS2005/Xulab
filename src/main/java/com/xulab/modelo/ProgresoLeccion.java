@@ -13,6 +13,12 @@ import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Representa el registro de finalización de una lección por parte de un
+ * usuario. Mapea la tabla 'progreso_lecciones'.
+ *
+ * @author jesus
+ */
 @Entity
 @Table(name = "progreso_lecciones")
 public class ProgresoLeccion implements Serializable {

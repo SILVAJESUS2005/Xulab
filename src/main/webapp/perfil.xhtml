@@ -12,44 +12,117 @@
 
         <ui:define name="content">
 
-            <p:card style="margin-bottom: 2em; border-top: 4px solid var(--color-primary);">
-                <f:facet name="title">
-                    Mi Perfil
-                </f:facet>
+            <style>
+                /* Contenedor de la tarjeta del curso (el cuerpo) */
+                .card-content-box {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-between;
+                    height: 100%;
+                    width: 100%;
+                }
 
+                /* Caja de la imagen: Tamaño fijo y centrado */
+                .profile-course-image-box {
+                    width: 100%;
+                    height: 160px; /* Altura fija para que todas sean iguales */
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: white; /* Fondo blanco limpio */
+                    margin-bottom: 15px;
+                    border-radius: 4px;
+                    overflow: hidden;
+                }
+
+                /* La imagen en sí: Se ajusta sin deformarse */
+                .profile-course-img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    width: auto;
+                    height: auto;
+                    object-fit: contain; /* Muestra todo el logo/imagen */
+                }
+
+                /* Ajuste para el panel de PrimeFaces */
+                .course-panel .ui-panel-content {
+                    padding: 15px !important; /* Espaciado interno cómodo */
+                }
+            </style>
+
+            <p:card style="margin-bottom: 2em; border-top: 4px solid var(--color-primary);">
+                <f:facet name="title">Mi perfil</f:facet>
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputText value="Nombre:" style="font-weight: bold; color: var(--color-text);"/>
                     <h:outputText value="#{perfilController.usuario.nombre}" />
-
                     <h:outputText value="Email:" style="font-weight: bold; color: var(--color-text);"/>
                     <h:outputText value="#{perfilController.usuario.email}" />
                 </h:panelGrid>
             </p:card>
 
-            <h2 style="color: var(--color-primary);">Mis Cursos</h2>
+            <h2 style="color: var(--color-primary); border-bottom: 2px solid var(--color-accent); padding-bottom: 10px; margin-bottom: 20px;">
+                <i class="pi pi-hourglass" style="margin-right: 10px;"></i>Mis Cursos en progreso
+            </h2>
 
-            <h:panelGroup rendered="#{empty perfilController.inscripciones}">
-                <p>Aún no te has inscrito en ningún curso. 
-                    <h:link outcome="cursos" value="¡Explora nuestro catálogo!" style="color: var(--color-accent); font-weight: bold;" />
+            <h:panelGroup rendered="#{empty perfilController.cursosEnProgreso}">
+                <p style="color: #666; font-style: italic;">No tienes cursos en progreso actualmente. 
+                    <h:link outcome="cursos" value="¡Inscríbete a uno nuevo!" style="color: var(--color-accent); font-weight: bold;" />
                 </p>
             </h:panelGroup>
 
-            <p:dataGrid var="inscripcion" value="#{perfilController.inscripciones}" 
+            <p:dataGrid var="inscripcion" value="#{perfilController.cursosEnProgreso}" 
                         columns="3" layout="grid"
-                        rendered="#{not empty perfilController.inscripciones}">
+                        rendered="#{not empty perfilController.cursosEnProgreso}" style="margin-bottom: 40px;">
 
                 <h:link outcome="contenidoCurso" style="text-decoration: none;">
                     <f:param name="cursoId" value="#{inscripcion.curso.id}" />
 
-                    <p:panel header="#{inscripcion.curso.nombre}" style="text-align:center">
-                        <h:panelGrid columns="1" style="width:100%">
-                            <h:graphicImage name="images/#{inscripcion.curso.imagenUrl}" width="200"/>
+                    <p:panel header="#{inscripcion.curso.nombre}" style="text-align:center" styleClass="course-panel">
+                        <div class="card-content-box">
 
-                            <h:outputText value="Ver temario" styleClass="ui-button-text" 
-                                          style="color: var(--color-primary); font-weight: bold; margin-top: 10px; display: block;"/>
-                        </h:panelGrid>
+                            <div class="profile-course-image-box">
+                                <h:graphicImage name="images/#{inscripcion.curso.imagenUrl}" styleClass="profile-course-img"/>
+                            </div>
+
+                            <h:outputText value="Continuar aprendiendo" styleClass="ui-button-text" 
+                                          style="color: var(--color-primary); font-weight: bold; display: block; padding: 8px; border: 1px solid var(--color-primary); border-radius: 4px; width: 100%; text-align: center;"/>
+                        </div>
                     </p:panel>
                 </h:link>
+            </p:dataGrid>
+
+
+            <h2 style="color: var(--color-primary); border-bottom: 2px solid #10B981; padding-bottom: 10px; margin-bottom: 20px;">
+                <i class="pi pi-verified" style="margin-right: 10px; color: #10B981;"></i>Mis Cursos Completados
+            </h2>
+
+            <h:panelGroup rendered="#{empty perfilController.cursosCompletados}">
+                <p style="color: #666;">Aún no has completado ningún curso. ¡Sigue así, estás cerca!</p>
+            </h:panelGroup>
+
+            <p:dataGrid var="inscripcion" value="#{perfilController.cursosCompletados}" 
+                        columns="3" layout="grid"
+                        rendered="#{not empty perfilController.cursosCompletados}">
+
+                <p:panel header="#{inscripcion.curso.nombre}" style="text-align:center; border: 1px solid #10B981;" styleClass="course-panel">
+                    <div class="card-content-box">
+
+                        <div class="profile-course-image-box" style="background-color: #f0fdf4; position: relative;">
+                            <h:graphicImage name="images/#{inscripcion.curso.imagenUrl}" styleClass="profile-course-img" style="opacity: 0.6;"/>
+                            <i class="pi pi-check-circle" style="position: absolute; font-size: 4rem; color: #10B981; text-shadow: 0 2px 5px white;"></i>
+                        </div>
+
+                        <h:form style="width: 100%;">
+                            <p:commandButton value="Descargar Constancia" 
+                                             action="#{perfilController.descargarConstancia(inscripcion.curso)}" 
+                                             ajax="false"
+                                             icon="pi pi-download"
+                                             styleClass="ui-button-success" 
+                                             style="width: 100%; font-weight: bold;"/>
+                        </h:form>
+                    </div>
+                </p:panel>
 
             </p:dataGrid>
 

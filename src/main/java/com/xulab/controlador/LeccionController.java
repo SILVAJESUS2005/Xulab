@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.xulab.controlador;
 
 import com.xulab.dao.ComentarioDAO;
@@ -15,20 +11,23 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.List;
-import com.xulab.modelo.Usuario;
-import java.util.Date;
 import com.xulab.dao.ProgresoDAO;
 import com.xulab.modelo.ProgresoLeccion;
 import java.util.Date;
 
 /**
+ * Controlador JSF que gestiona la lógica de la vista de una lección individual.
+ * Sus principales responsabilidades son: Recuperar y mostrar el contenido de la
+ * lección seleccionada (video, descripción): Gestionar la interacción social:
+ * listar y agregar nuevos comentarios. Controlar el seguimiento del
+ * aprendizaje: verificar y marcar la lección como completada.
  *
  * @author jesus
  */
 @Named("leccionController")
 @ViewScoped
 public class LeccionController implements Serializable {
-    // 1. Inyectamos los DAOs que ya creamos
+    // 1. Inyectamos los DAOs
 
     @Inject
     private LeccionDAO leccionDAO;
@@ -112,15 +111,9 @@ public class LeccionController implements Serializable {
 
             // 3. Actualizar el estado visual inmediatamente
             this.leccionCompletada = true;
-
-            // Opcional: Mostrar un mensajito flotante de éxito
-            // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Bien hecho!", "Lección completada."));
         }
-        
-        
     }
 
-// 5. Creamos los Getters para que la página JSF pueda acceder a los datos
     public Leccion getLeccionActual() {
         return leccionActual;
     }
@@ -140,6 +133,5 @@ public class LeccionController implements Serializable {
     public boolean isLeccionCompletada() {
         return leccionCompletada;
     }
-    
-    
+
 }
