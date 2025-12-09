@@ -3,89 +3,133 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="author" content="Xulab Education" />
+        <meta name="description" content="Plataforma de educación tecnológica en Latinoamérica." />
+
         <title><ui:insert name="title">Xulab</ui:insert></title>
+        
+        <h:outputStylesheet library="css" name="primeflex.min.css" />
         <h:outputStylesheet library="css" name="main.css" />
-        <h:outputStylesheet library="webjars" name="primeflex/3.3.1/primeflex.min.css" />
+        
         <link href="https://unpkg.com/primeicons/primeicons.css" rel="stylesheet" />
     </h:head>
 
     <h:body>
 
-        <div class="navbar">
-
-            <h:link outcome="cursos">
-                <h:graphicImage library="images" name="Logo2.svg" 
-                                styleClass="navbar-logo-img" 
-                                alt="Xulab Logo"/>
-            </h:link>
-
-            <div class="navbar-menu">
-                <h:link outcome="/nosotros" value="Inicio" styleClass="nav-link" />
-                <h:link outcome="/cursos" value="Cursos" styleClass="nav-link" />
-                <h:link outcome="/ayuda" value="Ayuda" styleClass="nav-link" />
-                <h:link outcome="/perfil" value="Mi perfil" styleClass="nav-link" 
-                        rendered="#{sessionManager.isLoggedIn()}" />
-            </div>
-
-            <div class="navbar-user">
-
-                <h:panelGroup rendered="#{sessionManager.isLoggedIn()}" style="display:flex; align-items:center; gap:15px;">
-                    <span style="font-size: 1rem; color: white;">Hola, <strong>#{sessionManager.usuarioLogueado.nombre}</strong></span>
-                    <h:form style="margin:0;">
-                        <p:commandButton action="#{authController.logout()}" icon="pi pi-power-off" 
-                                         styleClass="rounded-button ui-button-flat btn-logout" title="Cerrar Sesión" />
+        <p:sidebar widgetVar="mobileMenu" position="right" styleClass="w-full sm:w-20rem bg-white">
+            <div class="flex flex-column p-3">
+                <div class="text-center mb-5">
+                    <h:graphicImage library="images" name="Logo2.svg" style="height: 40px;" alt="Xulab"/>
+                </div>
+                
+                <span class="text-secondary font-bold mb-2 uppercase text-sm">Navegación</span>
+                <h:link outcome="/index" value="Inicio" styleClass="no-underline text-xl text-900 p-3 border-round hover:surface-100 transition-duration-200 block" />
+                <h:link outcome="/nosotros" value="Nosotros" styleClass="no-underline text-xl text-900 p-3 border-round hover:surface-100 transition-duration-200 block" /> 
+                <h:link outcome="/cursos" value="Cursos" styleClass="no-underline text-xl text-900 p-3 border-round hover:surface-100 transition-duration-200 block" />
+                <h:link outcome="/ayuda" value="Ayuda" styleClass="no-underline text-xl text-900 p-3 border-round hover:surface-100 transition-duration-200 block" />
+                
+                <p:divider />
+                
+                <h:panelGroup rendered="#{sessionManager.isLoggedIn()}">
+                    <span class="text-secondary font-bold mb-2 uppercase text-sm">Mi Cuenta</span>
+                    <h:link outcome="/perfil" value="Mi Perfil" styleClass="no-underline text-xl text-primary p-3 border-round hover:surface-100 transition-duration-200 block" />
+                    <h:form>
+                        <p:commandLink action="#{authController.logout()}" value="Cerrar Sesión" ajax="false" 
+                                       styleClass="no-underline text-xl text-red-500 p-3 border-round hover:surface-100 transition-duration-200 block mt-2" />
                     </h:form>
                 </h:panelGroup>
 
                 <h:panelGroup rendered="#{!sessionManager.isLoggedIn()}">
-                    <p:button outcome="login" value="Iniciar sesión" icon="pi pi-user" styleClass="btn-brand" />
+                    <h:link outcome="/login" value="Iniciar Sesión" styleClass="no-underline text-xl text-primary p-3 border-round hover:surface-100 transition-duration-200 block" />
+                    <h:link outcome="/registro" value="Crear Cuenta" styleClass="no-underline text-xl text-900 p-3 border-round hover:surface-100 transition-duration-200 block" />
                 </h:panelGroup>
             </div>
-        </div>
-        <div class="main-container">
-            <ui:insert name="content">Contenido por defecto</ui:insert>
+        </p:sidebar>
+
+        <nav class="navbar">
+            <div class="navbar-container">
+
+                <h:link outcome="/index" styleClass="flex align-items-center">
+                    <h:graphicImage library="images" name="Logo2.svg" 
+                                    styleClass="navbar-logo-img" 
+                                    alt="Xulab Logo"/>
+                </h:link>
+
+                <div class="navbar-menu hidden md:flex align-items-center gap-3">
+                    <h:link outcome="/index" value="Inicio" styleClass="nav-link" />
+                    <h:link outcome="/nosotros" value="Nosotros" styleClass="nav-link" /> 
+                    <h:link outcome="/cursos" value="Cursos" styleClass="nav-link" />
+                    <h:link outcome="/ayuda" value="Ayuda" styleClass="nav-link" />
+                    
+                    <h:link outcome="/perfil" value="Mi perfil" styleClass="nav-link" 
+                            rendered="#{sessionManager.isLoggedIn()}" />
+                </div>
+
+                <div class="navbar-user flex align-items-center gap-3">
+                    
+                    <h:panelGroup rendered="#{sessionManager.isLoggedIn()}" styleClass="hidden md:flex align-items-center gap-3">
+                        <span class="user-greeting flex align-items-center gap-2">
+                            <i class="pi pi-user text-accent"></i>
+                            <span>Hola, <strong>#{sessionManager.usuarioLogueado.nombre}</strong></span>
+                        </span>
+
+                        <h:form styleClass="m-0 flex"> 
+                            <p:commandButton action="#{authController.logout()}" icon="pi pi-power-off" 
+                                             styleClass="ui-button-flat ui-button-plain btn-logout-icon" 
+                                             title="Cerrar Sesión" ajax="false" />
+                        </h:form>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{!sessionManager.isLoggedIn()}" styleClass="hidden md:block">
+                        <p:button outcome="/login" value="Ingresar" icon="pi pi-sign-in" styleClass="btn-brand shadow-2" />
+                    </h:panelGroup>
+
+                    <h:form styleClass="m-0 flex md:hidden">
+                        <p:commandButton type="button" icon="pi pi-bars" 
+                                         styleClass="ui-button-flat ui-button-plain text-white text-2xl" 
+                                         onclick="PF('mobileMenu').show()" />
+                    </h:form>
+                    
+                </div>
+
+            </div>
+        </nav>
+
+        <div class="layout-content">
+            <ui:insert name="content">
+                Contenido por defecto
+            </ui:insert>
         </div>
 
         <footer class="footer">
             <div class="footer-container">
 
                 <div class="footer-col">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <h:graphicImage library="images" name="Logo2.svg" style="height: 40px;" alt="Xulab Logo"/>
+                    <div class="flex align-items-center gap-2 mb-3">
+                        <h:graphicImage library="images" name="Logo2.svg" styleClass="footer-logo" alt="Xulab Logo"/>
                     </div>
                     <p>
                         Democratizando la educación tecnológica en Latinoamérica. Aprende, practica y crece con nuestra comunidad.
                     </p>
-
-                    <div class="social-links">
-                        <div class="social-links">
-
-                            <a href="https://youtube.com/@xulabedu?si=B8J1jNJsJGutXwQr" class="social-icon" title="YouTube" target="_blank">
-                                <i class="pi pi-youtube" style="font-size: 1.2rem;"></i>
-                            </a>
-
-                            <a href="https://www.instagram.com/xulabedu?igsh=YjFqeWpmY3VyYXc0" class="social-icon" title="Instagram" target="_blank">
-                                <i class="pi pi-instagram" style="font-size: 1.2rem;"></i>
-                            </a>
-
-                            <a href="https://discord.gg/MYfHd3g5" class="social-icon" title="Discord" target="_blank">
-                                <i class="pi pi-discord" style="font-size: 1.2rem;"></i>
-                            </a>
-
-                            <a href="https://x.com/XulabEdu" class="social-icon" title="Twitter" target="_blank">
-                                <i class="pi pi-twitter" style="font-size: 1.2rem;"></i>
-                            </a>
-                        </div>
+                    <div class="social-links mt-3">
+                        <a href="https://youtube.com/" class="social-icon" title="YouTube" target="_blank"><i class="pi pi-youtube text-xl"></i></a>
+                        <a href="https://instagram.com/" class="social-icon" title="Instagram" target="_blank"><i class="pi pi-instagram text-xl"></i></a>
+                        <a href="https://discord.gg/" class="social-icon" title="Discord" target="_blank"><i class="pi pi-discord text-xl"></i></a>
+                        <a href="https://x.com/" class="social-icon" title="Twitter" target="_blank"><i class="pi pi-twitter text-xl"></i></a>
                     </div>
                 </div>
 
                 <div class="footer-col">
                     <h4>Plataforma</h4>
-                    <ul class="footer-links">
-                        <li><h:link outcome="/nosotros" value="Inicio" /></li>
+                    <ul class="footer-links list-none p-0 m-0">
+                        <li><h:link outcome="/index" value="Inicio" /></li>
+                        <li><h:link outcome="/nosotros" value="Sobre Nosotros" /></li> 
                         <li><h:link outcome="/cursos" value="Catálogo de cursos" /></li>
                         <li><h:link outcome="/registro" value="Crear cuenta" rendered="#{!sessionManager.isLoggedIn()}"/></li>
                         <li><h:link outcome="/login" value="Iniciar sesión" rendered="#{!sessionManager.isLoggedIn()}"/></li>
@@ -95,7 +139,7 @@
 
                 <div class="footer-col">
                     <h4>Recursos</h4>
-                    <ul class="footer-links">
+                    <ul class="footer-links list-none p-0 m-0">
                         <li><h:link outcome="/ayuda" value="Guía de carreras" fragment="carreras" /></li>
                         <li><h:link outcome="/ayuda" value="Preguntas frecuentes" fragment="faq" /></li>
                         <li><h:link outcome="/ayuda" value="Soporte técnico" fragment="soporte" /></li>
@@ -104,13 +148,13 @@
 
                 <div class="footer-col">
                     <h4>Contacto</h4>
-                    <ul class="footer-links">
-                        <li style="display: flex; gap: 10px; align-items: center;">
-                            <i class="pi pi-envelope" style="color: var(--color-accent);"></i>
+                    <ul class="footer-links list-none p-0 m-0">
+                        <li class="flex align-items-center gap-2 mb-2">
+                            <i class="pi pi-envelope text-brand"></i>
                             <span>xulab.educacion@gmail.com</span>
                         </li>
-                        <li style="display: flex; gap: 10px; align-items: center;">
-                            <i class="pi pi-map-marker" style="color: var(--color-accent);"></i>
+                        <li class="flex align-items-center gap-2">
+                            <i class="pi pi-map-marker text-brand"></i>
                             <span>Salvatierra, Gto. MX</span>
                         </li>
                     </ul>
@@ -118,8 +162,14 @@
 
             </div>
 
-            <div class="footer-bottom">
-                <p>&copy; 2025 Xulab Education. Hecho con <i class="pi pi-heart-fill" style="color: var(--color-secondary);"></i> por el equipo Xulab.</p>
+            <div class="footer-bottom text-center">
+                <p>
+                    &copy; 
+                    <h:outputText value="#{session.lastAccessedTime}">
+                        <f:convertDateTime pattern="yyyy" type="date" />
+                    </h:outputText>
+                    Xulab Education. Hecho con <i class="pi pi-heart-fill text-secondary"></i> por el equipo Xulab.
+                </p>
             </div>
         </footer>
 

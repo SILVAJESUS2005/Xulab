@@ -12,54 +12,111 @@
 
         <ui:define name="content">
 
-            <div style="text-align: center; margin-bottom: 3rem;">
-                <h1 style="color: var(--color-primary); margin-bottom: 10px;">Explora nuestros cursos</h1>
-                <p style="color: #666; font-size: 1.1rem;">Desarrolla las habilidades que el mundo tecnológico necesita.</p>
-            </div>
+            <div class="surface-card p-5 shadow-2 border-round m-4 mx-auto fadein animation-duration-500" style="max-width: 1200px;">
 
-            <div class="catalog-grid">
+                <div class="text-center mb-6 px-4">
+                    <h1 class="text-primary font-bold text-4xl mb-2">Explora nuestros cursos</h1>
+                    <p class="text-700 text-xl mt-0 mb-5">Desarrolla las habilidades que el mundo tecnológico necesita.</p>
 
-                <ui:repeat var="curso" value="#{cursoController.cursos}">
-
-                    <h:link outcome="contenidoCurso" styleClass="course-card" style="text-decoration: none; color: inherit;">
-                        <f:param name="cursoId" value="#{curso.id}" />
-
-                        <div class="course-thumb-container">
-                            <h:graphicImage name="images/#{curso.imagenUrl}" styleClass="course-thumb" 
-                                            rendered="#{not empty curso.imagenUrl}" />
-
-                            <h:panelGroup rendered="#{empty curso.imagenUrl}" 
-                                          style="display:block; width:100%; height:100%; background: linear-gradient(45deg, var(--color-primary), var(--color-accent));">
-                            </h:panelGroup>
-
-                            <div class="play-overlay">
-                                <i class="pi pi-play-circle" style="font-size: 3rem; color: white;"></i>
-                            </div>
+                    <div class="flex justify-content-center w-full">
+                        <div class="search-hero-box bg-white shadow-2 flex align-items-center px-4 py-2 w-full" style="max-width: 650px;">
+                            <i class="pi pi-search text-500 text-xl mr-3"></i>
+                            <input type="text" 
+                                   id="searchInput" 
+                                   onkeyup="filterCourses()" 
+                                   class="search-hero-input w-full text-lg text-900" 
+                                   placeholder="¿Qué quieres aprender hoy?" 
+                                   autocomplete="off"/>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="course-info">
-                            <h3 class="course-title">#{curso.nombre}</h3>
-                            <p class="course-desc">#{curso.descripcion}</p>
+                <div class="grid formgrid" id="coursesGrid">
+                    
+                    <ui:repeat var="curso" value="#{cursoController.cursos}">
 
-                            <div class="course-footer">
-                                <h:panelGroup rendered="#{!sessionManager.isLoggedIn()}">
-                                    <span style="color: var(--color-accent); font-weight: bold;">Ver Intro Gratis</span>
-                                </h:panelGroup>
+                        <div class="col-12 md:col-6 lg:col-4 p-3 flex course-item">
 
-                                <h:panelGroup rendered="#{sessionManager.isLoggedIn()}">
-                                    <span style="color: var(--color-primary); font-weight: bold;">Ir al Aula</span>
-                                </h:panelGroup>
+                            <h:link outcome="contenidoCurso" styleClass="course-card no-underline block h-full w-full flex flex-column">
+                                <f:param name="cursoId" value="#{curso.id}" />
 
-                                <i class="pi pi-arrow-right"></i>
-                            </div>
-                        </div>
+                                <div class="course-thumb-container">
+                                    <h:graphicImage name="images/#{curso.imagenUrl}" 
+                                                    styleClass="course-thumb" 
+                                                    rendered="#{not empty curso.imagenUrl}" />
 
-                    </h:link>
-                </ui:repeat>
+                                    <h:panelGroup rendered="#{empty curso.imagenUrl}" 
+                                                  styleClass="course-thumb-fallback w-full h-full block">
+                                    </h:panelGroup>
 
-            </div>
+                                    <div class="play-overlay">
+                                        <div class="bg-white border-circle p-3 flex align-items-center justify-content-center shadow-4">
+                                            <i class="pi pi-play text-primary text-4xl" style="margin-left: 4px;"></i>
+                                        </div>
+                                    </div>
+                                </div>
 
-        </ui:define>
+                                <div class="p-4 flex flex-column flex-grow-1 relative">
 
-    </ui:composition>
+                                    <h3 class="course-title text-primary font-bold text-2xl mb-2 mt-0">#{curso.nombre}</h3>
+
+                                    <p class="text-600 line-height-3 mt-0 mb-4 flex-grow-1 text-sm">#{curso.descripcion}</p>
+
+                                    <div class="mt-auto pt-3 border-top-1 border-200">
+                                        <div class="w-full btn-outline-primary flex align-items-center justify-content-center py-2 px-3 border-round-2xl transition-colors transition-duration-200 cursor-pointer">
+                                            
+                                            <h:panelGroup rendered="#{!sessionManager.isLoggedIn()}">
+                                                <span class="font-bold text-sm uppercase mr-2">Ver Intro Gratis</span>
+                                            </h:panelGroup>
+
+                                            <h:panelGroup rendered="#{sessionManager.isLoggedIn()}">
+                                                <span class="font-bold text-sm uppercase mr-2">Ir al Aula</span>
+                                            </h:panelGroup>
+
+                                            <i class="pi pi-arrow-right text-xs"></i>
+                                        </div>
+                                    </div>
+
+                                </div> </h:link>
+                        </div> </ui:repeat>
+
+                    <div id="noResults" class="col-12 text-center hidden py-5">
+                        <i class="pi pi-search text-500 text-6xl mb-3"></i>
+                        <p class="text-700 text-xl">No encontramos cursos con ese nombre.</p>
+                    </div>
+
+                </div> </div> <script type="text/javascript">
+//<![CDATA[
+                function filterCourses() {
+                    const input = document.getElementById('searchInput');
+                    const filter = input.value.toUpperCase();
+                    const grid = document.getElementById('coursesGrid');
+                    const cards = grid.getElementsByClassName('course-item');
+                    let visibleCount = 0;
+
+                    for (let i = 0; i < cards.length; i++) {
+                        const titleElement = cards[i].getElementsByClassName('course-title')[0];
+                        if (titleElement) {
+                            const txtValue = titleElement.textContent || titleElement.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                cards[i].classList.remove('hidden');
+                                cards[i].classList.add('flex'); 
+                                visibleCount++;
+                            } else {
+                                cards[i].classList.add('hidden');
+                                cards[i].classList.remove('flex'); 
+                            }
+                        }
+                    }
+                    const noResults = document.getElementById('noResults');
+                    if (visibleCount === 0) {
+                        noResults.classList.remove('hidden');
+                    } else {
+                        noResults.classList.add('hidden');
+                    }
+                }
+//]]>
+            </script>
+
+        </ui:define> </ui:composition>
 </html>

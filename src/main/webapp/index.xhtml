@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+
+    <ui:define name="title">Inicio - Xulab</ui:define>
+
+    <ui:define name="content">
+
+        <div class="hero-section">
+            <h6 class="hero-subtitle">Innovación · Desarrollo · Aprendizaje</h6>
+
+            <h1 class="hero-title">
+                Impulsa tu crecimiento en <span class="text-brand">Xulab</span>
+            </h1>
+
+            <p class="hero-text">
+                La plataforma educativa diseñada para transformar tu futuro profesional. 
+                Aprende habilidades técnicas reales con nuestra comunidad.
+            </p>
+
+            <div class="flex gap-3 justify-content-center mt-4 flex-wrap">
+                
+                <p:button outcome="/registro" value="Inscríbete ahora" icon="pi pi-arrow-right" 
+                          rendered="#{!sessionManager.isLoggedIn()}"
+                          styleClass="btn-brand ui-button-raised" />
+
+                <p:button outcome="/perfil" value="Ir a mi perfil" icon="pi pi-user" 
+                          rendered="#{sessionManager.isLoggedIn()}"
+                          styleClass="btn-brand ui-button-raised" />
+
+                <p:button outcome="/cursos" value="Ver cursos" 
+                          styleClass="ui-button-outlined text-white border-white hover:bg-white-alpha-10" />
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="text-sm text-gray-200">Cursos ofrecidos</div>
+                    <div class="stat-number">#{nosotrosController.totalCursos}+</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="text-sm text-gray-200">Personas inscritas</div>
+                    <div class="stat-number">#{nosotrosController.totalAlumnos}+</div>
+                </div>
+
+                <div class="stat-card" style="width: 250px;">
+                    <div class="text-sm text-gray-200">Habilidades</div>
+                    <div class="text-xl font-bold text-white">Técnicas y blandas</div>
+                </div>
+            </div>
+        </div>
+        
+        </ui:define>
+
+</ui:composition>
