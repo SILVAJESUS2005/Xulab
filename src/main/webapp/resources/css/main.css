@@ -3,81 +3,154 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
 */
 
-/* PALETA DE COLORES PERSONALIZADA --- */
+/* --- PALETA DE COLORES Y VARIABLES GLOBALES --- */
 :root {
-    /* Tu Paleta Oficial */
-    --color-primary: #134686;   /* Azul Profundo (Navbar, Títulos) */
-    --color-secondary: #ED3F27; /* Rojo Intenso (Logout, Alertas) */
-    --color-accent: #FEB21A;    /* Amarillo Dorado (Botones, Hover) */
-    --bg-body: #FDF4E3;         /* Crema Suave (Fondo General) */
+    /* 1. Tu Paleta Oficial Xulab */
+    --color-primary: #134686;   /* Azul Profundo */
+    --color-secondary: #ED3F27; /* Rojo Intenso */
+    --color-accent: #FEB21A;    /* Amarillo Dorado */
+    --bg-body: #FDF4E3;         /* Crema Suave */
 
-    /* Neutros */
+    /* 2. Neutros */
     --color-white: #FFFFFF;
     --color-black: #000000;
-    --color-text: #333333;      /* Gris oscuro para texto largo (mejor lectura) */
+    --color-text: #333333;
+
+    /* 3. VARIABLES DE PRIMEFLEX (NECESARIAS PARA MODO LOCAL) */
+    /* Estas son las que faltaban y hacían que las cajas desaparecieran en Ayuda/Perfil */
+    --surface-card: #ffffff;
+    --surface-border: #dfe7ef;
+    --surface-ground: #f8f9fa;
+    --text-color: #495057;
+    --text-color-secondary: #6c757d;
 }
 
 body {
     margin: 0;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-body); /* Fondo crema */
+    background-color: var(--bg-body);
     color: var(--color-text);
 }
 
-/* --- NAVBAR (ENCABEZADO) --- */
+/* --- NAVBAR PROFESIONAL (Glassmorphism) --- */
 .navbar {
-    background-color: var(--color-primary); /* Azul de fondo */
-    color: var(--color-white);
-    padding: 0.8rem 2rem;
+    background-color: rgba(19, 70, 134, 0.85); /* 85% Opacidad */
+    backdrop-filter: blur(12px); /* Efecto vidrio */
+    border-bottom: 4px solid var(--color-accent);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 0 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* Borde inferior con el color de acento (Amarillo) para resaltar */
-    border-bottom: 4px solid var(--color-accent);
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
 }
 
-/* Estilo para tu imagen de Logo */
+/* Logo */
 .navbar-logo-img {
     height: 50px;
     width: auto;
-    display: block;
+    transition: transform 0.3s ease;
 }
 
-/* Enlaces del menú central */
+.navbar-logo-img:hover {
+    transform: scale(1.05);
+}
+
+/* --- MENÚ CENTRAL (ENLACES) --- */
 .navbar-menu {
-    display: flex;
-    gap: 25px;
+    gap: 2rem;
 }
 
 .nav-link {
-    color: var(--color-white) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
     text-decoration: none;
     font-weight: 500;
-    font-size: 1.05rem;
-    transition: all 0.3s ease;
-    padding-bottom: 5px;
-    border-bottom: 2px solid transparent;
+    font-size: 0.95rem;
+    position: relative;
+    padding: 5px 0;
+    transition: color 0.3s ease;
 }
 
-/* Efecto hover: Texto amarillo y borde amarillo */
+/* Animación de la línea inferior mágica */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--color-accent);
+    transition: width 0.3s ease;
+}
+
 .nav-link:hover {
-    color: var(--color-accent) !important;
-    border-bottom: 2px solid var(--color-accent);
+    color: var(--color-white) !important;
 }
 
-/* Sección derecha (usuario/botones) */
-.navbar-user {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.nav-link:hover::after {
+    width: 100%;
 }
 
-/* Botón Principal (iniciar sesión) - Usamos el Amarillo para que destaque sobre el Azul */
+.nav-link.active-link {
+    color: var(--color-white) !important;
+}
+.nav-link.active-link::after {
+    width: 100%;
+}
+
+/* --- ZONA DE USUARIO --- */
+.user-greeting {
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    background: rgba(255,255,255,0.1);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.text-accent {
+    color: var(--color-accent);
+}
+
+/* Botón Logout (Círculo Perfecto) */
+.btn-logout-icon {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #ef4444 !important;
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+    width: 2.8rem !important; 
+    height: 2.8rem !important;
+    border-radius: 50% !important; 
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.btn-logout-icon:hover {
+    background-color: #ef4444 !important;
+    color: white !important;
+    border-color: #ef4444 !important;
+    transform: rotate(90deg);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}
+
+/* Botón Ingresar (Brand) */
 .btn-brand {
     background-color: var(--color-accent) !important;
     border: 1px solid var(--color-accent) !important;
-    color: var(--color-primary) !important; /* Texto azul para contraste */
+    color: var(--color-primary) !important;
     font-weight: bold !important;
     border-radius: 6px !important;
     padding: 0.5rem 1.2rem !important;
@@ -85,33 +158,22 @@ body {
 }
 
 .btn-brand:hover {
-    background-color: #e5a017 !important; /* Un amarillo un poco más oscuro */
+    background-color: #e5a017 !important;
     color: var(--color-primary) !important;
 }
 
-/* Botón secundario (cerrar sesión) - Rojo discreto o icono */
-.btn-logout {
-    background-color: transparent !important;
-    color: var(--color-secondary) !important; /* Icono rojo */
-    border: 1px solid var(--color-secondary) !important; /* Borde rojo sutil */
-}
-
-.btn-logout:hover {
-    background-color: var(--color-secondary) !important;
-    color: var(--color-white) !important; /* Al pasar mouse, se llena de rojo */
-}
-
-/* Contenedor principal */
+/* Contenedor principal de páginas */
 .main-container {
     max-width: 1200px;
     margin: 2rem auto;
     padding: 30px;
-    background-color: var(--color-white); /* Contenido en caja blanca para limpieza */
+    /* Esto asegura fondo blanco si no se usa surface-card */
+    background-color: var(--color-white); 
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-/* --- SECCIÓN DE EQUIPO (Actualizada con tu paleta) --- */
+/* --- SECCIÓN DE EQUIPO (Nosotros) --- */
 .team-section {
     margin-top: 4rem;
     text-align: center;
@@ -133,7 +195,7 @@ body {
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
-    border-top: 4px solid var(--color-primary); /* Detalle azul arriba */
+    border-top: 4px solid var(--color-primary);
 }
 
 .team-card:hover {
@@ -147,14 +209,13 @@ body {
     border-radius: 50%;
     object-fit: cover;
     object-position: center top;
-    /* Borde de la foto con el color de acento amarillo */
     border: 4px solid var(--color-accent);
     margin-bottom: 15px;
 }
 
 .team-name {
     font-weight: bold;
-    color: var(--color-primary); /* Nombre en azul */
+    color: var(--color-primary);
     font-size: 1.1rem;
     margin: 5px 0;
 }
@@ -165,30 +226,239 @@ body {
     font-weight: 500;
 }
 
-/* Títulos generales */
-h1, h2, h3 {
-    color: var(--color-primary);
+/* --- FOOTER PROFESIONAL --- */
+.footer {
+    background: linear-gradient(to bottom, var(--color-primary), #0f172a);
+    color: #e2e8f0;
+    padding: 5rem 2rem 2rem 2rem;
+    margin-top: auto;
+    border-top: 5px solid var(--color-accent);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
 }
-/* --- ESTILOS PARA EL CATÁLOGO DE CURSOS --- */
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 4rem;
+}
+
+.footer-logo {
+    height: 60px;
+    width: auto;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.footer-col h4 {
+    color: var(--color-accent);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+    display: inline-block;
+}
+
+.footer-col h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 30px;
+    height: 2px;
+    background-color: rgba(255,255,255,0.3);
+}
+
+.footer-col p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    opacity: 0.9;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block; 
+    font-size: 0.95rem;
+}
+
+.footer-links a:hover {
+    color: var(--color-accent);
+    transform: translateX(8px);
+}
+
+/* Iconos Sociales */
+.social-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 1rem;
+}
+
+.social-icon {
+    width: 38px;
+    height: 38px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.social-icon:hover {
+    background-color: var(--color-accent);
+    color: var(--color-primary);
+    border-color: var(--color-accent);
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+.footer-bottom {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.85rem;
+    color: #94a3b8;
+    text-align: center;
+}
+
+/* --- UTILIDADES DE COLOR (Para HTML) --- */
+.text-brand { color: var(--color-accent) !important; }
+.text-primary { color: var(--color-primary) !important; }
+.text-secondary { color: var(--color-secondary) !important; }
+
+/* --- HERO SECTION (Para el Index) --- */
+.hero-section {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 0 0 20px 20px;
+    margin: -30px -30px 3rem -30px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.hero-subtitle {
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.hero-title {
+    font-size: 3rem;
+    margin: 0.5rem 0;
+    color: white;
+    font-weight: 800;
+}
+
+.hero-text {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 1rem auto;
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
+/* Tarjetas de Estadísticas (Glassmorphism) */
+.stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 4rem;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 12px;
+    width: 200px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--color-accent);
+}
+
+/* --- SECCIÓN NOSOTROS --- */
+.about-container {
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.mission-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    text-align: left;
+    margin-top: 30px;
+}
+
+/* --- CORRECCIONES Y PARCHES (FIXES) --- */
+
+/* Fix para PrimeFlex Local: Fuerza el fondo blanco en tarjetas si las variables fallan */
+.surface-card {
+    background-color: var(--surface-card) !important;
+    border: 1px solid var(--surface-border);
+    /* Si usaste shadow-2, esto asegura que se vea */
+    box-shadow: 0 3px 5px rgba(0,0,0,0.02), 0 0 2px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.08) !important; 
+}
+
+/* Si usas el componente <p:card> */
+body .ui-card {
+    background-color: #ffffff !important;
+}
+
+/* --- ESTILOS DEL CATÁLOGO DE CURSOS (FINAL) --- */
 .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive automático */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
     gap: 30px;
     padding: 20px 0;
 }
 
 .course-card {
-    background: white;
+    background: #ffffff; /* Asegura fondo blanco */
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
     height: 100%;
-    border: 1px solid rgba(0,0,0,0.05);
-    text-decoration: none; /* Quita subrayado de enlaces */
-    color: inherit;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .course-card:hover {
@@ -200,8 +470,8 @@ h1, h2, h3 {
 .course-thumb-container {
     position: relative;
     width: 100%;
-    height: 160px; /* Altura fija para uniformidad */
-    background-color: #eee;
+    height: 180px; 
+    background-color: #f3f4f6;
     overflow: hidden;
 }
 
@@ -213,15 +483,12 @@ h1, h2, h3 {
 }
 
 .course-card:hover .course-thumb {
-    transform: scale(1.05); /* Zoom suave a la imagen */
+    transform: scale(1.05);
 }
 
 .play-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.3);
     display: flex;
     align-items: center;
@@ -243,7 +510,7 @@ h1, h2, h3 {
 
 .course-title {
     font-size: 1.1rem;
-    font-weight: bold;
+    font-weight: 700;
     color: var(--color-primary);
     margin: 0 0 10px 0;
     line-height: 1.4;
@@ -252,130 +519,299 @@ h1, h2, h3 {
 .course-desc {
     font-size: 0.9rem;
     color: #666;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* Muestra solo 3 líneas de texto */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    flex: 1;
 }
 
 .course-footer {
     margin-top: auto;
     padding-top: 15px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid #f0f0f0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.85rem;
-    color: #888;
+    font-size: 0.9rem;
 }
 
-/* Estilo para las imágenes de los cursos */
+/* --- AJUSTES PARA MÓVILES (Responsive) --- */
+@media screen and (max-width: 768px) {
+    .navbar { padding: 0 1rem; }
+    .user-greeting { display: none; }
+    
+    .footer { padding: 3rem 1.5rem 2rem 1.5rem; }
+    .footer-container { gap: 2.5rem; text-align: center; }
+    .footer-col h4 { display: block; margin-bottom: 1rem; }
+    .social-links { justify-content: center; }
+    .footer-links li.flex { justify-content: center; }
+    .footer-links a { display: block; }
+    .footer-links a:hover { transform: none; }
+}
+
+/* --- ARREGLO DE IMÁGENES Y TARJETAS Cursos --- */
+
+/* 1. La Tarjeta: Fondo blanco puro y bordes sutiles */
+.course-card {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* IMPORTANTE para la alineación */
+    display: flex;
+    flex-direction: column;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border-color: var(--color-accent);
+}
+
+/* 2. El Contenedor de la Imagen: BLANCO para que no se note el cuadro de la imagen */
+/* El fondo blanco para que no se note el parche de la imagen jpg */
 .course-thumb-container {
-    width: 100%;          /* El contenedor ocupa todo el ancho de la tarjeta */
-    height: 200px;        /* Altura fija para todas las tarjetas */
-    overflow: hidden;     /* Si la imagen se sale, la corta */
-    display: flex;        /* Centra la imagen */
-    justify-content: center;
-    align-items: center;
-    background-color: #f0f0f0; /* Fondo gris por si la imagen tarda en cargar */
-}
-
-.curso-imagen {
-    width: 100% !important;       /* Forza el ancho al 100% del contenedor */
-    height: 100% !important;      /* Forza la altura al 100% del contenedor */
-    object-fit: contain !important; /* 'contain' muestra la imagen ENTERA sin cortarla. Usa 'cover' si prefieres que llene todo aunque se recorte un poco */
-    max-width: 100%;              /* Seguridad extra */
-    display: block;
-}
-
-/* --- FOOTER (PIE DE PÁGINA) --- */
-.footer {
-    background-color: var(--color-primary); /* Azul*/
-    color: var(--color-white);
-    padding: 4rem 2rem 1rem 2rem; /* Espaciado interno */
-    margin-top: auto; /* Empuja el footer al fondo si hay poco contenido */
-    border-top: 4px solid var(--color-accent); /* Línea amarilla arriba */
-}
-
-.footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    /* Grid responsivo: crea columnas de mínimo 250px que se ajustan solas */
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 3rem;
-}
-
-.footer-col h4 {
-    color: var(--color-accent); /* Títulos en amarillo */
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.footer-col p {
-    color: #e0e0e0;
-    line-height: 1.6;
-    font-size: 0.95rem;
-}
-
-.footer-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.footer-links li {
-    margin-bottom: 10px;
-}
-
-.footer-links a {
-    color: #e0e0e0;
-    text-decoration: none;
-    transition: color 0.3s ease, padding-left 0.3s ease;
-}
-
-/* Efecto hover: El enlace se pone amarillo y se mueve a la derecha */
-.footer-links a:hover {
-    color: var(--color-accent);
-    padding-left: 5px;
-}
-
-/* Iconos sociales */
-.social-links {
-    display: flex;
-    gap: 15px;
-    margin-top: 1rem;
-}
-
-.social-icon {
-    width: 40px;
-    height: 40px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
+    background-color: #ffffff; 
+    border-bottom: 1px solid #f3f4f6;
+    height: 180px;
+    width: 100%;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    text-decoration: none;
+}
+
+/* contain para que no se corte el logo */
+.course-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    padding: 1.5rem;
+}
+
+.course-card:hover .course-thumb {
+    transform: scale(1.05);
+}
+
+/* 4. Overlay del Play (Sin cambios, solo asegurar que funcione) */
+.play-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 2;
+}
+
+.course-card:hover .play-overlay {
+    opacity: 1;
+}
+
+/* --- NUEVOS ESTILOS PARA MEJORAS --- */
+
+/* Botón Outline en el footer de la tarjeta */
+.btn-outline-primary {
+    border: 1px solid var(--surface-border);
+    color: var(--color-primary);
+    background-color: transparent;
+}
+
+/* Efecto Hover en toda la tarjeta cambia el estilo del botón */
+.course-card:hover .btn-outline-primary {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    border-color: var(--color-primary);
+}
+
+/* Animación de entrada suave (Fade In) */
+.fadein {
+    animation: fadein 0.8s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* --- Estilos para el Buscador Hero --- */
+
+.search-hero-box {
+    border-radius: 50px; /* "Pill shape" perfecta */
+    border: 2px solid transparent; /* Reserva espacio para el borde focus */
     transition: all 0.3s ease;
 }
 
-.social-icon:hover {
-    background-color: var(--color-accent);
-    color: var(--color-primary);
-    transform: translateY(-3px);
+/* Efecto al hacer clic dentro: Eleva y colorea el borde */
+.search-hero-box:focus-within {
+    transform: translateY(-2px);
+    border-color: var(--primary-color, #3B82F6); /* Usa tu variable de tema o azul por defecto */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important; /* Sobrescribe sombras suaves */
 }
 
-/* Barra inferior de copyright */
-.footer-bottom {
-    text-align: center;
-    padding-top: 2rem;
-    margin-top: 3rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 0.9rem;
-    color: #aaa;
+/* Input limpio: Sin bordes ni outline nativo */
+.search-hero-input {
+    outline: none !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* --- Estilos para Login Xulab --- */
+
+/* 1. ESTILOS GENERALES DEL INPUT GROUP (Email y Contraseña) */
+.custom-input-group .ui-inputgroup-addon {
+    background-color: #ffffff; 
+    border-right: 0 none; /* Quita la línea derecha del icono */
+    color: #6c757d; 
+    border-color: #ced4da;
+}
+
+/* 2. CORRECCIÓN ESPECÍFICA PARA EMAIL (Input directo) */
+.custom-input-group > .ui-inputfield {
+    border-left: 0 none; /* Quita línea izquierda del input normal */
+    border-color: #ced4da;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* 3. CORRECCIÓN CRÍTICA PARA PASSWORD (Input dentro de wrapper por toggleMask) */
+/* Primero: Aseguramos que el wrapper del password ocupe todo el espacio */
+.custom-input-group .ui-password {
+    width: 100%;
+    flex: 1 1 auto; /* Permite que se estire correctamente en el flexbox */
+}
+
+/* Segundo: Quitamos el borde al input REAL que está DENTRO del wrapper de password */
+.custom-input-group .ui-password input.ui-password-input {
+    border-left: 0 none; /* Aquí es donde quitamos la separación */
+    border-color: #ced4da;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    width: 100%;
+    margin-left: 0;
+}
+
+/* 4. Estilos de Foco (Para que no se vea roto al hacer clic) */
+.custom-input-group .ui-inputfield:focus,
+.custom-input-group .ui-inputfield:hover,
+.custom-input-group .ui-password input.ui-password-input:focus {
+    border-left: 0 none; 
+    box-shadow: none; /* Opcional: quita el brillo azul si prefieres limpieza total */
+    border-color: #ced4da; /* Mantiene el borde gris suave */
+}
+
+/* 5. Botón Principal */
+body .btn-brand.ui-button {
+    background-color: #ffb81c; 
+    border: 1px solid #ffb81c;
+    color: #212529; 
+    font-weight: bold;
+}
+
+body .btn-brand.ui-button:enabled:hover {
+    background-color: #e0a119; 
+    border-color: #e0a119;
+    color: #212529;
+}
+
+/* --- FIX DEFINITIVO DEL LOGIN (EMAIL Y PASSWORD) --- */
+
+/* 1. Estilo base del ICONO (Izquierda) */
+.custom-input-group .ui-inputgroup-addon {
+    background-color: #f8f9fa; 
+    border: 1px solid #ced4da;
+    border-right: 0 none !important; /* Quitamos pared derecha obligatoriamente */
+    color: #6c757d;
+    min-width: 2.5rem; /* Asegura que el icono no se aplaste */
+}
+
+/* 2. FIX PARA EMAIL (Input simple) */
+.custom-input-group > .ui-inputfield {
+    border-left: 0 none !important;
+    border-color: #ced4da;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+/* 3. FIX PARA PASSWORD (Input con toggleMask) - ESTA ES LA CLAVE */
+
+/* A. El contenedor 'wrapper' que crea Primefaces al usar el ojito */
+.custom-input-group .ui-password {
+    width: 100%;
+    flex: 1 1 auto;
+}
+
+/* B. El input REAL que está dentro de ese contenedor */
+.custom-input-group .ui-password input.ui-password-input {
+    border-left: 0 none !important; /* BORRAMOS LA LÍNEA SEPARADORA */
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-color: #ced4da;
+    width: 100%;
+    margin-left: 0;
+    box-shadow: none !important; /* Evita sombras internas raras */
+}
+
+/* 4. Estado FOCUS (Al hacer clic) */
+/* Unificamos el color del borde al hacer clic para que parezca una sola pieza */
+.custom-input-group .ui-inputfield:focus,
+.custom-input-group .ui-password input.ui-password-input:focus {
+    border-color: #ced4da !important; 
+    border-left: 0 none !important;
+    /* Opcional: Si quieres un brillo externo, aplícalo al grupo padre, no al input */
+}
+/* --- NUEVO ENFOQUE: CAJA UNIFICADA --- */
+
+/* 1. El contenedor padre dibuja el borde y el fondo */
+.login-box-unified {
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa; /* Color de fondo gris suave */
+    border-radius: 4px; /* Redondeo de las esquinas */
+    display: flex;
+    align-items: center;
+    overflow: hidden; /* Asegura que nada se salga de las esquinas redondeadas */
+    width: 100%;
+}
+
+/* 2. El Icono: Transparente y sin bordes */
+.login-box-unified .ui-inputgroup-addon {
+    background: transparent !important;
+    border: none !important;
+    color: #6c757d;
+    min-width: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 3. El Input (Email y Password): Transparente y sin bordes */
+/* Usamos selectores potentes para sobreescribir a PrimeFaces */
+.login-box-unified input,
+.login-box-unified .ui-inputfield,
+.login-box-unified .ui-password,
+.login-box-unified .ui-password input {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important; /* Quita el brillo azul interno */
+    width: 100%;
+}
+
+/* 4. Efecto Focus (Iluminar la caja completa, no el input) */
+/* Cuando el input de adentro tiene foco, cambiamos el borde del PADRE */
+.login-box-unified:focus-within {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    background-color: #ffffff; /* Opcional: que se ponga blanco al escribir */
+}
+
+/* Ajuste para el botón del ojito (toggleMask) para que no quede desalineado */
+.login-box-unified .ui-password .ui-input-icon-right > i {
+    top: 50% !important;
+    margin-top: -0.5rem !important;
 }
