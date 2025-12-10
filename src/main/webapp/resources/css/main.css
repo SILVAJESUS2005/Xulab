@@ -27,12 +27,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     /*4. variables para animación registro*/
     --cb-success: #10b981; /* Verde éxito */
 }
-
-body {
+/* --- CORRECIÓN RESPONSIVE ---*/
+html, body {
     margin: 0;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-body);
     color: var(--color-text);
+    
+    width: 100%;
+    overflow-x: hidden; /* VITAL: Evita el scroll horizontal indeseado */
+    margin: 0;
+    padding: 0;
+    position: relative; /* Ayuda al posicionamiento de los hijos */
 }
 
 /* --- NAVBAR PROFESIONAL (Glassmorphism) --- */
@@ -48,6 +54,10 @@ body {
     height: 70px;
     display: flex;
     align-items: center;
+    /* Ajuste específico para tu Navbar */
+    
+    width: 100%;
+    
 }
 
 .navbar-container {
@@ -853,3 +863,186 @@ body .btn-brand.ui-button:enabled:hover {
     /* Aplica la animación definida arriba */
     animation: successPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
+
+/* --- CONFIGURACIÓN BASE --- */
+@view-transition {
+  navigation: auto;
+}
+
+/* Mantener Navbar y Footer fijos siempre */
+.navbar {
+  view-transition-name: navbar-area;
+  z-index: 1000;
+}
+.footer {
+  view-transition-name: footer-area;
+}
+
+/* --- ANIMACIÓN 1: DESKTOP (Cinemática: Profundidad + Desenfoque) --- */
+/* Solo aplica si la pantalla es mayor a 768px */
+@media (min-width: 769px) {
+  
+  /* La página vieja se queda quieta, se desenfoca y oscurece */
+  ::view-transition-old(root) {
+    animation: 0.4s cubic-bezier(0.4, 0, 0.2, 1) both fade-blur-out;
+    z-index: 1;
+  }
+
+  /* La página nueva entra con un sutil "Zoom Out" (como cayendo en su lugar) */
+  ::view-transition-new(root) {
+    animation: 0.4s cubic-bezier(0.4, 0, 0.2, 1) both zoom-fade-in;
+    z-index: 2;
+  }
+}
+
+/* --- ANIMACIÓN 2: MÓVIL (Estilo App Nativa / Instagram) --- */
+/* Solo aplica si la pantalla es pequeña */
+@media (max-width: 768px) {
+  
+  /* La página vieja se desliza hacia la izquierda */
+  ::view-transition-old(root) {
+    animation: 0.3s ease-in-out both slide-to-left;
+  }
+
+  /* La página nueva entra desde la derecha */
+  ::view-transition-new(root) {
+    animation: 0.3s ease-in-out both slide-from-right;
+  }
+}
+
+/* --- KEYFRAMES (La Coreografía) --- */
+
+/* 1. Desktop: Efecto "Focus" elegante */
+@keyframes fade-blur-out {
+  from { 
+    opacity: 1; 
+    filter: blur(0px);
+  }
+  to { 
+    opacity: 0; 
+    filter: blur(10px); /* Desenfoque elegante */
+    transform: scale(0.98); /* Se aleja un poco */
+  }
+}
+
+@keyframes zoom-fade-in {
+  from { 
+    opacity: 0; 
+    transform: scale(1.05); /* Entra un poco más grande */
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+}
+
+/* 2. Móvil: Deslizamiento lateral */
+@keyframes slide-to-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-20%); opacity: 0; } /* Parallax sutil */
+}
+
+@keyframes slide-from-right {
+  from { transform: translateX(100%); box-shadow: -10px 0 20px rgba(0,0,0,0.1); }
+  to { transform: translateX(0); }
+}
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem !important; /* Reducir tamaño en móvil */
+        word-wrap: break-word; /* Evita que palabras largas rompan el diseño */
+    }
+}
+
+/* --- SIDEBAR PRO (SCROLL FIX + BRANDING) --- */
+
+/* 1. Contenedor Principal: AQUÍ ESTÁ EL ARREGLO DEL SCROLL */
+.custom-sidebar .ui-sidebar-content {
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    height: 100%;       /* Ocupa toda la altura disponible */
+    overflow-y: auto;   /* CRÍTICO: Permite hacer scroll si el contenido no cabe */
+    overflow-x: hidden;
+    /* Mejora la sensación de tacto en iOS */
+    -webkit-overflow-scrolling: touch; 
+}
+
+/* 2. Header Limpio */
+.sidebar-header {
+    background: #ffffff;
+    padding: 1.5rem;
+    /* Sticky: Si haces scroll, el header se queda pegado arriba (opcional, pero útil) */
+    position: sticky; 
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid #f1f5f9;
+    background: rgba(255, 255, 255, 0.95); /* Un poco transparente */
+    backdrop-filter: blur(5px);
+}
+
+/* 3. Items de Navegación */
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    margin: 0.5rem 1rem;
+    border-radius: 12px;
+    color: #334155; /* Gris oscuro profesional */
+    text-decoration: none !important;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.nav-item:hover {
+    background-color: #fffbeb; /* Un fondo amarillo muy pálido al pasar el mouse */
+    color: #d97706; /* Naranja/Amarillo oscuro de tu marca */
+}
+
+/* ICONOS CON TU COLOR DE MARCA */
+.nav-item i {
+    color: #fbbf24; /* TU AMARILLO (Amber-400 aprox) */
+    font-size: 1.3rem;
+    filter: drop-shadow(0 2px 4px rgba(251, 191, 36, 0.3)); /* Resplandor sutil */
+}
+
+/* 4. Footer de Usuario */
+.sidebar-footer {
+    margin-top: auto; /* Empuja el footer al fondo SI hay espacio */
+    padding: 1.5rem;
+    background: #ffffff;
+    border-top: 1px solid #f1f5f9;
+    /* Asegura que el footer tenga espacio si se hace scroll */
+    padding-bottom: 2rem; 
+}
+
+/* Botones del Footer Mejorados */
+.btn-profile {
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #475569;
+}
+.btn-logout {
+    background: #fef2f2; /* Rojo muy suave */
+    color: #ef4444;       /* Texto rojo */
+    border: 1px solid #fee2e2;
+}
+
+/* --- ANIMACIÓN (Misma lógica, funciona perfecto) --- */
+.custom-sidebar.ui-sidebar-active .nav-item {
+    animation: slideInEpic 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes slideInEpic {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Retrasos en cascada */
+.custom-sidebar.ui-sidebar-active .nav-item:nth-child(1) { animation-delay: 0.10s; }
+.custom-sidebar.ui-sidebar-active .nav-item:nth-child(2) { animation-delay: 0.15s; }
+.custom-sidebar.ui-sidebar-active .nav-item:nth-child(3) { animation-delay: 0.20s; }
+.custom-sidebar.ui-sidebar-active .nav-item:nth-child(4) { animation-delay: 0.25s; }
+.custom-sidebar.ui-sidebar-active .nav-item:nth-child(5) { animation-delay: 0.30s; }
