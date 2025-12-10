@@ -1046,3 +1046,37 @@ body .btn-brand.ui-button:enabled:hover {
 .custom-sidebar.ui-sidebar-active .nav-item:nth-child(3) { animation-delay: 0.20s; }
 .custom-sidebar.ui-sidebar-active .nav-item:nth-child(4) { animation-delay: 0.25s; }
 .custom-sidebar.ui-sidebar-active .nav-item:nth-child(5) { animation-delay: 0.30s; }
+
+/* --- FIX SIDEBAR: ESTADO NO LOGUEADO --- */
+
+/* 1. Botón "Ingresar" Oscuro (Estilo Spotify/Apple) */
+.btn-dark-login {
+    background-color: #111827 !important; /* Negro suave */
+    color: #ffffff !important;
+    border: 1px solid #000000 !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important; /* Bordes redondeados modernos */
+    padding: 0.8rem 1rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+}
+
+.btn-dark-login:hover {
+    background-color: #000000 !important; /* Negro puro al pasar mouse */
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2) !important;
+}
+
+/* 2. Enlace "Crear cuenta" */
+.link-create-account {
+    color: #64748b;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.5rem;
+    display: block;
+    transition: color 0.2s;
+}
+
+.link-create-account:hover {
+    color: var(--color-primary); /* Se pone azul al pasar el mouse */
+}

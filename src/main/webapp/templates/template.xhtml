@@ -28,11 +28,14 @@
                 <div class="flex align-items-center justify-content-between">
                     <h:graphicImage library="images" name="Logo2.svg" style="height: 40px;" alt="Xulab"/>
 
-                    <p:commandLink onclick="PF('mobileMenu').hide()" 
-                                   styleClass="flex align-items-center justify-content-center border-circle hover:surface-100 transition-duration-200"
-                                   style="width: 40px; height: 40px; color: #94a3b8;">
-                        <i class="pi pi-times text-xl"></i>
-                    </p:commandLink>
+                    <h:form style="display: contents;">
+                        <p:commandLink onclick="PF('mobileMenu').hide(); return false;" 
+                                       styleClass="flex align-items-center justify-content-center border-circle hover:surface-100 transition-duration-200"
+                                       style="width: 40px; height: 40px; color: #94a3b8;">
+                            <i class="pi pi-times text-xl"></i>
+                        </p:commandLink>
+                    </h:form>
+
                 </div>
             </div>
 
@@ -70,7 +73,8 @@
                     </div>
 
                     <h:link outcome="/perfil" styleClass="nav-item btn-profile m-0 mb-3 justify-content-center shadow-1">
-                        <i class="pi pi-user text-color-secondary"></i> <span>Mi Perfil</span>
+                        <i class="pi pi-user text-color-secondary"></i> 
+                        <span>Mi Perfil</span>
                     </h:link>
 
                     <h:form>
@@ -83,11 +87,21 @@
                 </h:panelGroup>
 
                 <h:panelGroup rendered="#{!sessionManager.isLoggedIn()}">
-                    <div class="flex flex-column gap-3">
-                        <h:link outcome="/login" styleClass="no-underline flex align-items-center justify-content-center w-full p-3 bg-gray-900 hover:bg-black text-white font-bold border-round-xl transition-duration-200 shadow-3">
+                    <div class="flex flex-column gap-3 pt-2">
+
+                        <div class="text-center mb-2">
+                            <span class="text-900 font-bold block text-lg">Únete a Xulab</span>
+                            <span class="text-500 text-sm">Aprende y crece hoy.</span>
+                        </div>
+
+                        <h:link outcome="/login" 
+                                styleClass="btn-dark-login no-underline flex align-items-center justify-content-center w-full">
+                            <i class="pi pi-sign-in mr-2 text-lg"></i>
                             <span>Ingresar</span>
                         </h:link>
-                        <h:link outcome="/registro" value="Crear cuenta" styleClass="no-underline text-center w-full p-2 text-600 font-medium" />
+
+                        <h:link outcome="/registro" value="Crear cuenta nueva" 
+                                styleClass="link-create-account text-center w-full text-sm" />
                     </div>
                 </h:panelGroup>
 
