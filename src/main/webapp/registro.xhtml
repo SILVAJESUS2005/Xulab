@@ -1,60 +1,113 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <ui:composition template="/templates/template.xhtml">
+    <ui:define name="title">Crear cuenta - Xulab</ui:define>
 
-        <ui:define name="title">Crear cuenta - Xulab</ui:define>
+    <ui:define name="content">
+        <div class="flex align-items-center justify-content-center min-h-screen surface-ground">
 
-        <ui:define name="content">
-            <div style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
-                <div class="card" style="background-color: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 400px;">
-                    <h:form>
-                        <h2 style="text-align: center; color: var(--color-primary);">Crear cuenta</h2>
+            <div class="surface-card p-4 shadow-2 border-round w-full lg:w-4">
+                <h:form>
+                    
+                    <div class="text-center mb-5">
+                        <div class="text-900 text-3xl font-medium mb-3">Crear cuenta</div>
+                        <span class="text-600 font-medium line-height-3">Únete para empezar a aprender</span>
+                    </div>
 
-                        <p:messages id="messages" showDetail="true" closable="true">
-                            <p:autoUpdate />
-                        </p:messages>
+                    <p:messages id="messages" showDetail="true" closable="true">
+                        <p:autoUpdate/>
+                    </p:messages>
+                    
+                    <div class="field mb-4">
+                        
+                        <p:outputPanel id="alerta-nombre" 
+                                       layout="block" 
+                                       styleClass="flex align-items-center p-2 mb-2 border-round bg-yellow-50 text-yellow-700 relative">
+                            <i class="pi pi-info-circle mr-2 text-lg"></i>
+                            <span class="text-sm">
+                                El nombre que proporciones será el que aparezca en tu **constancia oficial** de finalización.
+                            </span>
+                        </p:outputPanel>
 
-                        <div class="p-field" style="margin-top: 1rem;">
-                            <label for="nombre" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Nombre</label>
-                            <p:inputText id="nombre" value="#{authController.nombre}" required="true" requiredMessage="El nombre es obligatorio." style="width: 100%;" />
+                        <p:tooltip for="alerta-nombre" position="right" showDelay="500">
+                            <div style="max-width: 250px;">
+                                <p:outputLabel value="¡Importante!" style="font-weight: bold; display: block; margin-bottom: 5px;"/>
+                                El nombre debe ser **completo** y **correcto**, ya que se utiliza para generar tu certificado de finalización de curso. No podrás cambiarlo después.
+                            </div>
+                        </p:tooltip>
+
+                        <label for="nombre" class="block text-900 font-medium mb-2">Nombre</label>
+                        
+                        <div class="login-box-unified"> 
+                            <span class="ui-inputgroup-addon">
+                                <i class="pi pi-id-card"></i>
+                            </span>
+                            <p:inputText id="nombre" value="#{authController.nombre}" 
+                                        placeholder="Tu nombre completo"
+                                        required="true" requiredMessage="El nombre es obligatorio." 
+                                        styleClass="w-full"/>
                         </div>
+                    </div>
+                    <div class="field mb-4">
+                        <label for="email" class="block text-900 font-medium mb-2">Email</label>
 
-                        <div class="p-field" style="margin-top: 1rem;">
-                            <label for="email" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Email</label>
-                            <p:inputText id="email" value="#{authController.email}" required="true" requiredMessage="El email es obligatorio." style="width: 100%;" />
+                        <div class="login-box-unified">
+                            <span class="ui-inputgroup-addon">
+                                <i class="pi pi-user"></i>
+                            </span>
+                            <p:inputText id="email" value="#{authController.email}" 
+                                        placeholder="Escribe tu email"
+                                        required="true" requiredMessage="El email es obligatorio." />
                         </div>
+                    </div>
 
-                        <div class="p-field" style="margin-top: 1rem;">
-                            <label for="password" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Contraseña</label>
-                            <p:password id="password" value="#{authController.password}" required="true" requiredMessage="La contraseña es obligatoria." style="width: 100%;" />
+                    <div class="field mb-4">
+                        <label for="password" class="block text-900 font-medium mb-2">Contraseña</label>
+
+                        <div class="login-box-unified">
+                            <span class="ui-inputgroup-addon">
+                                <i class="pi pi-lock"></i>
+                            </span>
+                            <p:password id="password" value="#{authController.password}" 
+                                        placeholder="........"
+                                        required="true" requiredMessage="La contraseña es obligatoria." 
+                                        toggleMask="true" />
                         </div>
+                    </div>
 
-                        <p:commandButton value="Registrarse" action="#{authController.registrar()}" styleClass="btn-brand" style="width: 100%; margin-top: 1.5rem;" 
-                                         update="messages" oncomplete="handleRegistro(args)" />
-                    </h:form>
-                </div>
+                    <p:commandButton value="Registrarse" 
+                                    action="#{authController.registrar()}" 
+                                    styleClass="w-full btn-brand mt-4" 
+                                    update="messages" 
+                                    oncomplete="handleRegistro(args)" />
+                    
+                    <div class="mt-4 pt-4 border-top-1 surface-border text-center flex align-items-center justify-content-center flex-wrap gap-2">
+
+                        <span class="text-600">¿Ya tienes una cuenta?</span>
+
+                        <h:link outcome="login" styleClass="link-register">
+                            <span>Iniciar sesión aquí</span>
+                            <i class="pi pi-arrow-right" style="font-size: 0.8rem;"></i>
+                        </h:link>
+
+                    </div>
+                </h:form>
             </div>
+        </div>
 
-            <script type="text/javascript">
-                //<![CDATA[
-                function handleRegistro(args) {
-                    if (args && args.registroExitoso) {
-                        // CAMBIO: Mensaje claro con instrucciones
-                        alert('¡Cuenta creada! Hemos enviado un enlace de activación a tu correo. Por favor verifícalo antes de iniciar sesión.');
-
-                        // Opcional: Puedes redirigirlo a login para que espere ahí, 
-                        // o dejarlo en el registro. La redirección está bien si el mensaje es claro.
-                        window.location.href = 'login.xhtml';
-                    }
+        <script type="text/javascript">
+            //<![CDATA[
+            function handleRegistro(args) {
+                if (args && args.registroExitoso) {
+                    alert('¡Cuenta creada! Hemos enviado un enlace de activación a tu correo. Por favor verifícalo antes de iniciar sesión.');
+                    window.location.href = 'login.xhtml';
                 }
-                //]]>
-            </script>
-        </ui:define>
+            }
+            //]]>
+        </script>
+    </ui:define>
 
-    </ui:composition>
-</html>
+</ui:composition>

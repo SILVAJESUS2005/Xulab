@@ -815,3 +815,19 @@ body .btn-brand.ui-button:enabled:hover {
     top: 50% !important;
     margin-top: -0.5rem !important;
 }
+
+/* Estilo para el enlace de registro */
+.link-register {
+    color: var(--color-primary, #134686); /* Azul corporativo */
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem; /* Espacio entre texto e icono */
+}
+
+.link-register:hover {
+    color: #e5a017; /* Color acento (tipo amarillo/naranja) al pasar el mouse */
+    transform: translateX(3px); /* Pequeño movimiento a la derecha */
+}

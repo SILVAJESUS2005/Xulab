@@ -1,0 +1,19 @@
+[33m3b0a9c6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: pull origin master: Fast-forward
+[33m700cee3[m[33m ([m[1;32mf/Desarrollo-frontend-avances[m[33m)[m HEAD@{1}: checkout: moving from f/Desarrollo-frontend-avances to master
+[33m700cee3[m[33m ([m[1;32mf/Desarrollo-frontend-avances[m[33m)[m HEAD@{2}: checkout: moving from master to f/Desarrollo-frontend-avances
+[33m700cee3[m[33m ([m[1;32mf/Desarrollo-frontend-avances[m[33m)[m HEAD@{3}: reset: moving to origin/master
+[33m700cee3[m[33m ([m[1;32mf/Desarrollo-frontend-avances[m[33m)[m HEAD@{4}: pull origin master: Fast-forward
+[33m8f3ed90[m HEAD@{5}: checkout: moving from f/Desarrollo-Frontend-mejoras to master
+[33m8d612ed[m[33m ([m[1;31morigin/f/Desarrollo-Frontend-mejoras[m[33m)[m HEAD@{6}: commit: feat: Implementacion de cambios en frontend avance
+[33m8f3ed90[m HEAD@{7}: checkout: moving from master to f/Desarrollo-Frontend-mejoras
+[33m8f3ed90[m HEAD@{8}: reset: moving to origin/master
+[33m1bce902[m HEAD@{9}: pull origin master: Fast-forward
+[33m6f5b30e[m HEAD@{10}: pull origin master: Fast-forward
+[33mb81a6fb[m HEAD@{11}: checkout: moving from master to master
+[33mb81a6fb[m HEAD@{12}: checkout: moving from feature/bruno-rama to master
+[33mbbf72c7[m[33m ([m[1;31morigin/feature/bruno-rama[m[33m)[m HEAD@{13}: commit: feat: Cambio realizado por Nam_chul
+[33mb81a6fb[m HEAD@{14}: checkout: moving from master to feature/bruno-rama
+[33mb81a6fb[m HEAD@{15}: pull origin master: Fast-forward
+[33m92aa2d5[m HEAD@{16}: checkout: moving from master to master
+[33m92aa2d5[m HEAD@{17}: checkout: moving from master to master
+[33m92aa2d5[m HEAD@{18}: clone: from https://github.com/SILVAJESUS2005/Xulab.git
