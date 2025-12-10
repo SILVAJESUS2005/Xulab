@@ -1,114 +1,130 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/template.xhtml">
 
-    <ui:composition template="/templates/template.xhtml">
+    <ui:define name="title">Centro de Ayuda - Xulab</ui:define>
 
-        <ui:define name="title">Centro de Ayuda - Xulab</ui:define>
+    <ui:define name="content">
 
-        <ui:define name="content">
+        <div class="surface-ground py-6">
+            
+            <div class="landing-container">
 
-            <div style="text-align: center; margin-bottom: 3rem; padding: 2rem; background: var(--color-white); border-radius: 8px; border-bottom: 4px solid var(--color-primary);">
-                <h1 style="color: var(--color-primary); margin: 0;">Centro de recursos y ayuda</h1>
-                <p style="color: #666; font-size: 1.1rem;">Todo lo que necesitas para aprovechar Xulab al máximo.</p>
-            </div>
-            <p:divider />
+                <div class="help-hero-card p-5 text-center mb-6">
+                    <h1 class="text-primary text-4xl font-bold m-0 mb-2">Centro de Recursos y Ayuda</h1>
+                    <p class="text-xl text-600 m-0">Todo lo que necesitas para aprovechar Xulab al máximo.</p>
+                </div>
 
-            <div id="carreras" style="scroll-margin-top: 100px;">
-                <h2 style="color: var(--color-primary); border-left: 5px solid var(--color-accent); padding-left: 10px;">
-                     Guía de carreras
-                </h2>
-                <div style="background: white; padding: 2rem; border-radius: 8px;">
-                    <p style="margin-bottom: 20px;">¿No sabes por dónde empezar? Sigue nuestra ruta recomendada:</p>
-                    <div class="ruta-aprendizaje" style="display: flex; flex-direction: column; gap: 0;">
+                <div class="grid">
+                    
+                    <div class="col-12 lg:col-8">
+                        
+                        <div id="carreras" class="surface-card p-4 border-round shadow-2 mb-6" style="scroll-margin-top: 100px;">
+                            <h2 class="title-bordered">Guía de carreras</h2>
+                            
+                            <p class="text-700 mb-5 text-lg">¿No sabes por dónde empezar? Sigue nuestra ruta recomendada por expertos:</p>
 
-                        <ui:repeat value="#{ayudaController.guiaCarrera}" var="paso" varStatus="status">
+                            <div class="timeline-container">
+                                <ui:repeat value="#{ayudaController.guiaCarrera}" var="paso" varStatus="status">
+                                    
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker" 
+                                             style="background: #{paso.colorFondo}; color: #{paso.colorTexto};">
+                                            #{paso.numero}
+                                        </div>
+                                        
+                                        <div class="timeline-content pt-2">
+                                            <h4 class="#{paso.numero eq 4 ? 'text-primary' : 'text-900'}">
+                                                #{paso.titulo}
+                                            </h4>
+                                            <span class="#{paso.numero eq 4 ? 'text-brand font-bold' : 'text-600'}">
+                                                #{paso.subtitulo}
+                                            </span>
+                                        </div>
+                                    </div>
 
-                            <div style="display: flex; align-items: center; margin-bottom: #{status.last ? '0' : '15px'};">
-                                <div style="width: 40px; height: 40px; background: #{paso.colorFondo}; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px; color: #{paso.colorTexto};">
-                                    #{paso.numero}
-                                </div>
-                                <div>
-                                    <h4 style="margin: 0; color: #{paso.numero eq 4 ? 'var(--color-primary)' : '#333'};">#{paso.titulo}</h4>
-                                    <small style="color: #{paso.numero eq 4 ? 'var(--color-accent)' : '#666'};">#{paso.subtitulo}</small>
-                                </div>
+                                </ui:repeat>
                             </div>
+                        </div>
 
-                            <h:panelGroup rendered="#{!status.last}">
-                                <div style="width: 2px; height: 30px; background: #ddd; margin-left: 19px; margin-top: -10px; margin-bottom: 5px;"></div>
-                            </h:panelGroup>
-
-                        </ui:repeat>
+                        <div id="faq" class="surface-card p-4 border-round shadow-2" style="scroll-margin-top: 100px;">
+                            <h2 class="title-bordered">Preguntas Frecuentes</h2>
+                            
+                            <p:accordionPanel multiple="true" styleClass="shadow-none">
+                                <p:tab title="¿Los cursos son gratuitos?">
+                                    <p class="m-0 line-height-3 text-700">
+                                        Sí, <strong>Xulab</strong> nació como una iniciativa para democratizar la educación. 
+                                        Todos nuestros cursos actuales son de acceso libre previo registro.
+                                    </p>
+                                </p:tab>
+                                <p:tab title="¿Obtengo una constancia al terminar?">
+                                    <p class="m-0 line-height-3 text-700">
+                                        ¡Sí! Al completar el 100% de las lecciones de un curso y aprobar el examen final, 
+                                        se habilitará un botón para descargar tu constancia en PDF automáticamente.
+                                    </p>
+                                </p:tab>
+                                <p:tab title="¿Cómo puedo contactar a un instructor?">
+                                    <p class="m-0 line-height-3 text-700">
+                                        Puedes dejar tus dudas en la sección de "Comentarios" debajo de cada lección. 
+                                        Nuestros mentores y la comunidad responden constantemente.
+                                    </p>
+                                </p:tab>
+                            </p:accordionPanel>
+                        </div>
 
                     </div>
-                </div>
-            </div>
 
+                    <div class="col-12 lg:col-4">
+                        
+                        <div id="soporte" class="surface-card p-4 border-round shadow-4" style="scroll-margin-top: 100px; position: sticky; top: 100px;">
+                            <div class="flex align-items-center gap-2 mb-3">
+                                <i class="pi pi-envelope text-brand text-2xl"></i>
+                                <h2 class="text-900 text-2xl font-bold m-0">Soporte Técnico</h2>
+                            </div>
+                            
+                            <p class="text-600 mb-4 line-height-3">
+                                ¿Tienes problemas con la plataforma? Envíanos un mensaje y te responderemos en breve.
+                            </p>
 
-            <p:divider />
+                            <h:form>
+                                <div class="ui-fluid"> <p:messages showDetail="true" closable="true">
+                                        <p:autoUpdate/>
+                                    </p:messages>
 
-            <div id="faq" style="scroll-margin-top: 100px; margin-bottom: 3rem;">
-                <h2 style="color: var(--color-primary); border-left: 5px solid var(--color-accent); padding-left: 10px;">
-                    Preguntas frecuentes
-                </h2>
+                                    <div class="field mb-3">
+                                        <label for="asunto" class="font-medium text-900">Asunto</label>
+                                        <span class="ui-input-icon-left w-full">
+                                            <i class="pi pi-tag" />
+                                            <p:inputText id="asunto" value="#{ayudaController.asunto}" 
+                                                         placeholder="Ej: Error en video..." required="true"/>
+                                        </span>
+                                    </div>
 
-                <p:accordionPanel>
-                    <p:tab title="¿Los cursos son gratuitos?">
-                        <p class="m-0">
-                            Sí, Xulab nació como una iniciativa para democratizar la educación. Todos nuestros cursos actuales son de acceso libre previo registro.
-                        </p>
-                    </p:tab>
-                    <p:tab title="¿Obtengo una constancia al terminar?">
-                        <p class="m-0">
-                            ¡Sí! Al completar el 100% de las lecciones de un curso, se habilitará un botón en la página del curso para descargar tu constancia en PDF automáticamente.
-                        </p>
-                    </p:tab>
-                    <p:tab title="¿Cómo puedo contactar a un instructor?">
-                        <p class="m-0">
-                            Puedes dejar tus dudas en la sección de "Comentarios" debajo de cada lección. Nuestros mentores y la comunidad responden constantemente.
-                        </p>
-                    </p:tab>
-                </p:accordionPanel>
-            </div>
+                                    <div class="field mb-3">
+                                        <label for="contacto" class="font-medium text-900">Correo de contacto</label>
+                                        <span class="ui-input-icon-left w-full">
+                                            <i class="pi pi-at" />
+                                            <p:inputText id="contacto" value="#{ayudaController.correoContacto}" 
+                                                         placeholder="tu@correo.com" required="true"/>
+                                        </span>
+                                    </div>
 
-            <p:divider />
+                                    <div class="field mb-4">
+                                        <label for="desc" class="font-medium text-900">Descripción del problema</label>
+                                        <p:inputTextarea id="desc" value="#{ayudaController.descripcion}" 
+                                                         rows="5" placeholder="Detalla lo que sucede..." required="true"/>
+                                    </div>
 
-            <div id="soporte" style="scroll-margin-top: 100px; margin-bottom: 5rem;">
-                <h2 style="color: var(--color-primary); border-left: 5px solid var(--color-accent); padding-left: 10px;">
-                    Soporte técnico
-                </h2>
-                <div style="background: white; padding: 2rem; border-radius: 8px; max-width: 600px;">
-                    <p>¿Tienes problemas con la plataforma? Envíanos un mensaje.</p>
-
-                    <h:form>
-                        <p:messages showDetail="true" closable="true">
-                            <p:autoUpdate/>
-                        </p:messages>
-
-                        <div class="p-field" style="margin-bottom: 1rem;">
-                            <label style="display:block; font-weight: bold; margin-bottom: 5px;">Asunto</label>
-                            <p:inputText value="#{ayudaController.asunto}" placeholder="Ej: No puedo ver el video..." style="width: 100%;" required="true"/>
+                                    <p:commandButton value="Enviar reporte" action="#{ayudaController.enviarReporte()}" 
+                                                     update="@form" icon="pi pi-send" styleClass="btn-brand w-full" />
+                                </div>
+                            </h:form>
                         </div>
 
-                        <div class="p-field" style="margin-bottom: 1rem;">
-                            <label style="display:block; font-weight: bold; margin-bottom: 5px;">Correo de contacto</label>
-                            <p:inputText value="#{ayudaController.correoContacto}" placeholder="tu@correo.com" style="width: 100%;" required="true"/>
-                        </div>
+                    </div> </div> </div> </div>
 
-                        <div class="p-field" style="margin-bottom: 1rem;">
-                            <label style="display:block; font-weight: bold; margin-bottom: 5px;">Descripción del problema</label>
-                            <p:inputTextarea value="#{ayudaController.descripcion}" rows="5" style="width: 100%;" required="true"/>
-                        </div>
-
-                        <p:commandButton value="Enviar reporte" action="#{ayudaController.enviarReporte()}" update="@form" styleClass="btn-brand" />
-                    </h:form>
-                </div>
-            </div>
-
-        </ui:define>
-    </ui:composition>
-</html>
+    </ui:define>
+</ui:composition>

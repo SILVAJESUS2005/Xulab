@@ -8,76 +8,114 @@
 
     <ui:define name="content">
 
-        <div class="about-container">
-            
-            <h2 class="text-primary text-4xl font-bold mb-3">Sobre nosotros</h2>
-            <p class="text-xl text-gray-600 mb-5">
-                Somos Xulab, una plataforma comprometida con la democratización de la educación tecnológica.
-            </p>
+        <div class="surface-ground py-8">
 
-            <p:divider styleClass="w-full" />
+            <div class="landing-container">
 
-            <div class="mission-grid">
-                <p:card styleClass="shadow-2 h-full">
-                    <div class="flex align-items-center gap-2 mb-2">
-                        <i class="pi pi-compass text-brand text-2xl"></i>
-                        <h3 class="text-brand m-0">Nuestra misión</h3>
-                    </div>
-                    <p class="line-height-3 text-700">
-                        Ayudar a estudiantes y profesionales a adquirir habilidades técnicas de alta demanda 
-                        a través de contenido interactivo y práctico.
+                <div class="text-center mb-7">
+                    <h2 class="section-header-title">Sobre Nosotros</h2>
+                    <p class="text-xl text-600 max-w-50rem mx-auto line-height-3">
+                        Transformamos el talento latinoamericano en <span class="text-brand font-bold">expertos digitales</span>. 
+                        En Xulab, no solo enseñamos tecnología; construimos el puente hacia tu futuro profesional.
                     </p>
-                </p:card>
+                </div>
 
-                <p:card styleClass="shadow-2 h-full">
-                    <div class="flex align-items-center gap-2 mb-2">
-                        <i class="pi pi-eye text-brand text-2xl"></i>
-                        <h3 class="text-brand m-0">Nuestra visión</h3>
-                    </div>
-                    <p class="line-height-3 text-700">
-                        Convertirnos en el referente de educación en línea en Latinoamérica, 
-                        eliminando barreras y fomentando el crecimiento profesional.
-                    </p>
-                </p:card>
-            </div>
-
-            <div class="team-section mt-6">
-                <h3 class="text-3xl text-primary font-bold mb-4">Nuestro equipo</h3>
-                
-                <div class="team-grid">
-                    <div class="team-card">
-                        <h:graphicImage library="images" name="jesus.jpg" styleClass="team-photo" alt="Jesús López" />
-                        <div class="team-name">Jesús López Silva</div>
-                        <div class="team-role">Líder de Proyecto / Backend</div>
+                <div class="grid mb-8">
+                    <div class="col-12 md:col-6 mb-4 md:mb-0">
+                        <div class="mission-card accent-blue">
+                            <div class="flex align-items-center gap-3 mb-3">
+                                <div class="bg-blue-100 p-2 border-circle inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                    <i class="pi pi-compass text-blue-600 text-2xl"></i>
+                                </div>
+                                <h3 class="text-900 text-2xl m-0 font-bold">Nuestra Misión</h3>
+                            </div>
+                            <p class="line-height-3 text-700 text-lg m-0">
+                                Eliminar las barreras de la educación tecnológica mediante rutas de aprendizaje prácticas y accesibles. 
+                                Empoderamos a cada estudiante para pasar de la teoría a la creación de soluciones reales.
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="team-card">
-                        <h:graphicImage library="images" name="dani2.png" styleClass="team-photo" alt="Daniel Salas" />
-                        <div class="team-name">Daniel Salas Flores</div>
-                        <div class="team-role">Fronted Developer / Diseño Instruccional y Contenido</div>
-                    </div>
-
-                    <div class="team-card">
-                        <h:graphicImage library="images" name="vane2.jpg" styleClass="team-photo" alt="Vanesa Gonzalez" />
-                        <div class="team-name">Vanesa Gonzalez Honorato</div>
-                        <div class="team-role">Director Académico / Diseño Instruccional y Contenido</div>
-                    </div>
-
-                    <div class="team-card">
-                        <h:graphicImage library="images" name="san2.jpg" styleClass="team-photo" alt="Sandra Araceli" />
-                        <div class="team-name">Sandra Araceli Hernández Muñoz</div>
-                        <div class="team-role">Base de Datos / Diseño Instruccional y Contenido</div>
-                    </div>
-
-                    <div class="team-card">
-                        <h:graphicImage library="images" name="bruno2.jpg" styleClass="team-photo" alt="Bruno Vazquez" />
-                        <div class="team-name">Nam_Chul Bruno Vázquez Coronado</div>
-                        <div class="team-role">Fronted Developer/ UI y UX Designer</div>
+                    <div class="col-12 md:col-6">
+                        <div class="mission-card accent-orange">
+                            <div class="flex align-items-center gap-3 mb-3">
+                                <div class="bg-orange-100 p-2 border-circle inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                    <i class="pi pi-eye text-orange-600 text-2xl"></i>
+                                </div>
+                                <h3 class="text-900 text-2xl m-0 font-bold">Nuestra Visión</h3>
+                            </div>
+                            <p class="line-height-3 text-700 text-lg m-0">
+                                Ser el ecosistema educativo líder en habla hispana, reconocido por forjar a la próxima generación de 
+                                innovadores que liderarán la transformación digital de la región.
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
+                <div class="flex align-items-center justify-content-center mb-7">
+                    <div style="height: 1px; width: 100%; background: var(--surface-200);"></div>
+                    <span class="px-3 text-500 font-medium text-sm uppercase tracking-wider bg-surface-ground">El Talento</span>
+                    <div style="height: 1px; width: 100%; background: var(--surface-200);"></div>
+                </div>
 
-    </ui:define>
+                <div class="text-center mb-6">
+                    <h3 class="text-3xl text-900 font-bold mb-2">Nuestro Equipo</h3>
+                    <span class="text-600">Detrás del código, personas apasionadas por enseñar.</span>
+                </div>
+
+                <div class="grid justify-content-center">
+
+                    <div class="col-12 sm:col-6 lg:col-4 xl:col-3 p-3">
+                        <div class="team-card-pro">
+                            <div class="team-photo-wrapper">
+                                <h:graphicImage library="images" name="jesus.jpg" styleClass="team-photo-pro" alt="Jesús López" />
+                            </div>
+                            <div class="team-name-pro">Jesús López Silva</div>
+                            <div class="team-role-pro">Líder de Proyecto / Backend</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 sm:col-6 lg:col-4 xl:col-3 p-3">
+                        <div class="team-card-pro">
+                            <div class="team-photo-wrapper">
+                                <h:graphicImage library="images" name="dani2.png" styleClass="team-photo-pro" alt="Daniel Salas" />
+                            </div>
+                            <div class="team-name-pro">Daniel Salas Flores</div>
+                            <div class="team-role-pro">Fronted Developer / Diseño Instruccional y Contenido</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 sm:col-6 lg:col-4 xl:col-3 p-3">
+                        <div class="team-card-pro">
+                            <div class="team-photo-wrapper">
+                                <h:graphicImage library="images" name="san2.jpg" styleClass="team-photo-pro" alt="Sandra Araceli" />
+                            </div>
+                            <div class="team-name-pro">Sandra Araceli Hernández Muñoz</div>
+                            <div class="team-role-pro">Base de Datos / Diseño Instruccional y Contenido</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 sm:col-6 lg:col-4 xl:col-3 p-3">
+                        <div class="team-card-pro">
+                            <div class="team-photo-wrapper">
+                                <h:graphicImage library="images" name="vane2.jpg" 
+                                                styleClass="team-photo-pro img-focus-top" 
+                                                alt="Vanesa Gonzalez" />
+                            </div>
+                            <div class="team-name-pro">Vanesa Gonzalez Honorato</div>
+                            <div class="team-role-pro">Director Académico / Diseño Instruccional y Contenido</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 sm:col-6 lg:col-4 xl:col-3 p-3">
+                        <div class="team-card-pro">
+                            <div class="team-photo-wrapper">
+                                <h:graphicImage library="images" name="bruno2.jpg" styleClass="team-photo-pro" alt="Bruno Vazquez" />
+                            </div>
+                            <div class="team-name-pro">Nam_Chul Bruno Vázquez Coronado</div>
+                            <div class="team-role-pro">Fronted Developer/ UI y UX Designer</div>
+                        </div>
+                    </div>
+
+                </div> </div> </div> </ui:define>
 </ui:composition>
