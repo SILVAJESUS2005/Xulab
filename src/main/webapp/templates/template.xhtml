@@ -145,7 +145,12 @@
                     </h:panelGroup>
 
                     <h:panelGroup rendered="#{!sessionManager.isLoggedIn()}" styleClass="hidden md:block">
-                        <p:button outcome="/login" value="Ingresar" icon="pi pi-sign-in" styleClass="btn-brand shadow-2" />
+
+                        <p:button outcome="/login" 
+                                  value="Ingresar" 
+                                  icon="pi pi-user" 
+                                  styleClass="btn-nav-login" />
+
                     </h:panelGroup>
 
                     <h:form styleClass="m-0 flex md:hidden">
