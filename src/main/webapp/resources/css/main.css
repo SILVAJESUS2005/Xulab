@@ -23,28 +23,47 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     --surface-ground: #f8f9fa;
     --text-color: #495057;
     --text-color-secondary: #6c757d;
+    
+    /*4. variables para animación registro*/
+    --cb-success: #10b981; /* Verde éxito */
 }
-
-body {
+/* --- CORRECIÓN RESPONSIVE ---*/
+html, body {
     margin: 0;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-body);
     color: var(--color-text);
+    
+    width: 100%;
+    overflow-x: hidden; /* VITAL: Evita el scroll horizontal indeseado */
+    margin: 0;
+    padding: 0;
+    position: relative; /* Ayuda al posicionamiento de los hijos */
 }
 
-/* --- NAVBAR PROFESIONAL (Glassmorphism) --- */
 .navbar {
-    background-color: rgba(19, 70, 134, 0.85); /* 85% Opacidad */
-    backdrop-filter: blur(12px); /* Efecto vidrio */
+    background-color: rgba(19, 70, 134, 0.80); /* Un poco más opaco para legibilidad */
+    backdrop-filter: blur(12px);
     border-bottom: 4px solid var(--color-accent);
-    position: sticky;
+    
+    /* CAMBIO CLAVE: Usamos fixed en lugar de sticky */
+    position: fixed; 
     top: 0;
+    left: 0;
+    width: 100%;
     z-index: 1000;
+    
     padding: 0 2rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     height: 70px;
     display: flex;
     align-items: center;
+}
+
+/* --- COMPENSACIÓN DE ESPACIO --- */
+/* Como el navbar ahora flota "encima", necesitamos empujar el contenido hacia abajo */
+.layout-content {
+    padding-top: 75px; /* 70px del navbar + 5px de aire */
 }
 
 .navbar-container {
@@ -340,11 +359,11 @@ body {
 }
 
 /* --- UTILIDADES DE COLOR (Para HTML) --- */
-.text-brand { color: var(--color-accent) !important; }
+
 .text-primary { color: var(--color-primary) !important; }
 .text-secondary { color: var(--color-secondary) !important; }
 
-/* --- HERO SECTION (Para el Index) --- */
+/* --- HERO SECTION (Para el Index) --- 
 .hero-section {
     background-color: var(--color-primary);
     color: white;
@@ -353,6 +372,37 @@ body {
     border-radius: 0 0 20px 20px;
     margin: -30px -30px 3rem -30px; 
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    
+}
+
+
+hero bueno de antes*/
+
+/* --- HERO SECTION RECARGADO --- */
+/* 1. Contenedor para que no se estire a lo ancho */
+.landing-container {
+    width: 100%;
+    max-width: 1200px; /* Ancho estándar profesional */
+    margin: 0 auto;    /* Centrado automático */
+    padding: 0 1.5rem; /* Espacio seguro a los lados */
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+}
+.hero-section {
+    /* Fondo oscuro base */
+    background-color: #0f172a; 
+    /* Gradiente radial sutil */
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(19, 70, 134, 0.3) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(237, 63, 39, 0.15) 0px, transparent 50%);
+    min-height: 90vh; /* Ocupa casi toda la pantalla */
+    padding: 6rem 1rem;
+    position: relative;
+    background: radial-gradient(circle at center, #134686 0%, #000000 100%); /* Tu azul + negro */
+    color: white;
+    margin-top: -75px; /* Anula el padding para que el fondo llegue hasta arriba */
+    padding-top: calc(6rem + 75px); /* Suma el espacio internamente */
 }
 
 .hero-subtitle {
@@ -379,30 +429,68 @@ body {
     line-height: 1.6;
 }
 
-/* Tarjetas de Estadísticas (Glassmorphism) */
+/* =================================================================
+   MEJORA VISUAL: TARJETAS DE ESTADÍSTICAS (Premium Hover)
+   ================================================================= */
+
+/* Contenedor (Solo para asegurar alineación) */
 .stats-container {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 25px; /* Un poco más de espacio entre tarjetas */
     margin-top: 4rem;
     flex-wrap: wrap;
 }
 
+/* ESTADO BASE DE LA TARJETA */
 .stat-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 20px;
-    border-radius: 12px;
-    width: 200px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s ease;
+    /* 1. Glassmorphism Base (Vidrio esmerilado) */
+    background: rgba(255, 255, 255, 0.05); /* Muy sutil al inicio */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); /* Para Safari */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borde casi invisible */
+    border-radius: 20px; /* Esquinas más modernas */
+    padding: 30px 20px;  /* Más aire interno */
+    min-width: 210px;
+    text-align: center;
+    position: relative;
+
+    /* 2. EL SECRETO DE LA SUAVIDAD (Transición Profesional) */
+    /* Esto controla la velocidad de TODOS los cambios (all). 
+       0.4s es el tiempo, cubic-bezier da la sensación de "frenado suave" */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    /* Sombra inicial muy sutil */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
+/* ESTADO HOVER (Cuando pasas el mouse) */
 .stat-card:hover {
-    transform: translateY(-5px);
+    /* 1. Movimiento: Se eleva y crece un poquito */
+    transform: translateY(-10px) scale(1.03); 
+
+    /* 2. Color: El borde se enciende con tu color de marca */
+    /* Usa tu variable --color-accent, pongo el amarillo por si acaso falla */
+    border-color: var(--color-accent, #FEB21A);
+
+    /* 3. Fondo: El vidrio se vuelve más claro/nítido */
     background: rgba(255, 255, 255, 0.15);
+
+    /* 4. Profundidad: Sombra intensa para efecto 3D y resplandor */
+    box-shadow: 
+        0 20px 25px -5px rgba(0, 0, 0, 0.2), /* Sombra de elevación */
+        0 0 15px rgba(254, 178, 26, 0.3);    /* Resplandor sutil del color acento */
 }
 
+/* Opcional: Pequeño detalle para el número dentro de la tarjeta */
+.stat-card .stat-number {
+    transition: color 0.3s ease;
+}
+.stat-card:hover .stat-number {
+    /* El número también se ilumina un poco */
+    color: var(--color-accent, #FEB21A);
+    text-shadow: 0 0 15px rgba(254, 178, 26, 0.6);
+}
 .stat-number {
     font-size: 2.5rem;
     font-weight: bold;
@@ -814,4 +902,627 @@ body .btn-brand.ui-button:enabled:hover {
 .login-box-unified .ui-password .ui-input-icon-right > i {
     top: 50% !important;
     margin-top: -0.5rem !important;
+}
+
+/* Estilo para el enlace de registro */
+.link-register {
+    color: var(--color-primary, #134686); /* Azul corporativo */
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem; /* Espacio entre texto e icono */
+}
+
+.link-register:hover {
+    color: #e5a017; /* Color acento (tipo amarillo/naranja) al pasar el mouse */
+    transform: translateX(3px); /* Pequeño movimiento a la derecha */
+}
+/* Animación para el icono de éxito */
+@keyframes successPop {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.2); /* Efecto rebote */
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.icon-success-animation {
+    /* Aplica la animación definida arriba */
+    animation: successPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* --- CONFIGURACIÓN BASE --- */
+@view-transition {
+  navigation: auto;
+}
+
+/* Mantener Navbar y Footer fijos siempre */
+.navbar {
+  view-transition-name: navbar-area;
+  z-index: 1000;
+}
+.footer {
+  view-transition-name: footer-area;
+}
+
+/* --- ANIMACIÓN 1: DESKTOP (Cinemática: Profundidad + Desenfoque) --- */
+/* Solo aplica si la pantalla es mayor a 768px */
+@media (min-width: 769px) {
+  
+  /* La página vieja se queda quieta, se desenfoca y oscurece */
+  ::view-transition-old(root) {
+    animation: 0.4s cubic-bezier(0.4, 0, 0.2, 1) both fade-blur-out;
+    z-index: 1;
+  }
+
+  /* La página nueva entra con un sutil "Zoom Out" (como cayendo en su lugar) */
+  ::view-transition-new(root) {
+    animation: 0.4s cubic-bezier(0.4, 0, 0.2, 1) both zoom-fade-in;
+    z-index: 2;
+  }
+}
+
+/* --- ANIMACIÓN 2: MÓVIL (Estilo App Nativa / Instagram) --- */
+/* Solo aplica si la pantalla es pequeña */
+@media (max-width: 768px) {
+  
+  /* La página vieja se desliza hacia la izquierda */
+  ::view-transition-old(root) {
+    animation: 0.3s ease-in-out both slide-to-left;
+  }
+
+  /* La página nueva entra desde la derecha */
+  ::view-transition-new(root) {
+    animation: 0.3s ease-in-out both slide-from-right;
+  }
+}
+
+/* --- KEYFRAMES (La Coreografía) --- */
+
+/* 1. Desktop: Efecto "Focus" elegante */
+@keyframes fade-blur-out {
+  from { 
+    opacity: 1; 
+    filter: blur(0px);
+  }
+  to { 
+    opacity: 0; 
+    filter: blur(10px); /* Desenfoque elegante */
+    transform: scale(0.98); /* Se aleja un poco */
+  }
+}
+
+@keyframes zoom-fade-in {
+  from { 
+    opacity: 0; 
+    transform: scale(1.05); /* Entra un poco más grande */
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+}
+
+/* 2. Móvil: Deslizamiento lateral */
+@keyframes slide-to-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-20%); opacity: 0; } /* Parallax sutil */
+}
+
+@keyframes slide-from-right {
+  from { transform: translateX(100%); box-shadow: -10px 0 20px rgba(0,0,0,0.1); }
+  to { transform: translateX(0); }
+}
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem !important; /* Reducir tamaño en móvil */
+        word-wrap: break-word; /* Evita que palabras largas rompan el diseño */
+    }
+}
+
+/* --- SIDEBAR PRO (SCROLL FIX + BRANDING) --- */
+
+/* 1. Contenedor Principal: AQUÍ ESTÁ EL ARREGLO DEL SCROLL */
+.custom-sidebar .ui-sidebar-content {
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    height: 100%;       /* Ocupa toda la altura disponible */
+    overflow-y: auto;   /* CRÍTICO: Permite hacer scroll si el contenido no cabe */
+    overflow-x: hidden;
+    /* Mejora la sensación de tacto en iOS */
+    -webkit-overflow-scrolling: touch; 
+}
+
+/* 2. Header Limpio */
+.sidebar-header {
+    background: #ffffff;
+    padding: 1.5rem;
+    /* Sticky: Si haces scroll, el header se queda pegado arriba (opcional, pero útil) */
+    position: sticky; 
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid #f1f5f9;
+    background: rgba(255, 255, 255, 0.95); /* Un poco transparente */
+    backdrop-filter: blur(5px);
+}
+
+/* 3. Items de Navegación */
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    margin: 0.5rem 1rem;
+    border-radius: 12px;
+    color: #334155; /* Gris oscuro profesional */
+    text-decoration: none !important;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.nav-item:hover {
+    background-color: #fffbeb; /* Un fondo amarillo muy pálido al pasar el mouse */
+    color: #d97706; /* Naranja/Amarillo oscuro de tu marca */
+}
+
+/* ICONOS CON TU COLOR DE MARCA */
+.nav-item i {
+    color: #fbbf24; /* TU AMARILLO (Amber-400 aprox) */
+    font-size: 1.3rem;
+    filter: drop-shadow(0 2px 4px rgba(251, 191, 36, 0.3)); /* Resplandor sutil */
+}
+
+/* 4. Footer de Usuario */
+.sidebar-footer {
+    margin-top: auto; /* Empuja el footer al fondo SI hay espacio */
+    padding: 1.5rem;
+    background: #ffffff;
+    border-top: 1px solid #f1f5f9;
+    /* Asegura que el footer tenga espacio si se hace scroll */
+    padding-bottom: 2rem; 
+}
+
+/* Botones del Footer Mejorados */
+.btn-profile {
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #475569;
+}
+.btn-logout {
+    background: #fef2f2; /* Rojo muy suave */
+    color: #ef4444;       /* Texto rojo */
+    border: 1px solid #fee2e2;
+}
+
+/* --- ANIMACIÓN (Misma lógica, funciona perfecto) --- */
+.custom-sidebar.ui-sidebar-active .nav-item {
+    animation: slideInEpic 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes slideInEpic {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Retrasos en cascada */
+.custom-sidebar.ui-sidebar-active .nav-item:nth-child(1) { animation-delay: 0.10s; }
+.custom-sidebar.ui-sidebar-active .nav-item:nth-child(2) { animation-delay: 0.15s; }
+.custom-sidebar.ui-sidebar-active .nav-item:nth-child(3) { animation-delay: 0.20s; }
+.custom-sidebar.ui-sidebar-active .nav-item:nth-child(4) { animation-delay: 0.25s; }
+.custom-sidebar.ui-sidebar-active .nav-item:nth-child(5) { animation-delay: 0.30s; }
+
+/* --- FIX SIDEBAR: ESTADO NO LOGUEADO --- */
+
+/* 1. Botón "Ingresar" Oscuro (Estilo Spotify/Apple) */
+.btn-dark-login {
+    background-color: #111827 !important; /* Negro suave */
+    color: #ffffff !important;
+    border: 1px solid #000000 !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important; /* Bordes redondeados modernos */
+    padding: 0.8rem 1rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+}
+
+.btn-dark-login:hover {
+    background-color: #000000 !important; /* Negro puro al pasar mouse */
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2) !important;
+}
+
+/* 2. Enlace "Crear cuenta" */
+.link-create-account {
+    color: #64748b;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.5rem;
+    display: block;
+    transition: color 0.2s;
+}
+
+.link-create-account:hover {
+    color: var(--color-primary); /* Se pone azul al pasar el mouse */
+}
+
+
+
+/* HERO SECTION Formas decorativas animadas en el fondo */
+.hero-bg-shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    z-index: 1;
+    animation: floatShape 10s infinite alternate ease-in-out;
+}
+
+.shape-1 {
+    top: -10%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: var(--color-primary);
+}
+
+.shape-2 {
+    bottom: 10%;
+    right: -5%;
+    width: 400px;
+    height: 400px;
+    background: var(--color-secondary); /* Usa tu rojo */
+    animation-delay: -5s;
+}
+
+@keyframes floatShape {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(30px, 50px); }
+}
+
+/* Glassmorphism para las tarjetas de Stats */
+.glass-stat-card {
+    background: rgba(255, 255, 255, 0.03); /* Muy transparente */
+    backdrop-filter: blur(16px);            /* El efecto borroso mágico */
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    min-width: 200px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.glass-stat-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-accent);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+/* Tipografía */
+.hero-title {
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.text-brand {
+    color: var(--color-accent);
+    position: relative;
+    display: inline-block;
+}
+
+/* Subrayado animado para Xulab */
+.text-brand::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 6px;
+    bottom: 5px;
+    left: 0;
+    background: var(--color-accent);
+    opacity: 0.3;
+    z-index: -1;
+    transform: skewX(-15deg);
+}
+
+/* Utilidad backdrop (si PrimeFlex no la tiene) */
+.backdrop-blur {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* --- BOTÓN INGRESAR NAVBAR (Elegante & Armónico) --- */
+
+.btn-nav-login.ui-button {
+    background: transparent !important;       /* Fondo transparente para armonía */
+    border: 2px solid var(--color-accent) !important; /* Borde amarillo fino */
+    color: var(--color-accent) !important;    /* Texto amarillo */
+    font-weight: 700 !important;
+    border-radius: 50px !important;           /* Forma de cápsula (Pill) */
+    padding: 0.3rem 1.5rem !important;        /* Más ancho pero menos alto */
+    font-size: 0.9rem !important;             /* Texto discreto */
+    box-shadow: none !important;              /* Sin sombras pesadas */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Efecto Hover: Se llena de color */
+.btn-nav-login.ui-button:hover {
+    background: var(--color-accent) !important;
+    color: var(--color-primary) !important;   /* Texto azul para contraste */
+    transform: translateY(-2px);              /* Pequeña elevación */
+    box-shadow: 0 0 15px rgba(254, 178, 26, 0.4) !important; /* Resplandor sutil (Glow) */
+}
+
+/* Ajuste fino del icono dentro del botón */
+.btn-nav-login .ui-icon {
+    font-size: 1rem !important;
+}
+
+/* =================================================================
+   MEJORA VISUAL: BOTONES HERO PREMIUM
+   ================================================================= */
+
+/* 1. Botón Principal (Inscríbete / Mi Perfil) */
+.btn-hero-primary.ui-button {
+    /* Degradado sutil para dar volumen */
+    background: linear-gradient(135deg, var(--color-accent) 0%, #f59e0b 100%) !important;
+    border: none !important;
+    color: #0f172a !important; /* Texto oscuro para contraste */
+    
+    border-radius: 50px !important; /* Forma de píldora moderna */
+    padding: 1rem 2.5rem !important; /* Más grandes y cómodos */
+    font-size: 1.1rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.5px;
+    
+    /* Sombra de resplandor (Glow) */
+    box-shadow: 0 4px 15px rgba(254, 178, 26, 0.4) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.btn-hero-primary.ui-button:hover {
+    transform: translateY(-3px) scale(1.02) !important; /* Se eleva */
+    box-shadow: 0 10px 25px rgba(254, 178, 26, 0.6) !important; /* Brilla más */
+    filter: brightness(1.1);
+}
+
+/* 2. Botón Secundario (Ver Cursos) - ESTILO GLASSMORPHISM */
+.btn-hero-secondary.ui-button {
+    background: rgba(255, 255, 255, 0.05) !important; /* Transparente */
+    backdrop-filter: blur(10px) !important;            /* Efecto vidrio */
+    -webkit-backdrop-filter: blur(10px);
+    
+    border: 1px solid rgba(255, 255, 255, 0.3) !important; /* Borde sutil */
+    color: #ffffff !important;
+    
+    border-radius: 50px !important;
+    padding: 1rem 2.5rem !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    
+    box-shadow: none !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-hero-secondary.ui-button:hover {
+    background: rgba(255, 255, 255, 0.15) !important; /* Más blanco al pasar mouse */
+    border-color: #ffffff !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2) !important;
+}
+
+/* Ajuste de iconos dentro de los botones */
+.btn-hero-primary .ui-icon, 
+.btn-hero-secondary .ui-icon {
+    font-size: 1.2rem !important;
+}
+
+/* =================================================================
+   MEJORA PÁGINA NOSOTROS (ABOUT)
+   ================================================================= */
+
+/* 1. Encabezado de Sección */
+.section-header-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+/* Pequeña línea decorativa bajo el título */
+.section-header-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--color-accent);
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
+}
+
+/* 2. Tarjetas de Misión y Visión (Estilo Clean) */
+.mission-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 2rem;
+    height: 100%;
+    border: 1px solid var(--surface-200);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 5px solid transparent; /* Preparamos el borde superior */
+}
+
+.mission-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Variantes de color para el borde superior */
+.mission-card.accent-blue { border-top-color: var(--color-primary); }
+.mission-card.accent-orange { border-top-color: var(--color-secondary); }
+
+
+/* 3. Tarjetas del Equipo (Team Cards Pro) */
+.team-card-pro {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border: 1px solid var(--surface-200);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    height: 100%; /* Para que todas tengan la misma altura */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-card-pro:hover {
+    transform: translateY(-8px); /* Elevación elegante */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-color: var(--color-accent); /* Borde sutil al hover */
+}
+
+/* Foto del Equipo */
+.team-photo-wrapper {
+    width: 130px;
+    height: 130px;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.team-photo-pro {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ffffff;
+    box-shadow: 0 0 0 3px var(--color-primary); /* Anillo exterior azul */
+    transition: box-shadow 0.3s ease;
+}
+
+.team-card-pro:hover .team-photo-pro {
+    box-shadow: 0 0 0 3px var(--color-accent); /* Cambia a amarillo al hover */
+}
+
+/* Textos del Equipo */
+.team-name-pro {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-900);
+    margin-bottom: 0.5rem;
+}
+
+.team-role-pro {
+    font-size: 0.9rem;
+    color: var(--text-color-secondary);
+    font-weight: 500;
+    line-height: 1.4;
+    background: var(--surface-50);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+
+/* --- FIX: ALINEACIÓN DE TARJETAS Y FOTO --- */
+
+/* 1. BAJAR LA FOTO (Para que no se corte la frente) */
+.img-focus-top {
+    object-position: top center !important; 
+}
+
+/* 2. IGUALAR ALTURA DE TARJETAS (Fix del "orden roto") */
+/* Esto obliga a que el espacio del rol tenga siempre la altura de 3 líneas.
+   Así, si alguien tiene poco texto, la tarjeta no se encoge, manteniendo la grilla perfecta. */
+.team-role-pro {
+    min-height: 85px; /* Altura suficiente para 3 líneas de texto */
+    display: flex;
+    align-items: flex-start; /* Alinea el texto arriba */
+    justify-content: center;
+}
+
+/* =================================================================
+   ESTILOS CENTRO DE AYUDA (HELP CENTER)
+   ================================================================= */
+
+/* 1. Títulos de Sección con Borde (Tu diseño original, pero en clase) */
+.title-bordered {
+    color: var(--color-primary);
+    border-left: 5px solid var(--color-accent);
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* 2. Timeline (Ruta de Aprendizaje) - ESTILO LIMPIO */
+.timeline-container {
+    position: relative;
+    padding-left: 1rem;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 1.5rem;
+    position: relative;
+    padding-bottom: 2.5rem; /* Espacio entre items */
+}
+
+/* Línea vertical conectora */
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 20px; /* Centrado con el círculo de 40px */
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--surface-200);
+    z-index: 0;
+}
+
+/* Ocultar la línea en el último elemento */
+.timeline-item:last-child::before {
+    display: none;
+}
+
+/* Círculo del número */
+.timeline-marker {
+    position: relative;
+    z-index: 1;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    flex-shrink: 0; /* Evita que se aplaste en móvil */
+}
+
+/* Texto del Timeline */
+.timeline-content h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* 3. Hero de Ayuda (Tarjeta superior) */
+.help-hero-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border-bottom: 6px solid var(--color-primary);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
 }

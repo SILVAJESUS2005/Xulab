@@ -1,60 +1,166 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <ui:composition template="/templates/template.xhtml">
+    <ui:define name="title">Crear cuenta - Xulab</ui:define>
 
-        <ui:define name="title">Crear cuenta - Xulab</ui:define>
+    <ui:define name="content">
+        <div class="flex align-items-center justify-content-center min-h-screen surface-ground">
 
-        <ui:define name="content">
-            <div style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
-                <div class="card" style="background-color: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 400px;">
-                    <h:form>
-                        <h2 style="text-align: center; color: var(--color-primary);">Crear cuenta</h2>
+            <div class="surface-card p-4 shadow-2 border-round w-full lg:w-4">
+                <h:form>
 
-                        <p:messages id="messages" showDetail="true" closable="true">
-                            <p:autoUpdate />
-                        </p:messages>
+                    <div class="text-center mb-5">
+                        <div class="text-900 text-3xl font-medium mb-3">Crear cuenta</div>
+                        <span class="text-600 font-medium line-height-3">Únase para empezar a aprender</span>
+                    </div>
 
-                        <div class="p-field" style="margin-top: 1rem;">
-                            <label for="nombre" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Nombre</label>
-                            <p:inputText id="nombre" value="#{authController.nombre}" required="true" requiredMessage="El nombre es obligatorio." style="width: 100%;" />
+                    <p:messages id="messages" showDetail="true" closable="true">
+                        <p:autoUpdate/>
+                    </p:messages>
+
+                    <div class="field mb-4">
+
+                        <p:outputPanel id="alerta-nombre" layout="block" 
+                                       styleClass="flex align-items-center pl-3 py-2 mb-2 border-left-3 surface-50"
+                                       style="border-left-color: #F59E0B !important;">
+                            <i class="pi pi-info-circle text-yellow-600 mr-2"></i>
+                            <span class="text-600 text-sm">
+                                Su nombre será usado para la <strong>constancia oficial</strong>.
+                            </span>
+                        </p:outputPanel>
+
+                        <p:tooltip for="alerta-nombre" position="top" showDelay="300">
+                            <div class="p-2 w-16rem white-space-normal line-height-3">
+                                Escriba su nombre completo y correcto tal como quiera que aparezca en su constancia.
+                            </div>
+                        </p:tooltip>
+
+
+                        <label for="nombre" class="block text-900 font-medium mb-2">Nombre</label>
+
+                        <div class="login-box-unified"> 
+                            <span class="ui-inputgroup-addon">
+                                <i class="pi pi-id-card"></i>
+                            </span>
+                            <p:inputText id="nombre" value="#{authController.nombre}" 
+                                         placeholder="Su nombre completo"
+                                         required="true" requiredMessage="El nombre es obligatorio." 
+                                         styleClass="w-full"/>
                         </div>
+                    </div>
+                    <div class="field mb-4">
+                        <label for="email" class="block text-900 font-medium mb-2">Email</label>
 
-                        <div class="p-field" style="margin-top: 1rem;">
-                            <label for="email" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Email</label>
-                            <p:inputText id="email" value="#{authController.email}" required="true" requiredMessage="El email es obligatorio." style="width: 100%;" />
+                        <div class="login-box-unified">
+                            <span class="ui-inputgroup-addon">
+                                <i class="pi pi-user"></i>
+                            </span>
+                            <p:inputText id="email" value="#{authController.email}" 
+                                         placeholder="Escriba su email"
+                                         required="true" requiredMessage="El email es obligatorio." />
                         </div>
+                    </div>
 
-                        <div class="p-field" style="margin-top: 1rem;">
-                            <label for="password" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Contraseña</label>
-                            <p:password id="password" value="#{authController.password}" required="true" requiredMessage="La contraseña es obligatoria." style="width: 100%;" />
+                    <div class="field mb-4">
+                        <label for="password" class="block text-900 font-medium mb-2">Contraseña</label>
+
+                        <div class="login-box-unified">
+                            <span class="ui-inputgroup-addon">
+                                <i class="pi pi-lock"></i>
+                            </span>
+                            <p:password id="password" value="#{authController.password}" 
+                                        placeholder="........"
+                                        required="true" requiredMessage="La contraseña es obligatoria." 
+                                        toggleMask="true" />
                         </div>
+                    </div>
 
-                        <p:commandButton value="Registrarse" action="#{authController.registrar()}" styleClass="btn-brand" style="width: 100%; margin-top: 1.5rem;" 
-                                         update="messages" oncomplete="handleRegistro(args)" />
-                    </h:form>
-                </div>
+                    <p:commandButton value="Registrarse" 
+                                     action="#{authController.registrar()}" 
+                                     styleClass="w-full btn-brand mt-4" 
+                                     update="messages" 
+                                     oncomplete="handleRegistro(args)" />
+
+                    <div class="mt-4 pt-4 border-top-1 surface-border text-center flex align-items-center justify-content-center flex-wrap gap-2">
+
+                        <span class="text-600">¿Ya tienes una cuenta?</span>
+
+                        <h:link outcome="login" styleClass="link-register">
+                            <span>Iniciar sesión aquí</span>
+                            <i class="pi pi-arrow-right" style="font-size: 0.8rem;"></i>
+                        </h:link>
+
+                    </div>
+                </h:form>
             </div>
+        </div>
+        <p:dialog widgetVar="dialogoExito" modal="true" draggable="false" closable="false" resizable="false" showEffect="fade" hideEffect="fade" responsive="true" width="400">
+            <div class="flex flex-column align-items-center text-center p-3">
 
-            <script type="text/javascript">
-                //<![CDATA[
-                function handleRegistro(args) {
-                    if (args && args.registroExitoso) {
-                        // CAMBIO: Mensaje claro con instrucciones
-                        alert('¡Cuenta creada! Hemos enviado un enlace de activación a tu correo. Por favor verifícalo antes de iniciar sesión.');
+                <i class="pi pi-check-circle text-green-500 text-6xl mb-4 icon-success-animation"></i>
 
-                        // Opcional: Puedes redirigirlo a login para que espere ahí, 
-                        // o dejarlo en el registro. La redirección está bien si el mensaje es claro.
-                        window.location.href = 'login.xhtml';
-                    }
+                <h3 class="text-900 font-bold text-2xl mb-2">¡Cuenta creada!</h3>
+
+                <p class="text-600 line-height-3 m-0 mb-4">
+                    Hemos enviado un enlace de activación a su correo electrónico. 
+                    <br/><br/>
+                    <strong>Por favor, verifícalo antes de iniciar sesión.</strong>
+                </p>
+
+                <p:button value="Ir al Login" outcome="login" styleClass="btn-brand w-full" />
+            </div>
+        </p:dialog>
+        <script type="text/javascript">
+            //<![CDATA[
+            function handleRegistro(args) {
+                if (args && args.registroExitoso) {
+                    // EN LUGAR DE ALERT, ABRIMOS EL DIALOG DE PRIMEFACES
+                    PF('dialogoExito').show();
+
+                    // Nota: Ya no redirigimos automáticamente con window.location.
+                    // Dejamos que el usuario lea y pulse el botón "Ir al Login" del diálogo.
                 }
-                //]]>
-            </script>
-        </ui:define>
+            }
 
-    </ui:composition>
-</html>
+            // Función para manejar el copiado y la animación en PrimeFaces
+            function copiarYAnimar(boton, texto) {
+                // 1. Copiar al portapapeles
+                navigator.clipboard.writeText(texto).then(() => {
+
+                    // 2. Añadir la clase que dispara las chispas y la onda
+                    // En PrimeFaces, el objeto 'boton' es el elemento HTML real si usas 'this'
+                    $(boton).addClass('trigger-spark'); // Usamos jQuery que ya viene con PrimeFaces
+
+                    // 3. Cambiar el icono (buscamos el icono dentro del botón)
+                    var icon = $(boton).find('.ui-icon, .pi');
+
+                    // Guardamos la clase original (ej. pi-copy) si no la hemos guardado antes
+                    if (!$(boton).data('original-icon')) {
+                        // Asumimos que la última clase es el icono (pi-copy)
+                        // Ojo: Ajusta 'pi-copy' si usas otro nombre
+                        $(boton).data('original-icon', 'pi-copy');
+                    }
+
+                    // Hacemos el cambio visual
+                    icon.removeClass('pi-copy').addClass('pi-check');
+
+                    // 4. Resetear todo después de 1.5 segundos
+                    setTimeout(function () {
+                        $(boton).removeClass('trigger-spark');
+                        icon.removeClass('pi-check').addClass('pi-copy');
+                    }, 1500);
+
+                }).catch(err => {
+                    console.error('Error al copiar', err);
+                });
+            }
+            //]]>
+        </script>
+    </ui:define>
+
+</ui:composition>
