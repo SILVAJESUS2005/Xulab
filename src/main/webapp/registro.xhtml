@@ -11,44 +11,44 @@
 
             <div class="surface-card p-4 shadow-2 border-round w-full lg:w-4">
                 <h:form>
-                    
+
                     <div class="text-center mb-5">
                         <div class="text-900 text-3xl font-medium mb-3">Crear cuenta</div>
-                        <span class="text-600 font-medium line-height-3">Únete para empezar a aprender</span>
+                        <span class="text-600 font-medium line-height-3">Únase para empezar a aprender</span>
                     </div>
 
                     <p:messages id="messages" showDetail="true" closable="true">
                         <p:autoUpdate/>
                     </p:messages>
-                    
+
                     <div class="field mb-4">
-                        
-                        <p:outputPanel id="alerta-nombre" 
-                                       layout="block" 
-                                       styleClass="flex align-items-center p-2 mb-2 border-round bg-yellow-50 text-yellow-700 relative">
-                            <i class="pi pi-info-circle mr-2 text-lg"></i>
-                            <span class="text-sm">
-                                El nombre que proporciones será el que aparezca en tu **constancia oficial** de finalización.
+
+                        <p:outputPanel id="alerta-nombre" layout="block" 
+                                       styleClass="flex align-items-center pl-3 py-2 mb-2 border-left-3 surface-50"
+                                       style="border-left-color: #F59E0B !important;">
+                            <i class="pi pi-info-circle text-yellow-600 mr-2"></i>
+                            <span class="text-600 text-sm">
+                                Su nombre será usado para la <strong>constancia oficial</strong>.
                             </span>
                         </p:outputPanel>
 
-                        <p:tooltip for="alerta-nombre" position="right" showDelay="500">
-                            <div style="max-width: 250px;">
-                                <p:outputLabel value="¡Importante!" style="font-weight: bold; display: block; margin-bottom: 5px;"/>
-                                El nombre debe ser **completo** y **correcto**, ya que se utiliza para generar tu certificado de finalización de curso. No podrás cambiarlo después.
+                        <p:tooltip for="alerta-nombre" position="top" showDelay="300">
+                            <div class="p-2 w-16rem white-space-normal line-height-3">
+                                Escriba su nombre completo y correcto tal como quiera que aparezca en su constancia.
                             </div>
                         </p:tooltip>
 
+
                         <label for="nombre" class="block text-900 font-medium mb-2">Nombre</label>
-                        
+
                         <div class="login-box-unified"> 
                             <span class="ui-inputgroup-addon">
                                 <i class="pi pi-id-card"></i>
                             </span>
                             <p:inputText id="nombre" value="#{authController.nombre}" 
-                                        placeholder="Tu nombre completo"
-                                        required="true" requiredMessage="El nombre es obligatorio." 
-                                        styleClass="w-full"/>
+                                         placeholder="Su nombre completo"
+                                         required="true" requiredMessage="El nombre es obligatorio." 
+                                         styleClass="w-full"/>
                         </div>
                     </div>
                     <div class="field mb-4">
@@ -59,8 +59,8 @@
                                 <i class="pi pi-user"></i>
                             </span>
                             <p:inputText id="email" value="#{authController.email}" 
-                                        placeholder="Escribe tu email"
-                                        required="true" requiredMessage="El email es obligatorio." />
+                                         placeholder="Escriba su email"
+                                         required="true" requiredMessage="El email es obligatorio." />
                         </div>
                     </div>
 
@@ -79,11 +79,11 @@
                     </div>
 
                     <p:commandButton value="Registrarse" 
-                                    action="#{authController.registrar()}" 
-                                    styleClass="w-full btn-brand mt-4" 
-                                    update="messages" 
-                                    oncomplete="handleRegistro(args)" />
-                    
+                                     action="#{authController.registrar()}" 
+                                     styleClass="w-full btn-brand mt-4" 
+                                     update="messages" 
+                                     oncomplete="handleRegistro(args)" />
+
                     <div class="mt-4 pt-4 border-top-1 surface-border text-center flex align-items-center justify-content-center flex-wrap gap-2">
 
                         <span class="text-600">¿Ya tienes una cuenta?</span>
@@ -97,14 +97,65 @@
                 </h:form>
             </div>
         </div>
+        <p:dialog widgetVar="dialogoExito" modal="true" draggable="false" closable="false" resizable="false" showEffect="fade" hideEffect="fade" responsive="true" width="400">
+            <div class="flex flex-column align-items-center text-center p-3">
 
+                <i class="pi pi-check-circle text-green-500 text-6xl mb-4 icon-success-animation"></i>
+
+                <h3 class="text-900 font-bold text-2xl mb-2">¡Cuenta creada!</h3>
+
+                <p class="text-600 line-height-3 m-0 mb-4">
+                    Hemos enviado un enlace de activación a su correo electrónico. 
+                    <br/><br/>
+                    <strong>Por favor, verifícalo antes de iniciar sesión.</strong>
+                </p>
+
+                <p:button value="Ir al Login" outcome="login" styleClass="btn-brand w-full" />
+            </div>
+        </p:dialog>
         <script type="text/javascript">
             //<![CDATA[
             function handleRegistro(args) {
                 if (args && args.registroExitoso) {
-                    alert('¡Cuenta creada! Hemos enviado un enlace de activación a tu correo. Por favor verifícalo antes de iniciar sesión.');
-                    window.location.href = 'login.xhtml';
+                    // EN LUGAR DE ALERT, ABRIMOS EL DIALOG DE PRIMEFACES
+                    PF('dialogoExito').show();
+
+                    // Nota: Ya no redirigimos automáticamente con window.location.
+                    // Dejamos que el usuario lea y pulse el botón "Ir al Login" del diálogo.
                 }
+            }
+
+            // Función para manejar el copiado y la animación en PrimeFaces
+            function copiarYAnimar(boton, texto) {
+                // 1. Copiar al portapapeles
+                navigator.clipboard.writeText(texto).then(() => {
+
+                    // 2. Añadir la clase que dispara las chispas y la onda
+                    // En PrimeFaces, el objeto 'boton' es el elemento HTML real si usas 'this'
+                    $(boton).addClass('trigger-spark'); // Usamos jQuery que ya viene con PrimeFaces
+
+                    // 3. Cambiar el icono (buscamos el icono dentro del botón)
+                    var icon = $(boton).find('.ui-icon, .pi');
+
+                    // Guardamos la clase original (ej. pi-copy) si no la hemos guardado antes
+                    if (!$(boton).data('original-icon')) {
+                        // Asumimos que la última clase es el icono (pi-copy)
+                        // Ojo: Ajusta 'pi-copy' si usas otro nombre
+                        $(boton).data('original-icon', 'pi-copy');
+                    }
+
+                    // Hacemos el cambio visual
+                    icon.removeClass('pi-copy').addClass('pi-check');
+
+                    // 4. Resetear todo después de 1.5 segundos
+                    setTimeout(function () {
+                        $(boton).removeClass('trigger-spark');
+                        icon.removeClass('pi-check').addClass('pi-copy');
+                    }, 1500);
+
+                }).catch(err => {
+                    console.error('Error al copiar', err);
+                });
             }
             //]]>
         </script>

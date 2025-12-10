@@ -23,6 +23,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     --surface-ground: #f8f9fa;
     --text-color: #495057;
     --text-color-secondary: #6c757d;
+    
+    /*4. variables para animación registro*/
+    --cb-success: #10b981; /* Verde éxito */
 }
 
 body {
@@ -830,4 +833,23 @@ body .btn-brand.ui-button:enabled:hover {
 .link-register:hover {
     color: #e5a017; /* Color acento (tipo amarillo/naranja) al pasar el mouse */
     transform: translateX(3px); /* Pequeño movimiento a la derecha */
+}
+/* Animación para el icono de éxito */
+@keyframes successPop {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.2); /* Efecto rebote */
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.icon-success-animation {
+    /* Aplica la animación definida arriba */
+    animation: successPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
